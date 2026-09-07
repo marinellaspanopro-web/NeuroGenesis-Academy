@@ -6,7 +6,7 @@ export const siteConfig = {
   name: "NeuroGenesis Academy",
   legalName: "NeuroGenesis Academy",
   founder: "Marinella Spano",
-  url: "https://www.neurogenesis.academy",
+  url: "https://neurogenesis.be",
   description:
     "École de formation en hypnose & neurosciences à Namur. Cursus certifiant Technicien et Praticien, fondé par Marinella Spano.",
   email: "info@neurogenesis.academy",
