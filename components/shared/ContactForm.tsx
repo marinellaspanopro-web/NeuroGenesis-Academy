@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { contactSchema } from "@/lib/contact-schema";
+import { siteConfig } from "@/lib/site-config";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -203,8 +204,8 @@ export default function ContactForm() {
       {serverError && (
         <p role="alert" className="text-sm text-[oklch(55%_0.18_25)]">
           {serverError} Vous pouvez aussi nous écrire directement à{" "}
-          <a href="mailto:info@neurogenesis.academy" className="underline">
-            info@neurogenesis.academy
+          <a href={`mailto:${siteConfig.email}`} className="underline">
+            {siteConfig.email}
           </a>
           .
         </p>

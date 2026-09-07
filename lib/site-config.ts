@@ -9,7 +9,7 @@ export const siteConfig = {
   url: "https://neurogenesis.be",
   description:
     "École de formation en hypnose & neurosciences à Namur. Cursus certifiant Technicien et Praticien, fondé par Marinella Spano.",
-  email: "info@neurogenesis.academy",
+  email: "info@neurogenesis.be",
   phone: "+32 491 73 09 99",
   phoneDisplay: "+32 491 73 09 99",
   address: {
