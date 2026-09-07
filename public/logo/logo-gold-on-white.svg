@@ -1,0 +1,64 @@
+<svg viewBox="0 0 300 92" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="NeuroGenesis Academy">
+  <title>NeuroGenesis Academy</title>
+  <rect x="0" y="0" width="300" height="92" fill="#ffffff" />
+  <g transform="translate(0, 3)">
+    <g stroke="#caa746" stroke-width="1.6" fill="none" opacity="0.95">
+    <line x1="31" y1="11" x2="60" y2="9" />
+    <line x1="31" y1="11" x2="34" y2="30" />
+    <line x1="31" y1="11" x2="12" y2="26" />
+    <line x1="60" y1="9" x2="79" y2="21" />
+    <line x1="60" y1="9" x2="54" y2="28" />
+    <line x1="60" y1="9" x2="34" y2="30" />
+    <line x1="79" y1="21" x2="72" y2="37" />
+    <line x1="79" y1="21" x2="91" y2="41" />
+    <line x1="12" y1="26" x2="34" y2="30" />
+    <line x1="12" y1="26" x2="10" y2="45" />
+    <line x1="34" y1="30" x2="54" y2="28" />
+    <line x1="34" y1="30" x2="10" y2="45" />
+    <line x1="34" y1="30" x2="27" y2="52" />
+    <line x1="34" y1="30" x2="46" y2="47" />
+    <line x1="54" y1="28" x2="72" y2="37" />
+    <line x1="54" y1="28" x2="46" y2="47" />
+    <line x1="54" y1="28" x2="66" y2="54" />
+    <line x1="72" y1="37" x2="91" y2="41" />
+    <line x1="72" y1="37" x2="66" y2="54" />
+    <line x1="91" y1="41" x2="82" y2="63" />
+    <line x1="91" y1="41" x2="66" y2="54" />
+    <line x1="10" y1="45" x2="27" y2="52" />
+    <line x1="27" y1="52" x2="46" y2="47" />
+    <line x1="27" y1="52" x2="30" y2="65" />
+    <line x1="46" y1="47" x2="30" y2="65" />
+    <line x1="46" y1="47" x2="45" y2="66" />
+    <line x1="46" y1="47" x2="66" y2="54" />
+    <line x1="66" y1="54" x2="45" y2="66" />
+    <line x1="66" y1="54" x2="61" y2="72" />
+    <line x1="66" y1="54" x2="82" y2="63" />
+    <line x1="30" y1="65" x2="45" y2="66" />
+    <line x1="45" y1="66" x2="61" y2="72" />
+    <line x1="45" y1="66" x2="57" y2="86" />
+    <line x1="61" y1="72" x2="82" y2="63" />
+    <line x1="61" y1="72" x2="57" y2="86" />
+    </g>
+    <g fill="#ffffff" stroke="#caa746" stroke-width="1.6">
+    <circle cx="31" cy="11" r="3.4" />
+    <circle cx="60" cy="9" r="3.4" />
+    <circle cx="79" cy="21" r="3.4" />
+    <circle cx="12" cy="26" r="3.4" />
+    <circle cx="34" cy="30" r="3.4" />
+    <circle cx="54" cy="28" r="3.4" />
+    <circle cx="72" cy="37" r="3.4" />
+    <circle cx="91" cy="41" r="3.4" />
+    <circle cx="10" cy="45" r="3.4" />
+    <circle cx="27" cy="52" r="3.4" />
+    <circle cx="46" cy="47" r="3.4" />
+    <circle cx="66" cy="54" r="3.4" />
+    <circle cx="30" cy="65" r="3.4" />
+    <circle cx="45" cy="66" r="3.4" />
+    <circle cx="61" cy="72" r="3.4" />
+    <circle cx="82" cy="63" r="3.4" />
+    <circle cx="57" cy="86" r="3.4" />
+    </g>
+  </g>
+  <text x="112" y="46" font-family="'Alex Brush','Brush Script MT',cursive" font-size="40" fill="#caa746">Neuro</text>
+  <text x="114" y="66" font-family="Helvetica, Arial, sans-serif" font-weight="500" font-size="13" letter-spacing="4.5" fill="#caa746" opacity="0.9">GENESIS</text>
+</svg>

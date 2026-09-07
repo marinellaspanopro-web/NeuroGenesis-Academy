@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   NeuroGenesis Academy — Design Tokens
+   Archétype : Warm Editorial. Fond crème dominant, vert forêt en rythme,
+   or réservé aux fonds sombres et micro-accents.
+   ========================================================================== */
+:root {
+  /* --- Couleurs de marque (oklch, dérivées des hex officiels) --- */
+  --color-forest: oklch(26% 0.043 165);        /* #0d2b1f — vert forêt signature */
+  --color-forest-light: oklch(34% 0.05 162);   /* survol / variations sur fond sombre */
+  --color-forest-dark: oklch(19% 0.035 166);   /* profondeur, dégradés hero */
+
+  --color-gold: oklch(88.5% 0.066 93);         /* #e8d9a8 — or champagne (fonds sombres uniquement) */
+  --color-gold-deep: oklch(78% 0.1 80);        /* CTA hover, traits appuyés */
+  --color-gold-soft: oklch(93% 0.04 92);       /* halos, bordures très fines */
+
+  --color-cream: oklch(96.2% 0.015 85);        /* #f7f2e7 — fond dominant du site */
+  --color-cream-soft: oklch(98.3% 0.007 85);   /* surfaces, cartes sur fond crème */
+  --color-ink: oklch(27% 0.006 250);           /* gris anthracite — texte courant sur fond clair */
+
+  --color-line: oklch(85% 0.02 90);            /* séparateurs discrets sur fond clair */
+
+  /* --- Équivalents RGB (composantes espacées, sans virgule) — nécessaires pour que
+     Tailwind puisse générer les modificateurs d'opacité (bg-cream/90, text-forest/80…)
+     via le pattern rgb(var(--x-rgb) / <alpha-value>). Un oklch() direct dans
+     tailwind.config.ts ne permet pas cette composition d'opacité. --- */
+  --color-forest-rgb: 12 43 31;
+  --color-forest-light-rgb: 29 64 48;
+  --color-forest-dark-rgb: 2 25 16;
+  --color-gold-rgb: 232 217 168;
+  --color-gold-deep-rgb: 217 176 107;
+  --color-gold-soft-rgb: 241 232 202;
+  --color-cream-rgb: 247 242 231;
+  --color-cream-soft-rgb: 252 249 244;
+  --color-ink-rgb: 36 39 41;
+  --color-line-rgb: 211 205 191;
+
+  /* --- Typographie fluide (clamp) --- */
+  --fs-hero: clamp(2.75rem, 2rem + 3.2vw, 5.25rem);
+  --fs-h1: clamp(2.25rem, 1.7rem + 2.2vw, 3.75rem);
+  --fs-h2: clamp(1.75rem, 1.45rem + 1.3vw, 2.75rem);
+  --fs-h3: clamp(1.375rem, 1.2rem + 0.7vw, 1.875rem);
+  --fs-body-lg: clamp(1.125rem, 1.03rem + 0.35vw, 1.375rem);
+  --fs-body: clamp(1rem, 0.96rem + 0.15vw, 1.0625rem);
+
+  /* --- Rythme / espacement --- */
+  --section-py: clamp(4.5rem, 3.4rem + 4.8vw, 8.5rem);
+  --section-py-sm: clamp(3rem, 2.4rem + 2.5vw, 5rem);
+
+  /* --- Easings --- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+* {
+  border-color: var(--color-line);
+}
+
+html {
+  scroll-behavior: auto; /* Lenis gère le smooth scroll */
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background-color: var(--color-gold);
+  color: var(--color-forest);
+}
+
+/* Focus visible clavier — accessibilité WCAG AA */
+:focus-visible {
+  outline: 2px solid var(--color-forest);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.dark-section :focus-visible {
+  outline-color: var(--color-gold);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--color-forest);
+  letter-spacing: -0.01em;
+  line-height: 1.08;
+}
+
+.dark-section h1,
+.dark-section h2,
+.dark-section h3,
+.dark-section h4 {
+  color: var(--color-cream);
+}
+
+em, .accent-italic {
+  font-style: italic;
+  color: var(--color-forest);
+}
+
+.dark-section em,
+.dark-section .accent-italic {
+  color: var(--color-gold);
+}
+
+/* Conteneur éditorial standard */
+.container-editorial {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 3rem);
+}
+
+/* Grain léger sur fonds sombres, pour éviter un aplat trop plat */
+.dark-section {
+  background-color: var(--color-forest);
+  position: relative;
+}
+
+/* Ligne signature or, sous les titres de section */
+.rule-gold {
+  width: 3.5rem;
+  height: 2px;
+  background: var(--color-gold-deep);
+}
+
+.dark-section .rule-gold {
+  background: var(--color-gold);
+}
+
+/* Reveal au scroll (état initial, animé via GSAP) */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Scrollbar discrète */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-forest-light);
+  border-radius: 999px;
+}
