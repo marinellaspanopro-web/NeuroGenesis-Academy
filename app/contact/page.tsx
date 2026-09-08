@@ -47,7 +47,7 @@ export default function ContactPage() {
             </h1>
             <p className="reveal-item mt-6 max-w-xl text-body-lg text-gold/75 leading-relaxed">
               Une question sur les cursus, les modalités de paiement ou l&apos;organisation des
-              sessions ? Notre équipe vous répond avec plaisir.
+              sessions ? Je vous réponds avec plaisir.
             </p>
           </RevealOnScroll>
         </div>

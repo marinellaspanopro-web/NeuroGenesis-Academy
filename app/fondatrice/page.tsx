@@ -142,7 +142,7 @@ export default function FondatricePage() {
 
               <div className="reveal-item">
                 <Button href="/contact" variant="forest-outline">
-                  Échanger avec l&apos;équipe
+                  Nous contacter
                 </Button>
               </div>
             </div>

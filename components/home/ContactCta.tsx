@@ -12,7 +12,7 @@ export default function ContactCta() {
               Une question ? <em>Parlons-en.</em>
             </h2>
             <p className="text-ink/70 leading-relaxed mb-8">
-              Notre équipe vous répond avec plaisir sur le déroulement des cursus, les modalités
+              Je vous réponds avec plaisir sur le déroulement des cursus, les modalités
               de paiement ou l&apos;organisation des sessions à {siteConfig.address.addressLocality}.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
