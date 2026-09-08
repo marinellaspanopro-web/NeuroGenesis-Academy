@@ -20,10 +20,10 @@ const pillars = [
 
 export default function Pillars() {
   return (
-    <section id="manifeste" className="py-section bg-cream">
+    <section id="valeurs" className="py-section bg-cream">
       <div className="container-editorial">
         <RevealOnScroll className="max-w-2xl mb-16 lg:mb-24">
-          <p className="reveal-item text-xs uppercase tracking-wide3 text-forest/60 mb-4">Notre manifeste</p>
+          <p className="reveal-item text-xs uppercase tracking-wide3 text-forest/60 mb-4">Nos valeurs</p>
           <h2 className="reveal-item font-serif text-h1 text-forest text-balance">
             Trois piliers, une seule exigence :{" "}
             <em>l&apos;excellence humaine.</em>

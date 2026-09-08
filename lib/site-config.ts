@@ -72,7 +72,7 @@ export const praticienDates = [
 ] as const;
 
 export const navLinks = [
-  { href: "/#manifeste", label: "Manifeste" },
+  { href: "/#valeurs", label: "Nos valeurs" },
   { href: "/formation-technicien", label: "Cursus Technicien" },
   { href: "/formation-praticien", label: "Cursus Praticien" },
   { href: "/fondatrice", label: "Fondatrice" },

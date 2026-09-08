@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Logo from "@/components/ui/Logo";
 import Button from "@/components/ui/Button";
 import { navLinks } from "@/lib/site-config";
@@ -9,6 +10,11 @@ import { navLinks } from "@/lib/site-config";
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Compare uniquement la partie "page" du lien (avant un éventuel #ancre) :
+  // "Nos valeurs" (/#valeurs) est une ancre sur l'accueil, pas une page à part.
+  const isActive = (href: string) => pathname === href.split("#")[0];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -36,7 +42,12 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium tracking-wide2 text-forest/80 hover:text-forest transition-colors"
+              aria-current={isActive(link.href) ? "page" : undefined}
+              className={`text-sm font-medium tracking-wide2 pb-1 border-b-2 transition-colors ${
+                isActive(link.href)
+                  ? "text-forest border-gold-deep"
+                  : "text-forest/80 border-transparent hover:text-forest"
+              }`}
             >
               {link.label}
             </Link>
@@ -83,8 +94,14 @@ export default function Header() {
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="text-lg font-serif text-forest"
+              aria-current={isActive(link.href) ? "page" : undefined}
+              className={`text-lg font-serif flex items-center gap-3 ${
+                isActive(link.href) ? "text-forest" : "text-forest/70"
+              }`}
             >
+              {isActive(link.href) && (
+                <span className="h-1.5 w-1.5 rounded-full bg-gold-deep" aria-hidden="true" />
+              )}
               {link.label}
             </Link>
           ))}
