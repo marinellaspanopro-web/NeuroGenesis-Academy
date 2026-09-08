@@ -100,7 +100,7 @@ export async function POST(request: Request) {
           "",
           "Merci pour votre demande ! Voici en pièce jointe la brochure complète de NeuroGenesis Academy : cursus Technicien et Praticien, dates, tarifs et modules optionnels.",
           "",
-          "Nous revenons vers vous très prochainement si vous nous avez laissé une question. En attendant, n'hésitez pas à nous écrire directement pour tout complément d'information.",
+          "N'hésitez pas à nous écrire directement si vous avez la moindre question.",
           "",
           `${siteConfig.founder}`,
           "NeuroGenesis Academy",

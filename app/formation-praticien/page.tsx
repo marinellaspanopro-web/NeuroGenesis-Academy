@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import JsonLd from "@/components/shared/JsonLd";
 import RevealOnScroll from "@/components/shared/RevealOnScroll";
+import BrochureRequestForm from "@/components/shared/BrochureRequestForm";
 import Button from "@/components/ui/Button";
 import { courseSchema, breadcrumbSchema } from "@/lib/schema";
 import { siteConfig, praticienDates } from "@/lib/site-config";
@@ -216,6 +217,29 @@ export default function FormationPraticienPage() {
               <Button href="/formation-technicien" variant="forest-outline" size="lg">
                 Voir le cursus Technicien
               </Button>
+            </div>
+          </RevealOnScroll>
+        </div>
+      </section>
+
+      {/* Demande de brochure — capture email, envoi PDF + relance automatique */}
+      <section className="dark-section py-section-sm">
+        <div className="container-editorial">
+          <RevealOnScroll className="grid gap-8 lg:grid-cols-12 lg:items-center">
+            <div className="lg:col-span-5">
+              <p className="reveal-item text-xs uppercase tracking-wide3 text-gold/80 mb-3">
+                Pour emporter avec vous
+              </p>
+              <h2 className="reveal-item font-serif text-h2 text-cream text-balance">
+                Recevez la brochure <em className="accent-italic">complète</em> par email.
+              </h2>
+              <p className="reveal-item mt-4 text-cream/70 leading-relaxed max-w-sm">
+                Programme, dates et tarifs des deux cursus, à consulter ou partager quand vous
+                le souhaitez.
+              </p>
+            </div>
+            <div className="reveal-item lg:col-span-7">
+              <BrochureRequestForm interest="praticien" variant="dark" />
             </div>
           </RevealOnScroll>
         </div>

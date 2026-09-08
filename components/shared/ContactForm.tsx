@@ -17,7 +17,6 @@ export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState<string | null>(null);
-  const [brochureRequested, setBrochureRequested] = useState(false);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -33,7 +32,6 @@ export default function ContactForm() {
       email: String(formData.get("email") ?? ""),
       phone: String(formData.get("phone") ?? ""),
       interest: String(formData.get("interest") ?? ""),
-      wantsBrochure: formData.get("wantsBrochure") === "on",
       company: String(formData.get("company") ?? ""), // honeypot
     };
 
@@ -62,7 +60,6 @@ export default function ContactForm() {
         throw new Error(body?.error ?? "Une erreur est survenue.");
       }
 
-      setBrochureRequested(result.data.wantsBrochure);
       setStatus("success");
       form.reset();
     } catch (err) {
@@ -81,9 +78,6 @@ export default function ContactForm() {
         <p className="text-ink/70 max-w-md mx-auto leading-relaxed">
           Merci — nous revenons vers vous très prochainement pour échanger sur votre projet de
           formation.
-          {brochureRequested && (
-            <> La brochure complète vient de vous être envoyée par email — pensez à vérifier vos courriers indésirables si vous ne la voyez pas d&apos;ici quelques minutes.</>
-          )}
         </p>
       </div>
     );
@@ -188,19 +182,6 @@ export default function ContactForm() {
             </p>
           )}
         </div>
-      </div>
-
-      <div className="flex items-start gap-3">
-        <input
-          id="wantsBrochure"
-          name="wantsBrochure"
-          type="checkbox"
-          className="mt-1 h-4 w-4 shrink-0 rounded-sm border-forest/40 text-forest focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest focus-visible:outline-offset-2"
-        />
-        <label htmlFor="wantsBrochure" className="text-sm text-ink/75 leading-relaxed">
-          Oui, je souhaite recevoir la brochure complète par email (PDF, cursus &amp; tarifs
-          détaillés).
-        </label>
       </div>
 
       {serverError && (
