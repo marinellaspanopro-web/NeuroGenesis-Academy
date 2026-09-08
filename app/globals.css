@@ -126,6 +126,26 @@ em, .accent-italic {
   position: relative;
 }
 
+/* Bannière défilante — mots-clés en boucle horizontale (ScrollingBanner) */
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee-scroll 32s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
 /* Ligne signature or, sous les titres de section */
 .rule-gold {
   width: 3.5rem;

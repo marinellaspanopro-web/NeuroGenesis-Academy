@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Hero from "@/components/home/Hero";
+import ScrollingBanner from "@/components/home/ScrollingBanner";
 import Pillars from "@/components/home/Pillars";
 import FounderTeaser from "@/components/home/FounderTeaser";
 import CursusOverview from "@/components/home/CursusOverview";
@@ -21,6 +22,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <ScrollingBanner />
       <Pillars />
       <FounderTeaser />
       <CursusOverview />
