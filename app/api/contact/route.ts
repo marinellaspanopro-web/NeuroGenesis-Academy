@@ -42,7 +42,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: true });
     }
 
-    const { name, email, phone, interest, message } = result.data;
+    const { name, email, phone, interest, message, wantsBrochure } = result.data;
 
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
@@ -61,12 +61,13 @@ export async function POST(request: Request) {
       from: fromAddress,
       to: toAddress,
       replyTo: email,
-      subject: `Nouveau contact — ${interestLabels[interest]} — ${name}`,
+      subject: `Nouveau contact — ${interestLabels[interest]} — ${name}${wantsBrochure ? " · brochure demandée" : ""}`,
       text: [
         `Nom : ${name}`,
         `Email : ${email}`,
         `Téléphone : ${phone || "Non renseigné"}`,
         `Intérêt : ${interestLabels[interest]}`,
+        `Brochure demandée : ${wantsBrochure ? "Oui (envoyée automatiquement + relance programmée)" : "Non"}`,
         "",
         "Message :",
         message,
@@ -79,6 +80,72 @@ export async function POST(request: Request) {
         { error: "L'envoi a échoué. Merci de réessayer ou de nous écrire directement." },
         { status: 502 }
       );
+    }
+
+    // Si la personne a coché "je veux la brochure" : on la lui envoie
+    // immédiatement en pièce jointe, puis on programme une relance
+    // automatique quelques jours plus tard pour s'assurer qu'elle l'a bien
+    // reçue et répondre à d'éventuelles questions. Ces deux envois ne
+    // doivent jamais faire échouer la soumission du formulaire elle-même
+    // (la notification interne ci-dessus est le seul envoi critique) : on
+    // logue une erreur éventuelle sans la remonter au visiteur.
+    if (wantsBrochure) {
+      const brochureUrl = `${siteConfig.url}/brochure-neurogenesis-academy.pdf`;
+      const firstName = name.trim().split(/\s+/)[0] || name;
+
+      const { error: brochureError } = await resend.emails.send({
+        from: fromAddress,
+        to: email,
+        replyTo: siteConfig.email,
+        subject: "Votre brochure NeuroGenesis Academy",
+        text: [
+          `Bonjour ${firstName},`,
+          "",
+          "Merci pour votre message ! Comme demandé, voici en pièce jointe la brochure complète de NeuroGenesis Academy : cursus Technicien et Praticien, dates, tarifs et modules optionnels.",
+          "",
+          "Nous revenons vers vous très prochainement au sujet de votre message. En attendant, n'hésitez pas à nous écrire directement si vous avez la moindre question.",
+          "",
+          `${siteConfig.founder}`,
+          "NeuroGenesis Academy",
+          `${siteConfig.email} · ${siteConfig.phoneDisplay}`,
+        ].join("\n"),
+        attachments: [
+          {
+            filename: "Brochure-NeuroGenesis-Academy.pdf",
+            path: brochureUrl,
+          },
+        ],
+      });
+
+      if (brochureError) {
+        console.error("Erreur Resend (envoi brochure) :", brochureError);
+      }
+
+      const followUpDate = new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString();
+
+      const { error: followUpError } = await resend.emails.send({
+        from: fromAddress,
+        to: email,
+        replyTo: siteConfig.email,
+        subject: "Avez-vous bien reçu votre brochure NeuroGenesis Academy ?",
+        text: [
+          `Bonjour ${firstName},`,
+          "",
+          "Il y a quelques jours, vous nous avez contactés et avez demandé la brochure de NeuroGenesis Academy — je voulais simplement m'assurer qu'elle vous est bien parvenue.",
+          "",
+          "Avez-vous des questions sur le cursus Technicien, le cursus Praticien, les dates ou les modalités de paiement ? Je me ferais un plaisir d'y répondre directement.",
+          "",
+          `Vous pouvez me répondre à ce message, ou me joindre au ${siteConfig.phoneDisplay}.`,
+          "",
+          `${siteConfig.founder}`,
+          "NeuroGenesis Academy",
+        ].join("\n"),
+        scheduledAt: followUpDate,
+      });
+
+      if (followUpError) {
+        console.error("Erreur Resend (relance programmée) :", followUpError);
+      }
     }
 
     return NextResponse.json({ ok: true });
