@@ -189,6 +189,53 @@ export default function FondatricePage() {
         </div>
       </section>
 
+      <section className="py-section bg-cream">
+        <div className="container-editorial">
+          <RevealOnScroll className="grid gap-12 lg:grid-cols-12 lg:items-center">
+            <div className="reveal-item lg:col-span-4">
+              <div className="relative aspect-[2/3] max-w-xs mx-auto lg:max-w-none overflow-hidden rounded-lg border border-line shadow-[0_24px_60px_-24px_rgba(0,0,0,0.35)]">
+                <Image
+                  src="/images/livre-fr.webp"
+                  alt="Couverture du livre « Quand mon petit-enfant réveille mon histoire » de Marinella Spano"
+                  fill
+                  sizes="(max-width: 1024px) 320px, 360px"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+
+            <div className="reveal-item lg:col-span-8">
+              <p className="text-xs uppercase tracking-wide3 text-forest/60 mb-4">Son premier livre</p>
+              <h2 className="font-serif text-h2 text-forest mb-5 text-balance">
+                « Quand mon petit-enfant <em>réveille mon histoire.</em> »
+              </h2>
+              <div className="space-y-5 text-ink/75 leading-relaxed max-w-2xl">
+                <p>
+                  Au-delà du rôle de grand-mère, Marinella y explore les émotions, la place dans la
+                  lignée et la dynamique des relations transgénérationnelles — enrichies de son
+                  expérience et d&apos;exercices pratiques pour mieux vivre cette étape.
+                </p>
+                <p>
+                  Volontairement accessible plutôt qu&apos;académique, cet ouvrage est aussi une
+                  aide pour toute mère ou toute fille désireuse de mieux comprendre ce qui se joue
+                  dans les relations familiales — bien au-delà du seul rôle de grand-mère.
+                  Disponible également en italien.
+                </p>
+              </div>
+
+              <div className="reveal-item mt-8 flex flex-wrap gap-4">
+                <Button href="https://amzn.eu/d/0aUzYQ0z" variant="gold">
+                  Voir sur Amazon (FR)
+                </Button>
+                <Button href="https://amzn.eu/d/05NKBTZN" variant="forest-outline">
+                  Vedi su Amazon (IT)
+                </Button>
+              </div>
+            </div>
+          </RevealOnScroll>
+        </div>
+      </section>
+
       <section className="py-section dark-section">
         <div className="container-editorial">
           <RevealOnScroll className="max-w-2xl mx-auto text-center">

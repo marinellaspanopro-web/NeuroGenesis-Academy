@@ -46,8 +46,14 @@ export default function Button({
   const classes = `${base} ${variants[variant]} ${sizes[size]} ${className}`;
 
   if (href) {
+    const isExternal = /^https?:\/\//.test(href);
     return (
-      <Link href={href} className={classes} download={download}>
+      <Link
+        href={href}
+        className={classes}
+        download={download}
+        {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      >
         {children}
       </Link>
     );
