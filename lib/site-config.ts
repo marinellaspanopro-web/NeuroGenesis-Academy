@@ -72,6 +72,7 @@ export const praticienDates = [
 ] as const;
 
 export const navLinks = [
+  { href: "/", label: "Accueil" },
   { href: "/#valeurs", label: "Nos valeurs" },
   { href: "/formation-technicien", label: "Cursus Technicien" },
   { href: "/formation-praticien", label: "Cursus Praticien" },

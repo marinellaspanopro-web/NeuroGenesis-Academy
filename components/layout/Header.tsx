@@ -12,9 +12,11 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
-  // Compare uniquement la partie "page" du lien (avant un éventuel #ancre) :
-  // "Nos valeurs" (/#valeurs) est une ancre sur l'accueil, pas une page à part.
-  const isActive = (href: string) => pathname === href.split("#")[0];
+  // Comparaison exacte : "Nos valeurs" (/#valeurs) est une ancre sur
+  // l'accueil, pas une page à part entière — c'est "Accueil" (/) qui
+  // porte l'état actif de la page d'accueil, pour éviter deux liens
+  // soulignés en même temps.
+  const isActive = (href: string) => pathname === href;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -33,8 +35,12 @@ export default function Header() {
           soit la section derrière lui (hero sombre inclus) : lisibilité garantie sur
           toutes les pages, sans dépendre de l'état de scroll. */}
       <div className="container-editorial flex h-[76px] items-center justify-between">
-        <Link href="/" aria-label="NeuroGenesis Academy — retour à l'accueil" className="shrink-0">
-          <Logo variant="forest" className="h-8 w-auto sm:h-9" />
+        <Link
+          href="/"
+          aria-label="NeuroGenesis Academy — retour à l'accueil"
+          className="shrink-0 transition-opacity hover:opacity-70"
+        >
+          <Logo variant="forest" className="h-9 w-auto sm:h-11" />
         </Link>
 
         <nav className="hidden lg:flex items-center gap-8" aria-label="Navigation principale">
