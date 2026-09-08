@@ -54,7 +54,7 @@ export default function Hero() {
           <em className="accent-italic">transformez votre vie.</em>
         </h1>
 
-        <p className="reveal mt-7 max-w-xl text-body-lg text-gold-soft/80 leading-relaxed">
+        <p className="reveal mt-7 max-w-xl text-body-lg text-gold/80 leading-relaxed">
           NeuroGenesis forme des techniciens en hypnose &amp; neurosciences d&apos;exception —
           115h d&apos;enseignement, dont 45h de pratique supervisée, dans un cadre d&apos;excellence
           et de bienveillance.
@@ -74,7 +74,7 @@ export default function Hero() {
           </Button>
         </div>
 
-        <p className="reveal mt-10 text-sm text-gold-soft/60 max-w-md">
+        <p className="reveal mt-10 text-sm text-gold/60 max-w-md">
           Fondée par une praticienne certifiée, 30 ans d&apos;expertise en accompagnement humain.
         </p>
       </div>

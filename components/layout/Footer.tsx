@@ -25,7 +25,7 @@ export default function Footer() {
             <ul className="space-y-3">
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-gold-soft/80 hover:text-gold transition-colors text-sm">
+                  <Link href={link.href} className="text-gold/80 hover:text-gold transition-colors text-sm">
                     {link.label}
                   </Link>
                 </li>
@@ -35,7 +35,7 @@ export default function Footer() {
 
           <div>
             <p className="text-xs uppercase tracking-wide3 text-gold/80 mb-4">Contact</p>
-            <ul className="space-y-3 text-sm text-gold-soft/80">
+            <ul className="space-y-3 text-sm text-gold/80">
               <li>
                 <a href={`mailto:${siteConfig.email}`} className="hover:text-gold transition-colors">
                   {siteConfig.email}
@@ -54,7 +54,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="NeuroGenesis Academy sur Instagram"
-                className="text-gold-soft/70 hover:text-gold transition-colors"
+                className="text-gold/70 hover:text-gold transition-colors"
               >
                 Instagram
               </a>
@@ -63,7 +63,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="NeuroGenesis Academy sur Facebook"
-                className="text-gold-soft/70 hover:text-gold transition-colors"
+                className="text-gold/70 hover:text-gold transition-colors"
               >
                 Facebook
               </a>
@@ -71,7 +71,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 pt-6 border-t border-cream/10 flex flex-col sm:flex-row gap-3 justify-between text-xs text-gold-soft/50">
+        <div className="mt-14 pt-6 border-t border-cream/10 flex flex-col sm:flex-row gap-3 justify-between text-xs text-gold/50">
           <p>© {new Date().getFullYear()} NeuroGenesis Academy — Marinella Spano. Tous droits réservés.</p>
           <div className="flex gap-4">
             <Link href="/mentions-legales" className="hover:text-gold transition-colors">
