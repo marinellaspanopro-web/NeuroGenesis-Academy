@@ -22,9 +22,28 @@ export const metadata: Metadata = {
 const cheminement = [
   "Plus de 30 ans consacrés à l'étude des mécanismes du cerveau et de la psychologie",
   "La psycho-morphologie pratiquée depuis l'âge de 14 ans — lire le non-verbal, comprendre sans juger",
+  "Deux années de formation en transgénérationnel à Toulouse",
   "15 ans de pratique de l'hypnose, au service de ses clients",
   "Plus de 25 ans de soins énergétiques",
   "30 ans de relation clientèle — l'écoute comme métier",
+] as const;
+
+const specialites = [
+  {
+    n: "01",
+    title: "Burn-out",
+    text: "Depuis de nombreuses années, elle collabore avec des médecins spécialisés en burn-out. Elle intervient là où le suivi médical et le coaching professionnel seuls ne suffisent plus — pour reprendre les mots de l'un d'eux, pour « retirer le caillou dans la chaussure » qui empêche d'avancer.",
+  },
+  {
+    n: "02",
+    title: "Traumatismes",
+    text: "Son travail de fin d'études en hypnose portait déjà sur les traumatismes. Elle y a construit un conte hypnotique, aujourd'hui en attente de publication.",
+  },
+  {
+    n: "03",
+    title: "Transgénérationnel",
+    text: "Formée deux années durant à Toulouse, elle a approfondi cette matière jusqu'à en faire le sujet de son premier livre.",
+  },
 ] as const;
 
 export default function FondatricePage() {
@@ -141,6 +160,31 @@ export default function FondatricePage() {
                 </ul>
               </div>
             </aside>
+          </RevealOnScroll>
+        </div>
+      </section>
+
+      <section className="py-section-sm bg-cream-soft">
+        <div className="container-editorial">
+          <RevealOnScroll className="max-w-2xl mb-14">
+            <p className="reveal-item text-xs uppercase tracking-wide3 text-forest/60 mb-4">
+              Ses spécialités
+            </p>
+            <h2 className="reveal-item font-serif text-h2 text-forest text-balance">
+              Trois terrains qu&apos;elle connaît <em>de l&apos;intérieur.</em>
+            </h2>
+          </RevealOnScroll>
+
+          <RevealOnScroll className="grid gap-10 lg:grid-cols-3">
+            {specialites.map((s) => (
+              <div key={s.n} className="reveal-item">
+                <span className="font-serif italic text-h2 text-gold-deep leading-none">
+                  {s.n}
+                </span>
+                <h3 className="font-serif text-h3 text-forest mt-4 mb-3">{s.title}</h3>
+                <p className="text-ink/70 text-sm leading-relaxed">{s.text}</p>
+              </div>
+            ))}
           </RevealOnScroll>
         </div>
       </section>
