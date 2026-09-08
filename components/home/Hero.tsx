@@ -47,7 +47,7 @@ export default function Hero() {
 
       <div ref={containerRef} className="container-editorial relative z-10 py-section flex flex-col items-start">
         <Link href="/" aria-label="NeuroGenesis Academy — retour à l'accueil" className="reveal mb-10 inline-block">
-          <Logo variant="gold-on-forest" className="h-9 w-auto sm:h-10" />
+          <Logo variant="gold-on-forest" className="logo-glow h-12 w-auto sm:h-14" />
         </Link>
 
         <span className="reveal inline-flex items-center gap-2 rounded-pill border border-gold/40 px-4 py-2 text-xs uppercase tracking-wide3 text-gold mb-8">

@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="container-editorial pt-section-sm pb-10">
         <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr_1fr] lg:gap-8">
           <div>
-            <Logo variant="gold-on-forest" className="h-9 w-auto mb-5" />
+            <Logo variant="gold-on-forest" className="logo-glow h-11 w-auto mb-6" />
             <p className="font-serif italic text-h3 text-cream/95 max-w-sm leading-snug">
               Reprogrammez vos pensées, transformez votre vie.
             </p>

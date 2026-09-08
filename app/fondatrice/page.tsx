@@ -64,7 +64,7 @@ export default function FondatricePage() {
           <RevealOnScroll className="grid gap-12 lg:grid-cols-12 lg:items-center">
             <div className="reveal-item lg:col-span-7">
               <Link href="/" aria-label="NeuroGenesis Academy — retour à l'accueil" className="mb-8 inline-block">
-                <Logo variant="gold-on-forest" className="h-9 w-auto" />
+                <Logo variant="gold-on-forest" className="logo-glow h-12 w-auto sm:h-14" />
               </Link>
               <p className="text-xs uppercase tracking-wide3 text-gold/80 mb-4">
                 La fondatrice

@@ -151,6 +151,15 @@ em, .accent-italic {
   }
 }
 
+/* Halo lumineux pour le logo doré sur fond vert forêt — même esprit que le
+   text-shadow des accents, mais en drop-shadow (suit la forme du tracé SVG,
+   pas juste une boîte rectangulaire). */
+.logo-glow {
+  filter:
+    drop-shadow(0 0 10px rgb(var(--color-gold-rgb) / 70%))
+    drop-shadow(0 0 22px rgb(var(--color-gold-deep-rgb) / 40%));
+}
+
 /* Ligne signature or, sous les titres de section */
 .rule-gold {
   width: 3.5rem;
