@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Logo from "@/components/ui/Logo";
 import Button from "@/components/ui/Button";
 import { navLinks } from "@/lib/site-config";
 
@@ -31,18 +30,12 @@ export default function Header() {
         scrolled ? "shadow-[0_1px_0_0_var(--color-line)]" : "border-b border-line/60"
       }`}
     >
-      {/* Header systématiquement clair (fond crème + logo/texte vert forêt), quelle que
-          soit la section derrière lui (hero sombre inclus) : lisibilité garantie sur
-          toutes les pages, sans dépendre de l'état de scroll. */}
+      {/* Header systématiquement clair (fond crème), quelle que soit la section
+          derrière lui (hero sombre inclus) : lisibilité garantie sur toutes les
+          pages, sans dépendre de l'état de scroll. Le logo, lui, vit sur le fond
+          vert forêt du hero de chaque page (cf. Hero.tsx et les sections
+          d'ouverture des autres pages) plutôt que dans cette barre fixe. */}
       <div className="container-editorial flex h-[76px] items-center justify-between">
-        <Link
-          href="/"
-          aria-label="NeuroGenesis Academy — retour à l'accueil"
-          className="shrink-0 rounded-lg bg-forest px-3 py-2.5 transition-colors hover:bg-forest-light"
-        >
-          <Logo variant="gold-on-forest" className="h-7 w-auto sm:h-8" />
-        </Link>
-
         <nav className="hidden lg:flex items-center gap-8" aria-label="Navigation principale">
           {navLinks.map((link) => (
             <Link

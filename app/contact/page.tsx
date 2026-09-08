@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import JsonLd from "@/components/shared/JsonLd";
 import RevealOnScroll from "@/components/shared/RevealOnScroll";
 import ContactForm from "@/components/shared/ContactForm";
+import Logo from "@/components/ui/Logo";
 import { organizationSchema, breadcrumbSchema } from "@/lib/schema";
 import { siteConfig } from "@/lib/site-config";
 import { pageOpenGraph, pageTwitter } from "@/lib/page-metadata";
@@ -36,6 +38,9 @@ export default function ContactPage() {
       <section className="dark-section pt-[76px]">
         <div className="container-editorial py-section-sm">
           <RevealOnScroll>
+            <Link href="/" aria-label="NeuroGenesis Academy — retour à l'accueil" className="reveal-item mb-8 inline-block">
+              <Logo variant="gold-on-forest" className="h-9 w-auto" />
+            </Link>
             <p className="reveal-item text-xs uppercase tracking-wide3 text-gold/80 mb-4">Contact</p>
             <h1 className="reveal-item font-serif text-hero text-cream max-w-2xl text-balance">
               Parlons de votre <em className="accent-italic">projet.</em>

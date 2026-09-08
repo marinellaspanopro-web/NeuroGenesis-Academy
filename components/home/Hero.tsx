@@ -1,8 +1,10 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import Button from "@/components/ui/Button";
+import Logo from "@/components/ui/Logo";
 import NeuralPattern from "@/components/home/NeuralPattern";
 import { siteConfig } from "@/lib/site-config";
 import { ensureGsap } from "@/lib/gsap";
@@ -44,6 +46,10 @@ export default function Hero() {
       />
 
       <div ref={containerRef} className="container-editorial relative z-10 py-section flex flex-col items-start">
+        <Link href="/" aria-label="NeuroGenesis Academy — retour à l'accueil" className="reveal mb-10 inline-block">
+          <Logo variant="gold-on-forest" className="h-9 w-auto sm:h-10" />
+        </Link>
+
         <span className="reveal inline-flex items-center gap-2 rounded-pill border border-gold/40 px-4 py-2 text-xs uppercase tracking-wide3 text-gold mb-8">
           <span className="h-1.5 w-1.5 rounded-full bg-gold" aria-hidden="true" />
           Prochain cycle Technicien · {siteConfig.session.startDateDisplay} · {siteConfig.session.city}

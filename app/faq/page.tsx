@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import JsonLd from "@/components/shared/JsonLd";
 import RevealOnScroll from "@/components/shared/RevealOnScroll";
 import FAQAccordion from "@/components/shared/FAQAccordion";
 import Button from "@/components/ui/Button";
+import Logo from "@/components/ui/Logo";
 import { faqSchema, breadcrumbSchema } from "@/lib/schema";
 import { faqItems } from "@/lib/faq-data";
 import { siteConfig } from "@/lib/site-config";
@@ -34,6 +36,9 @@ export default function FaqPage() {
       <section className="dark-section pt-[76px]">
         <div className="container-editorial py-section-sm">
           <RevealOnScroll>
+            <Link href="/" aria-label="NeuroGenesis Academy — retour à l'accueil" className="reveal-item mb-8 inline-block">
+              <Logo variant="gold-on-forest" className="h-9 w-auto" />
+            </Link>
             <p className="reveal-item text-xs uppercase tracking-wide3 text-gold/80 mb-4">Questions fréquentes</p>
             <h1 className="reveal-item font-serif text-hero text-cream max-w-2xl text-balance">
               Tout ce qu&apos;il faut savoir <em className="accent-italic">avant de vous lancer.</em>

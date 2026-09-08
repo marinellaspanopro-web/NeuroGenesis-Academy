@@ -4,6 +4,7 @@ import JsonLd from "@/components/shared/JsonLd";
 import RevealOnScroll from "@/components/shared/RevealOnScroll";
 import BrochureRequestForm from "@/components/shared/BrochureRequestForm";
 import Button from "@/components/ui/Button";
+import Logo from "@/components/ui/Logo";
 import { courseSchema, breadcrumbSchema } from "@/lib/schema";
 import { siteConfig, technicienDates } from "@/lib/site-config";
 import { technicienModules, technicienBenefits } from "@/lib/cursus-data";
@@ -49,6 +50,9 @@ export default function FormationTechnicienPage() {
       <section className="dark-section pt-[76px]">
         <div className="container-editorial py-section-sm">
           <RevealOnScroll>
+            <Link href="/" aria-label="NeuroGenesis Academy — retour à l'accueil" className="reveal-item mb-8 inline-block">
+              <Logo variant="gold-on-forest" className="h-9 w-auto" />
+            </Link>
             <p className="reveal-item text-xs uppercase tracking-wide3 text-gold/80 mb-4">
               Cursus Technicien · {siteConfig.session.startDateDisplay}
             </p>

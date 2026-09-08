@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import JsonLd from "@/components/shared/JsonLd";
 import RevealOnScroll from "@/components/shared/RevealOnScroll";
 import Button from "@/components/ui/Button";
+import Logo from "@/components/ui/Logo";
 import { personSchema, breadcrumbSchema } from "@/lib/schema";
 import { siteConfig } from "@/lib/site-config";
 import { pageOpenGraph, pageTwitter } from "@/lib/page-metadata";
@@ -61,6 +63,9 @@ export default function FondatricePage() {
         <div className="container-editorial py-section-sm">
           <RevealOnScroll className="grid gap-12 lg:grid-cols-12 lg:items-center">
             <div className="reveal-item lg:col-span-7">
+              <Link href="/" aria-label="NeuroGenesis Academy — retour à l'accueil" className="mb-8 inline-block">
+                <Logo variant="gold-on-forest" className="h-9 w-auto" />
+              </Link>
               <p className="text-xs uppercase tracking-wide3 text-gold/80 mb-4">
                 La fondatrice
               </p>
