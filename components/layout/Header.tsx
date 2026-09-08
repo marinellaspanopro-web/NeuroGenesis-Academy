@@ -9,13 +9,19 @@ import { navLinks } from "@/lib/site-config";
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  // Ancre actuellement visible à l'écran (ex: "valeurs"), ou null si on est
+  // au-dessus de toute section ancrée (auquel cas "Accueil" reste actif).
+  const [activeHash, setActiveHash] = useState<string | null>(null);
   const pathname = usePathname();
 
-  // Comparaison exacte : "Nos valeurs" (/#valeurs) est une ancre sur
-  // l'accueil, pas une page à part entière — c'est "Accueil" (/) qui
-  // porte l'état actif de la page d'accueil, pour éviter deux liens
-  // soulignés en même temps.
-  const isActive = (href: string) => pathname === href;
+  // Un lien est actif si sa page correspond à l'URL actuelle ET, s'il pointe
+  // vers une ancre (ex: "Nos valeurs" → /#valeurs), si cette section est
+  // bien celle actuellement visible à l'écran (scroll-spy ci-dessous).
+  const isActive = (href: string) => {
+    const [base, hash] = href.split("#");
+    if ((base || "/") !== pathname) return false;
+    return hash ? activeHash === hash : activeHash === null;
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -23,6 +29,42 @@ export default function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Scroll-spy : surveille les sections correspondant aux liens en #ancre
+  // (ex: #valeurs) et met à jour le lien actif au fil du défilement, plutôt
+  // que de laisser "Accueil" souligné en permanence tant qu'on reste sur "/".
+  useEffect(() => {
+    setActiveHash(null);
+
+    const ids = navLinks
+      .map((l) => l.href.split("#")[1])
+      .filter((id): id is string => Boolean(id));
+    const sections = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting);
+        if (visible.length === 0) {
+          setActiveHash(null);
+          return;
+        }
+        // S'il y a plusieurs sections visibles à la fois, on retient celle
+        // dont le haut est le plus proche du haut de l'écran.
+        const top = visible.reduce((a, b) =>
+          a.boundingClientRect.top < b.boundingClientRect.top ? a : b
+        );
+        setActiveHash(top.target.id);
+      },
+      { rootMargin: "-90px 0px -70% 0px", threshold: 0 }
+    );
+
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, [pathname]);
 
   return (
     <header
