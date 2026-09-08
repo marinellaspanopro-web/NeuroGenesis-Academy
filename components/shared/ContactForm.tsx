@@ -22,7 +22,11 @@ export default function ContactForm() {
     e.preventDefault();
     setServerError(null);
 
-    const formData = new FormData(e.currentTarget);
+    // On capture la référence du formulaire tout de suite : après un `await`,
+    // `e.currentTarget` peut redevenir `null` (React vide l'event synthétique),
+    // ce qui faisait planter le `.reset()` plus bas sur certains navigateurs.
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     const payload = {
       name: String(formData.get("name") ?? ""),
       email: String(formData.get("email") ?? ""),
@@ -58,7 +62,7 @@ export default function ContactForm() {
       }
 
       setStatus("success");
-      e.currentTarget.reset();
+      form.reset();
     } catch (err) {
       setStatus("error");
       setServerError(err instanceof Error ? err.message : "Une erreur est survenue.");

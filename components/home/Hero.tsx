@@ -65,9 +65,10 @@ export default function Hero() {
             Réserver ma place — Octobre 2026
           </Button>
           <Button
-            href={`mailto:${siteConfig.email}?subject=${encodeURIComponent("Demande de brochure NeuroGenesis Academy")}`}
+            href="/brochure-neurogenesis-academy.pdf"
             variant="gold-outline"
             size="lg"
+            download
           >
             Télécharger la brochure
           </Button>

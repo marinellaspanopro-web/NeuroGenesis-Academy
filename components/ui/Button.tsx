@@ -9,6 +9,7 @@ type ButtonProps = {
   href?: string;
   onClick?: () => void;
   type?: "button" | "submit";
+  download?: boolean;
 };
 
 const base =
@@ -40,12 +41,13 @@ export default function Button({
   href,
   onClick,
   type = "button",
+  download,
 }: ButtonProps) {
   const classes = `${base} ${variants[variant]} ${sizes[size]} ${className}`;
 
   if (href) {
     return (
-      <Link href={href} className={classes}>
+      <Link href={href} className={classes} download={download}>
         {children}
       </Link>
     );
