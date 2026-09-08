@@ -110,6 +110,11 @@ em, .accent-italic {
 .dark-section em,
 .dark-section .accent-italic {
   color: var(--color-gold);
+  /* Halo lumineux — fait "rayonner" l'or sur fond vert profond, effet
+     prestige plutôt qu'un aplat de couleur mat. */
+  text-shadow:
+    0 0 18px rgb(var(--color-gold-rgb) / 65%),
+    0 0 42px rgb(var(--color-gold-deep-rgb) / 35%);
 }
 
 /* Conteneur éditorial standard */

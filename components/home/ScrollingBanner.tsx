@@ -21,10 +21,20 @@ export default function ScrollingBanner() {
       <div className="marquee-track flex w-max items-center">
         {items.map((word, i) => (
           <span key={`${word}-${i}`} className="flex items-center shrink-0">
-            <span className="font-serif italic text-xl sm:text-2xl text-gold px-6 whitespace-nowrap">
+            <span
+              className="font-serif italic text-xl sm:text-2xl text-gold px-6 whitespace-nowrap"
+              style={{
+                textShadow:
+                  "0 0 16px rgb(var(--color-gold-rgb) / 60%), 0 0 36px rgb(var(--color-gold-deep-rgb) / 30%)",
+              }}
+            >
               {word}
             </span>
-            <span className="text-gold-deep text-sm" aria-hidden="true">
+            <span
+              className="text-gold-deep text-sm"
+              style={{ textShadow: "0 0 10px rgb(var(--color-gold-deep-rgb) / 60%)" }}
+              aria-hidden="true"
+            >
               ◆
             </span>
           </span>
