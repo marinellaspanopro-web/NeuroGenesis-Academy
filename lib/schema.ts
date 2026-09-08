@@ -101,9 +101,12 @@ export function personSchema() {
       name: siteConfig.name,
     },
     url: `${siteConfig.url}/fondatrice`,
-    alumniOf: [
-      { "@type": "CollegeOrUniversity", name: "Université Libre de Bruxelles (ULB)" },
-      { "@type": "EducationalOrganization", name: "American Council of Hypnotist Examiners (ACHE)" },
+    knowsAbout: [
+      "Hypnose",
+      "Neurosciences",
+      "Psycho-morphologie",
+      "Soins énergétiques",
+      "Développement personnel",
     ],
   };
 }
