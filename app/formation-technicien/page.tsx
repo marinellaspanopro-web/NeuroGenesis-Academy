@@ -55,7 +55,7 @@ export default function FormationTechnicienPage() {
             <h1 className="reveal-item font-serif text-hero text-cream max-w-3xl text-balance">
               Poser les fondations de votre <em className="accent-italic">pratique.</em>
             </h1>
-            <p className="reveal-item mt-6 max-w-xl text-body-lg text-cream/75 leading-relaxed">
+            <p className="reveal-item mt-6 max-w-xl text-body-lg text-gold-soft/75 leading-relaxed">
               5 week-ends (10 jours) à {siteConfig.address.addressLocality}, ateliers pratiques
               supervisés, et un groupe volontairement restreint pour un accompagnement réel.
             </p>
@@ -64,7 +64,7 @@ export default function FormationTechnicienPage() {
               {stats.map((s) => (
                 <div key={s.label}>
                   <span className="block font-serif text-h2 text-gold">{s.value}</span>
-                  <span className="text-sm text-cream/60">{s.label}</span>
+                  <span className="text-sm text-gold-soft/60">{s.label}</span>
                 </div>
               ))}
             </div>
@@ -149,7 +149,7 @@ export default function FormationTechnicienPage() {
             {technicienBenefits.map((b) => (
               <div key={b.title} className="reveal-item">
                 <p className="font-serif italic text-h3 text-gold mb-3">{b.title}</p>
-                <p className="text-cream/70 text-sm leading-relaxed">{b.text}</p>
+                <p className="text-gold-soft/70 text-sm leading-relaxed">{b.text}</p>
               </div>
             ))}
           </RevealOnScroll>
@@ -203,7 +203,7 @@ export default function FormationTechnicienPage() {
               <h2 className="reveal-item font-serif text-h2 text-cream text-balance">
                 Recevez la brochure <em className="accent-italic">complète</em> par email.
               </h2>
-              <p className="reveal-item mt-4 text-cream/70 leading-relaxed max-w-sm">
+              <p className="reveal-item mt-4 text-gold-soft/70 leading-relaxed max-w-sm">
                 Programme, dates et tarifs des deux cursus, à consulter ou partager quand vous
                 le souhaitez.
               </p>

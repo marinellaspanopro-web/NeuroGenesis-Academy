@@ -55,7 +55,7 @@ export default function CursusOverview() {
               <h3 className="font-serif text-h3 text-cream mt-3 mb-5 text-balance">
                 La suite naturelle de votre parcours
               </h3>
-              <p className="text-cream/70 leading-relaxed mb-8">
+              <p className="text-gold-soft/70 leading-relaxed mb-8">
                 200h (112h présentiel + 88h pratique supervisée) en 8 modules : de la gestion
                 de la douleur à la psychopathologie, en passant par la régression thérapeutique
                 et la psycho-morphologie.

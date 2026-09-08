@@ -36,7 +36,7 @@ export default function Countdown({ target }: { target: string }) {
           <span className="font-serif text-h2 text-gold tabular-nums leading-none">
             {u.value !== undefined ? String(u.value).padStart(2, "0") : "--"}
           </span>
-          <span className="mt-2 text-[11px] uppercase tracking-wide3 text-cream/60">{u.label}</span>
+          <span className="mt-2 text-[11px] uppercase tracking-wide3 text-gold-soft/60">{u.label}</span>
         </div>
       ))}
     </div>

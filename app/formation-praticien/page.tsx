@@ -55,7 +55,7 @@ export default function FormationPraticienPage() {
             <h1 className="reveal-item font-serif text-hero text-cream max-w-3xl text-balance">
               La suite naturelle de votre <em className="accent-italic">parcours.</em>
             </h1>
-            <p className="reveal-item mt-6 max-w-xl text-body-lg text-cream/75 leading-relaxed">
+            <p className="reveal-item mt-6 max-w-xl text-body-lg text-gold-soft/75 leading-relaxed">
               200 heures pour affiner votre pratique clinique : de la gestion avancée de la
               douleur à la psychopathologie, en passant par la régression thérapeutique et la
               psycho-morphologie. Accréditations internationales en cours pour la Francophonie
@@ -66,7 +66,7 @@ export default function FormationPraticienPage() {
               {stats.map((s) => (
                 <div key={s.label}>
                   <span className="block font-serif text-h2 text-gold">{s.value}</span>
-                  <span className="text-sm text-cream/60">{s.label}</span>
+                  <span className="text-sm text-gold-soft/60">{s.label}</span>
                 </div>
               ))}
             </div>
@@ -149,7 +149,7 @@ export default function FormationPraticienPage() {
             <h2 className="reveal-item font-serif text-h2 text-cream text-balance">
               Modules optionnels, <em className="accent-italic">pour approfondir votre pratique.</em>
             </h2>
-            <p className="reveal-item mt-4 text-cream/70 leading-relaxed">
+            <p className="reveal-item mt-4 text-gold-soft/70 leading-relaxed">
               Au-delà des bases incluses dans le cursus, ces modules permettent d&apos;aller plus
               loin sur des thématiques spécifiques. Non inclus dans le tarif du cursus —{" "}
               <span className="text-gold">-20% en cas de souscription simultanée à un cursus.</span>
@@ -168,7 +168,7 @@ export default function FormationPraticienPage() {
                 >
                   <p className="font-serif text-lg text-cream mb-1 text-balance">{m.title}</p>
                   <p className="text-xs uppercase tracking-wide2 text-gold/70 mb-3">{m.duration}</p>
-                  <p className="text-sm text-cream/65 leading-relaxed mb-4">{m.text}</p>
+                  <p className="text-sm text-gold-soft/65 leading-relaxed mb-4">{m.text}</p>
                   <p className="font-serif text-h3 text-gold">{m.price}€</p>
                 </div>
               </RevealOnScroll>
@@ -176,7 +176,7 @@ export default function FormationPraticienPage() {
           </div>
 
           <RevealOnScroll className="mt-10">
-            <p className="reveal-item text-sm text-cream/60">
+            <p className="reveal-item text-sm text-gold-soft/60">
               Intéressé·e par un ou plusieurs modules optionnels ?{" "}
               <Link href="/contact" className="text-gold underline underline-offset-4 hover:text-cream transition-colors">
                 Parlons-en →
@@ -233,7 +233,7 @@ export default function FormationPraticienPage() {
               <h2 className="reveal-item font-serif text-h2 text-cream text-balance">
                 Recevez la brochure <em className="accent-italic">complète</em> par email.
               </h2>
-              <p className="reveal-item mt-4 text-cream/70 leading-relaxed max-w-sm">
+              <p className="reveal-item mt-4 text-gold-soft/70 leading-relaxed max-w-sm">
                 Programme, dates et tarifs des deux cursus, à consulter ou partager quand vous
                 le souhaitez.
               </p>

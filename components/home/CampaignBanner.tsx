@@ -29,7 +29,7 @@ export default function CampaignBanner() {
             <h2 className="font-serif text-h1 text-cream mb-6 text-balance">
               Les inscriptions sont <em className="accent-italic">ouvertes.</em>
             </h2>
-            <p className="text-body-lg text-cream/80 max-w-lg leading-relaxed mb-8">
+            <p className="text-body-lg text-gold-soft/80 max-w-lg leading-relaxed mb-8">
               Un petit groupe, un accompagnement sur-mesure, une exigence sans compromis. Les
               places sont volontairement limitées pour garantir la supervision individuelle de
               chaque stagiaire.
@@ -39,7 +39,7 @@ export default function CampaignBanner() {
               {badges.map((b) => (
                 <li key={b.label} className="flex flex-col">
                   <span className="text-gold font-serif italic text-lg">{b.label}</span>
-                  <span className="text-cream/60 text-sm">{b.detail}</span>
+                  <span className="text-gold-soft/60 text-sm">{b.detail}</span>
                 </li>
               ))}
             </ul>
@@ -50,7 +50,7 @@ export default function CampaignBanner() {
           </div>
 
           <div className="reveal-item flex flex-col items-start lg:items-end">
-            <p className="text-xs uppercase tracking-wide3 text-cream/50 mb-4">
+            <p className="text-xs uppercase tracking-wide3 text-gold-soft/50 mb-4">
               Avant le début du cycle
             </p>
             <Countdown target={siteConfig.session.isoDeadline} />

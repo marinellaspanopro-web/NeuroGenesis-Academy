@@ -57,7 +57,7 @@ export default function FondatricePage() {
               <h1 className="font-serif text-hero text-cream max-w-3xl text-balance">
                 Marinella <em className="accent-italic">Spano</em>
               </h1>
-              <p className="mt-6 max-w-xl text-body-lg text-cream/75 leading-relaxed">
+              <p className="mt-6 max-w-xl text-body-lg text-gold-soft/75 leading-relaxed">
                 Hypnothérapeute et formatrice, fondatrice de l&apos;Académie NeuroGenesis — 30 ans
                 d&apos;expertise en accompagnement humain, au service d&apos;une pédagogie exigeante
                 et chaleureuse.

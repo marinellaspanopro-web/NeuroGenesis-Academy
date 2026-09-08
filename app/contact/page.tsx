@@ -40,7 +40,7 @@ export default function ContactPage() {
             <h1 className="reveal-item font-serif text-hero text-cream max-w-2xl text-balance">
               Parlons de votre <em className="accent-italic">projet.</em>
             </h1>
-            <p className="reveal-item mt-6 max-w-xl text-body-lg text-cream/75 leading-relaxed">
+            <p className="reveal-item mt-6 max-w-xl text-body-lg text-gold-soft/75 leading-relaxed">
               Une question sur les cursus, les modalités de paiement ou l&apos;organisation des
               sessions ? Notre équipe vous répond avec plaisir.
             </p>

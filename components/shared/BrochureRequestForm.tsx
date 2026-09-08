@@ -83,7 +83,7 @@ export default function BrochureRequestForm({ interest, variant = "light" }: Pro
     return (
       <p role="status" className={isDark ? "text-cream" : "text-forest"}>
         <span className="font-serif text-lg">Brochure envoyée ! </span>
-        <span className={isDark ? "text-cream/70" : "text-ink/70"}>
+        <span className={isDark ? "text-gold-soft/70" : "text-ink/70"}>
           Vérifiez votre boîte mail (et vos courriers indésirables) d&apos;ici quelques minutes.
         </span>
       </p>
