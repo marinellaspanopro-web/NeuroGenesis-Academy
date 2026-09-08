@@ -13,7 +13,9 @@ export const contactSchema = z.object({
   interest: z.enum(["technicien", "praticien", "autre"], {
     errorMap: () => ({ message: "Merci de préciser votre intérêt." }),
   }),
-  message: z.string().trim().min(10, "Votre message doit contenir au moins 10 caractères."),
+  // Pas de champ "message" : ce formulaire est volontairement court et
+  // automatisable (capture + brochure + relance). Pour un message
+  // personnalisé, l'adresse info@neurogenesis.be reste affichée à côté.
   // Case à cocher : envoi immédiat de la brochure PDF + relance automatique.
   wantsBrochure: z.boolean().optional().default(false),
   // Honeypot anti-spam — doit rester vide.

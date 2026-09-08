@@ -33,7 +33,6 @@ export default function ContactForm() {
       email: String(formData.get("email") ?? ""),
       phone: String(formData.get("phone") ?? ""),
       interest: String(formData.get("interest") ?? ""),
-      message: String(formData.get("message") ?? ""),
       wantsBrochure: formData.get("wantsBrochure") === "on",
       company: String(formData.get("company") ?? ""), // honeypot
     };
@@ -78,10 +77,10 @@ export default function ContactForm() {
         role="status"
         className="rounded-lg border border-forest/20 bg-cream-soft p-10 text-center"
       >
-        <p className="font-serif text-h3 text-forest mb-3">Message bien reçu !</p>
+        <p className="font-serif text-h3 text-forest mb-3">Demande bien reçue !</p>
         <p className="text-ink/70 max-w-md mx-auto leading-relaxed">
-          Merci pour votre message — nous revenons vers vous très prochainement pour échanger
-          sur votre projet de formation.
+          Merci — nous revenons vers vous très prochainement pour échanger sur votre projet de
+          formation.
           {brochureRequested && (
             <> La brochure complète vient de vous être envoyée par email — pensez à vérifier vos courriers indésirables si vous ne la voyez pas d&apos;ici quelques minutes.</>
           )}
@@ -191,26 +190,6 @@ export default function ContactForm() {
         </div>
       </div>
 
-      <div>
-        <label htmlFor="message" className={labelClasses}>
-          Message <span aria-hidden="true">*</span>
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          rows={5}
-          required
-          aria-invalid={Boolean(errors.message)}
-          aria-describedby={errors.message ? "message-error" : undefined}
-          className={fieldClasses}
-        />
-        {errors.message && (
-          <p id="message-error" className="mt-2 text-sm text-[oklch(55%_0.18_25)]">
-            {errors.message}
-          </p>
-        )}
-      </div>
-
       <div className="flex items-start gap-3">
         <input
           id="wantsBrochure"
@@ -239,7 +218,7 @@ export default function ContactForm() {
         disabled={status === "submitting"}
         className="inline-flex items-center justify-center rounded-pill bg-forest px-8 py-4 text-sm font-medium tracking-wide2 text-cream transition-all duration-300 ease-out-expo hover:bg-forest-light hover:-translate-y-0.5 disabled:opacity-60 disabled:pointer-events-none"
       >
-        {status === "submitting" ? "Envoi en cours…" : "Envoyer mon message"}
+        {status === "submitting" ? "Envoi en cours…" : "Envoyer ma demande"}
       </button>
     </form>
   );
