@@ -38,9 +38,9 @@ export default function Header() {
         <Link
           href="/"
           aria-label="NeuroGenesis Academy — retour à l'accueil"
-          className="shrink-0 transition-opacity hover:opacity-70"
+          className="shrink-0 rounded-lg bg-forest px-3 py-2.5 transition-colors hover:bg-forest-light"
         >
-          <Logo variant="forest" className="h-9 w-auto sm:h-11" />
+          <Logo variant="gold-on-forest" className="h-7 w-auto sm:h-8" />
         </Link>
 
         <nav className="hidden lg:flex items-center gap-8" aria-label="Navigation principale">
