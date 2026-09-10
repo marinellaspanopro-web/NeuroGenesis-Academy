@@ -213,15 +213,6 @@ export default function FormationPraticienPage() {
                   Découvrez le Pack Technicien + Praticien →
                 </Link>
               </p>
-              <p className="mt-4 text-sm max-w-sm">
-                Une fois certifié(e), envie de continuer à progresser ?{" "}
-                <Link
-                  href="/supervision-accompagnement"
-                  className="text-gold-deep underline underline-offset-4 hover:text-forest"
-                >
-                  Découvrez la supervision année 1 →
-                </Link>
-              </p>
             </div>
             <div className="reveal-item flex flex-col gap-4 sm:flex-row lg:flex-col">
               <Button href="/contact" variant="gold" size="lg">
@@ -229,6 +220,9 @@ export default function FormationPraticienPage() {
               </Button>
               <Button href="/formation-technicien" variant="forest-outline" size="lg">
                 Voir le cursus Technicien
+              </Button>
+              <Button href="/supervision-accompagnement" variant="forest-outline" size="lg">
+                Supervision année 1
               </Button>
             </div>
           </RevealOnScroll>

@@ -76,6 +76,7 @@ export const navLinks = [
   { href: "/#valeurs", label: "Nos valeurs" },
   { href: "/formation-technicien", label: "Cursus Technicien" },
   { href: "/formation-praticien", label: "Cursus Praticien" },
+  { href: "/supervision-accompagnement", label: "Supervision" },
   { href: "/fondatrice", label: "Fondatrice" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
