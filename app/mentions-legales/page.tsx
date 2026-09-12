@@ -55,6 +55,18 @@ export default function MentionsLegalesPage() {
               pouvez demander leur suppression à tout moment en écrivant à {siteConfig.email}.
             </p>
           </div>
+
+          <div id="cookies">
+            <h2 className="font-serif text-h3 text-forest mb-3">Cookies</h2>
+            <p>
+              Ce site utilise un cookie de mesure publicitaire (Google Ads) qui permet de savoir
+              si une visite fait suite au clic sur l&apos;une de nos annonces, afin d&apos;évaluer
+              leur pertinence. Ce cookie n&apos;est déposé qu&apos;après votre accord, donné via le
+              bandeau affiché lors de votre première visite. Vous pouvez à tout moment revenir sur
+              votre choix en effaçant les cookies de ce site dans les réglages de votre navigateur
+              — le bandeau vous sera alors proposé à nouveau.
+            </p>
+          </div>
         </div>
       </div>
       </section>

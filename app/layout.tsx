@@ -8,6 +8,7 @@ import JsonLd from "@/components/shared/JsonLd";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import StickyMobileCTA from "@/components/layout/StickyMobileCTA";
+import CookieConsentBanner from "@/components/layout/CookieConsentBanner";
 import SmoothScrollProvider from "@/components/layout/SmoothScrollProvider";
 import "./globals.css";
 
@@ -72,6 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer />
           <StickyMobileCTA />
         </SmoothScrollProvider>
+        <CookieConsentBanner />
       </body>
     </html>
   );
