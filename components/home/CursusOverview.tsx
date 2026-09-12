@@ -59,11 +59,23 @@ export default function CursusOverview() {
               <h3 className="font-serif text-h3 text-cream mt-3 mb-5 text-balance">
                 La suite naturelle de votre parcours
               </h3>
-              <p className="text-gold/70 leading-relaxed mb-8">
+              <p className="text-gold/70 leading-relaxed mb-6">
                 200h (112h présentiel + 88h pratique supervisée) en 8 modules : de la gestion
                 de la douleur à la psychopathologie, en passant par la régression thérapeutique
                 et la psycho-morphologie.
               </p>
+              <div className="flex flex-wrap gap-x-10 gap-y-3 mb-8 text-sm">
+                <div>
+                  <span className="block font-serif text-h3 text-gold">
+                    {siteConfig.pricing.praticien.amount}€
+                  </span>
+                  <span className="text-gold/50">Après validation du Technicien</span>
+                </div>
+                <div>
+                  <span className="block font-serif text-h3 text-gold">8</span>
+                  <span className="text-gold/50">Week-ends à Namur</span>
+                </div>
+              </div>
             </div>
             <div className="reveal-item">
               <p className="text-gold font-serif italic text-lg mb-6">
