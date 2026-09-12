@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { contactSchema } from "@/lib/contact-schema";
 import { siteConfig } from "@/lib/site-config";
+import { trackLeadFormConversion } from "@/lib/gtag";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -73,6 +74,7 @@ export default function BrochureRequestForm({ interest, variant = "light" }: Pro
 
       setStatus("success");
       form.reset();
+      trackLeadFormConversion();
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Une erreur est survenue.");
