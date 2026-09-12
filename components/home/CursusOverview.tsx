@@ -29,16 +29,21 @@ export default function CursusOverview() {
                 {siteConfig.session.groupSize.toLowerCase()}. La porte d&apos;entrée vers la
                 pratique de l&apos;hypnose &amp; des neurosciences appliquées.
               </p>
-              <div className="flex flex-wrap gap-x-10 gap-y-3 mb-8 text-sm">
-                <div>
-                  <span className="block font-serif text-h3 text-forest">
+              <div className="mb-8">
+                <div className="flex items-baseline gap-3">
+                  <span className="text-sm text-ink/40 line-through decoration-1">
+                    {siteConfig.pricing.technicien.amount}€
+                  </span>
+                  <span className="font-serif text-h2 text-forest leading-none">
                     {siteConfig.pricing.technicien.earlyBirdPrice}€
                   </span>
-                  <span className="text-ink/50">
-                    Early Bird avant le {siteConfig.pricing.technicien.earlyBirdDeadlineDisplay}
-                  </span>
                 </div>
-                <div>
+                <div className="mt-3 inline-block rounded-md bg-forest/[0.04] border border-gold-deep/20 px-4 py-2">
+                  <p className="text-xs uppercase tracking-wide2 text-gold-deep">
+                    Tarif Early Bird — avant le {siteConfig.pricing.technicien.earlyBirdDeadlineDisplay}
+                  </p>
+                </div>
+                <div className="mt-5 text-sm">
                   <span className="block font-serif text-h3 text-forest">5</span>
                   <span className="text-ink/50">Week-ends à Namur</span>
                 </div>
