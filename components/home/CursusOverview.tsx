@@ -31,8 +31,12 @@ export default function CursusOverview() {
               </p>
               <div className="flex flex-wrap gap-x-10 gap-y-3 mb-8 text-sm">
                 <div>
-                  <span className="block font-serif text-h3 text-forest">1899€</span>
-                  <span className="text-ink/50">Paiement échelonné possible</span>
+                  <span className="block font-serif text-h3 text-forest">
+                    {siteConfig.pricing.technicien.earlyBirdPrice}€
+                  </span>
+                  <span className="text-ink/50">
+                    Early Bird avant le {siteConfig.pricing.technicien.earlyBirdDeadlineDisplay}
+                  </span>
                 </div>
                 <div>
                   <span className="block font-serif text-h3 text-forest">5</span>
