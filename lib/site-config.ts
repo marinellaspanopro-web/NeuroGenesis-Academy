@@ -37,7 +37,13 @@ export const siteConfig = {
     groupSize: "6 à 8 personnes maximum",
   },
   pricing: {
-    technicien: { amount: 1899, currency: "EUR" },
+    technicien: {
+      amount: 1899,
+      currency: "EUR",
+      earlyBirdPrice: 1549,
+      earlyBirdDeadline: "2026-09-20",
+      earlyBirdDeadlineDisplay: "20 septembre 2026",
+    },
     praticien: { amount: 2750, currency: "EUR" },
     pack: {
       // Cursus Technicien + Praticien réunis.

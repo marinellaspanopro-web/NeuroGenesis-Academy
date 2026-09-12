@@ -166,10 +166,18 @@ export default function FormationTechnicienPage() {
           <RevealOnScroll className="rounded-lg border border-line bg-cream-soft p-10 sm:p-16 grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center">
             <div className="reveal-item">
               <p className="text-xs uppercase tracking-wide3 text-forest/60 mb-4">Investissement</p>
-              <p className="font-serif text-hero text-forest leading-none">
+              <p className="text-xs uppercase tracking-wide3 text-forest/50 mb-1 line-through decoration-1">
                 {siteConfig.pricing.technicien.amount}€
               </p>
-              <p className="mt-3 text-ink/60 max-w-sm">
+              <p className="font-serif text-hero text-forest leading-none">
+                {siteConfig.pricing.technicien.earlyBirdPrice}€
+              </p>
+              <div className="mt-4 inline-block rounded-md bg-forest/[0.04] border border-gold-deep/20 px-4 py-2">
+                <p className="text-xs uppercase tracking-wide2 text-gold-deep">
+                  Tarif Early Bird — avant le {siteConfig.pricing.technicien.earlyBirdDeadlineDisplay}
+                </p>
+              </div>
+              <p className="mt-4 text-ink/60 max-w-sm">
                 Paiement en plusieurs fois sans frais. Groupe limité à{" "}
                 {siteConfig.session.groupSize.toLowerCase()}.
               </p>
