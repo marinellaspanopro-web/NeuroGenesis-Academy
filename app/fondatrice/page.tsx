@@ -262,7 +262,7 @@ export default function FondatricePage() {
 
             <div className="reveal-item mt-12">
               <Button href="/formation-technicien" variant="gold">
-                Découvrir le cursus Technicien — prochain cycle le 10 octobre 2026
+                Découvrir le cursus Technicien — prochain cycle le 31 octobre 2026
               </Button>
             </div>
           </RevealOnScroll>

@@ -30,9 +30,9 @@ export const siteConfig = {
   },
   session: {
     label: "Cycle Technicien · Octobre 2026",
-    startDate: "2026-10-10",
-    startDateDisplay: "10 & 11 octobre 2026",
-    isoDeadline: "2026-10-10T09:00:00+02:00",
+    startDate: "2026-10-31",
+    startDateDisplay: "31 octobre & 1er novembre 2026",
+    isoDeadline: "2026-10-31T09:00:00+02:00",
     city: "Namur",
     groupSize: "6 à 8 personnes maximum",
   },
@@ -53,8 +53,8 @@ export const siteConfig = {
 // Calendrier des week-ends de formation — une ligne par session (2 jours).
 // Source : agenda officiel NGT / NGP (confirmé par la fondatrice).
 export const technicienDates = [
-  "10 & 11 octobre 2026",
-  "7 & 8 novembre 2026",
+  "31 octobre & 1er novembre 2026",
+  "14 & 15 novembre 2026",
   "28 & 29 novembre 2026",
   "9 & 10 janvier 2027",
   "6 & 7 février 2027",
