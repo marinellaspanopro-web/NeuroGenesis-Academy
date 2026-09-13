@@ -14,7 +14,7 @@ export const faqItems: FAQItem[] = [
   {
     question: "Où en est la reconnaissance officielle de la formation en Belgique ?",
     answer:
-      "NeuroGenesis Academy mène une démarche pionnière et rigoureuse de structuration de la reconnaissance officielle en Belgique, en parallèle d'une démarche d'accréditation internationale engagée auprès de références reconnues du secteur (OMS/CIM-11, NGH, FBPH). Cette double démarche traduit notre exigence : construire une certification solide plutôt que d'en afficher une de façade.",
+      "En Belgique comme en France, la profession d'hypnothérapeute n'est à ce jour encadrée par aucune législation spécifique — seul le titre de psychothérapeute l'est. Plutôt que d'attendre ce cadre, NeuroGenesis Academy structure déjà sa formation selon les critères de rigueur les plus exigeants du secteur, et mène en parallèle une démarche d'accréditation internationale auprès de références reconnues (OMS/CIM-11, NGH, FBPH).",
   },
   {
     question: "Quelle est la différence entre le cursus Technicien et le cursus Praticien ?",
