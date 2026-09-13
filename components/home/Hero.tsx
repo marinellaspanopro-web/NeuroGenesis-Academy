@@ -55,7 +55,10 @@ export default function Hero() {
           Prochain cycle Technicien · {siteConfig.session.startDateDisplay} · {siteConfig.session.city}
         </span>
 
-        <h1 className="reveal font-serif text-hero text-cream max-w-4xl text-balance">
+        {/* Pas de classe "reveal" : le H1 est l'élément LCP de la home (mesuré par
+            Google) — il doit être visible instantanément au chargement plutôt
+            que d'attendre l'animation GSAP, pour améliorer les Core Web Vitals. */}
+        <h1 className="font-serif text-hero text-cream max-w-4xl text-balance">
           Reprogrammez vos pensées,{" "}
           <em className="accent-italic">transformez votre vie.</em>
         </h1>
