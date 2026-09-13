@@ -52,8 +52,8 @@ export const technicienBenefits = [
     text: "Syllabus complets, vidéothèque pédagogique privée et carnets pratiques imprimables.",
   },
   {
-    title: "Certification",
-    text: "Un accès direct au niveau Praticien à l'issue du cursus, sans démarche supplémentaire.",
+    title: "Accès direct au Praticien",
+    text: "Sans démarche supplémentaire à l'issue du cursus Technicien.",
   },
   {
     title: "Flexibilité totale",

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     absolute: "Formation Hypnose & Neurosciences à Namur | NeuroGenesis",
   },
   description:
-    "École de formation certifiante en hypnose et neurosciences à Namur. Cursus Technicien et Praticien fondés par Marinella Spano. Prochain cycle : octobre 2026.",
+    "École de formation en hypnose et neurosciences à Namur. Cursus Technicien et Praticien fondés par Marinella Spano. Prochain cycle : octobre 2026.",
   alternates: { canonical: "/" },
 };
 

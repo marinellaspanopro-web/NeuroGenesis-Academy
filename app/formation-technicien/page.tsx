@@ -10,7 +10,7 @@ import { siteConfig, technicienDates } from "@/lib/site-config";
 import { technicienModules, technicienBenefits } from "@/lib/cursus-data";
 import { pageOpenGraph, pageTwitter } from "@/lib/page-metadata";
 
-const title = "Formation Certifiante Hypnose & Neurosciences | NeuroGenesis";
+const title = "Formation Hypnose & Neurosciences | NeuroGenesis";
 const description =
   "Cursus Technicien en hypnose et neurosciences à Namur : 115h, 45h de pratique supervisée, groupe de 6 à 8 personnes. Prochain cycle dès le 31 octobre 2026.";
 

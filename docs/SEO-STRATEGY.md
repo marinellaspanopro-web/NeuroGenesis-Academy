@@ -9,12 +9,15 @@ session — appliquée manuellement à partir de sa documentation)._
 |---|---|---|---|
 | 1 | formation hypnose Belgique | Commercial | `/` (home) + `/formation-technicien` |
 | 2 | hypnothérapeute Namur | Local / navigational | `/fondatrice`, `/contact` |
-| 3 | formation certifiante hypnose et neurosciences | Commercial | `/formation-technicien` |
+| 3 | formation hypnose et neurosciences Namur | Commercial | `/formation-technicien` |
 | 4 | cursus praticien hypnose | Commercial | `/formation-praticien` |
 
 Mots-clés secondaires : "école hypnose Namur", "hypnose ericksonienne formation",
-"formation neurosciences appliquées", "praticien hypnose certifié Belgique",
-"formation hypnothérapeute Jambes".
+"formation neurosciences appliquées", "formation hypnothérapeute Jambes".
+
+> ⚠️ Ne jamais utiliser "certifiant(e)"/"certifié(e)" pour qualifier la formation
+> elle-même : l'accréditation officielle est en cours, pas acquise (voir `/faq`
+> pour la formulation honnête de ce statut). Décision explicite de la fondatrice.
 
 ## 2. Architecture de pages (URLs propres)
 
@@ -43,8 +46,10 @@ pilier ("En savoir plus →"). Chaque page pilier relie vers `/contact` (CTA) et
 
 ## 4. E-E-A-T
 
-- **Who** : bio complète de Marinella Spano avec parcours vérifiable (ULB, ACHE,
-  spécialisation transgénérationnelle, Libération Quantique) sur `/fondatrice`
+- **Who** : bio complète de Marinella Spano, parcours réel et vérifiable (30 ans de
+  relation clientèle bancaire, psycho-morphologie pratiquée depuis l'âge de 14 ans,
+  2 ans de formation en transgénérationnel à Toulouse, 15 ans de pratique de
+  l'hypnose) sur `/fondatrice` — aucune mention d'institution non vérifiée
 - **How** : transparence sur la pédagogie (115h, supervision, méthode) et sur le
   statut d'accréditation (démarche en cours, formulée positivement)
 - **Why** : positionnement pédagogique clair — rigueur + bienveillance, jamais un

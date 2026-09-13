@@ -15,8 +15,10 @@ export function organizationSchema() {
     name: siteConfig.name,
     legalName: siteConfig.legalName,
     url: siteConfig.url,
-    logo: `${siteConfig.url}/logo/logo-forest.svg`,
-    image: `${siteConfig.url}/logo/logo-forest.svg`,
+    // Google exige un format raster (PNG/JPG) pour "logo" — le SVG n'est pas
+    // pris en charge et rend la propriété inutilisable pour le Knowledge Panel.
+    logo: `${siteConfig.url}/logo/logo.png`,
+    image: `${siteConfig.url}/logo/logo.png`,
     description: siteConfig.description,
     email: siteConfig.email,
     telephone: siteConfig.phone,

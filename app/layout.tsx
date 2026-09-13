@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   keywords: [
     "formation hypnose Belgique",
     "hypnothérapeute Namur",
-    "formation certifiante hypnose et neurosciences",
+    "formation hypnose et neurosciences",
     "cursus praticien hypnose",
     "école hypnose Namur",
   ],

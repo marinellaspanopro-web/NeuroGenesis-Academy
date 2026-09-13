@@ -64,7 +64,7 @@ export default async function OpengraphImage() {
               opacity: 0.75,
             }}
           >
-            Formation certifiante en hypnose &amp; neurosciences — {siteConfig.address.addressLocality}, Belgique
+            Formation en hypnose &amp; neurosciences — {siteConfig.address.addressLocality}, Belgique
           </span>
         </div>
       </div>
