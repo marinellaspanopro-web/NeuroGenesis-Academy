@@ -81,7 +81,8 @@ export default function Hero() {
         </div>
 
         <p className="reveal mt-10 text-sm text-gold/60 max-w-md">
-          Fondée par une praticienne certifiée, 30 ans d&apos;expertise en accompagnement humain.
+          Fondée par une praticienne avec 15 ans de pratique de l&apos;hypnose, engagée dans une
+          démarche d&apos;accréditation internationale.
         </p>
       </div>
     </section>
