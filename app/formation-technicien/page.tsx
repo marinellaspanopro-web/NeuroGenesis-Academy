@@ -205,7 +205,7 @@ export default function FormationTechnicienPage() {
       </section>
 
       {/* Demande de brochure — capture email, envoi PDF + relance automatique */}
-      <section className="dark-section py-section-sm">
+      <section id="brochure" className="dark-section py-section-sm scroll-mt-20">
         <div className="container-editorial">
           <RevealOnScroll className="grid gap-8 lg:grid-cols-12 lg:items-center">
             <div className="lg:col-span-5">

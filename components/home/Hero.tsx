@@ -73,13 +73,11 @@ export default function Hero() {
           <Button href="/contact" variant="gold" size="lg">
             Réserver ma place — Octobre 2026
           </Button>
-          <Button
-            href="/brochure-neurogenesis-academy.pdf"
-            variant="gold-outline"
-            size="lg"
-            download
-          >
-            Télécharger la brochure
+          {/* Vers le formulaire "Recevez la brochure" (avec capture d'email) plutôt
+              qu'un téléchargement direct du PDF — sinon on perd toute demande de
+              brochure passée par ce bouton, sans email ni relance possible. */}
+          <Button href="/formation-technicien#brochure" variant="gold-outline" size="lg">
+            Recevoir la brochure
           </Button>
         </div>
 
