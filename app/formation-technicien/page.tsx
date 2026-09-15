@@ -73,9 +73,12 @@ export default function FormationTechnicienPage() {
               ))}
             </div>
 
-            <div className="reveal-item mt-10">
+            <div className="reveal-item mt-10 flex flex-wrap gap-4">
               <Button href="/contact" variant="gold" size="lg">
                 Réserver ma place — Octobre 2026
+              </Button>
+              <Button href="#brochure" variant="gold-outline" size="lg">
+                Recevoir la brochure
               </Button>
             </div>
           </RevealOnScroll>
@@ -198,6 +201,9 @@ export default function FormationTechnicienPage() {
               </Button>
               <Button href="/formation-praticien" variant="forest-outline" size="lg">
                 Voir le cursus Praticien
+              </Button>
+              <Button href="#brochure" variant="forest-outline" size="lg">
+                Recevoir la brochure
               </Button>
             </div>
           </RevealOnScroll>
