@@ -76,11 +76,11 @@ export default function FormationPraticienPage() {
             </div>
 
             <div className="reveal-item mt-10 flex flex-wrap gap-4">
-              <Button href="/contact" variant="gold" size="lg">
+              <Button href="/contact" variant="gold-outline" size="lg">
                 Me renseigner sur le Praticien
               </Button>
-              <Button href="#brochure" variant="gold-outline" size="lg">
-                Recevoir la brochure
+              <Button href="#brochure" variant="gold" size="lg">
+                Recevoir la brochure complète
               </Button>
             </div>
           </RevealOnScroll>
@@ -218,7 +218,7 @@ export default function FormationPraticienPage() {
               </p>
             </div>
             <div className="reveal-item flex flex-col gap-4 sm:flex-row lg:flex-col">
-              <Button href="/contact" variant="gold" size="lg">
+              <Button href="/contact" variant="forest-outline" size="lg">
                 Réserver ma place
               </Button>
               <Button href="/formation-technicien" variant="forest-outline" size="lg">
@@ -227,8 +227,8 @@ export default function FormationPraticienPage() {
               <Button href="/supervision-accompagnement" variant="forest-outline" size="lg">
                 Supervision année 1
               </Button>
-              <Button href="#brochure" variant="forest-outline" size="lg">
-                Recevoir la brochure
+              <Button href="#brochure" variant="gold" size="lg">
+                Recevoir la brochure complète
               </Button>
             </div>
           </RevealOnScroll>

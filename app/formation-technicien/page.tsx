@@ -74,11 +74,11 @@ export default function FormationTechnicienPage() {
             </div>
 
             <div className="reveal-item mt-10 flex flex-wrap gap-4">
-              <Button href="/contact" variant="gold" size="lg">
+              <Button href="/contact" variant="gold-outline" size="lg">
                 Réserver ma place — Octobre 2026
               </Button>
-              <Button href="#brochure" variant="gold-outline" size="lg">
-                Recevoir la brochure
+              <Button href="#brochure" variant="gold" size="lg">
+                Recevoir la brochure complète
               </Button>
             </div>
           </RevealOnScroll>
@@ -196,14 +196,14 @@ export default function FormationTechnicienPage() {
               </p>
             </div>
             <div className="reveal-item flex flex-col gap-4 sm:flex-row lg:flex-col">
-              <Button href="/contact" variant="gold" size="lg">
+              <Button href="/contact" variant="forest-outline" size="lg">
                 Réserver ma place
               </Button>
               <Button href="/formation-praticien" variant="forest-outline" size="lg">
                 Voir le cursus Praticien
               </Button>
-              <Button href="#brochure" variant="forest-outline" size="lg">
-                Recevoir la brochure
+              <Button href="#brochure" variant="gold" size="lg">
+                Recevoir la brochure complète
               </Button>
             </div>
           </RevealOnScroll>

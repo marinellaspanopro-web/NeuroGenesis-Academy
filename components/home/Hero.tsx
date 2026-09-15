@@ -70,14 +70,16 @@ export default function Hero() {
         </p>
 
         <div className="reveal mt-10 flex flex-col sm:flex-row gap-4">
-          <Button href="/contact" variant="gold" size="lg">
+          <Button href="/contact" variant="gold-outline" size="lg">
             Réserver ma place — Octobre 2026
           </Button>
-          {/* Vers le formulaire "Recevez la brochure" (avec capture d'email) plutôt
+          {/* Priorité visuelle à la demande de brochure (doré plein) plutôt qu'à
+              l'inscription : c'est l'objectif principal de la campagne Google Ads.
+              Vers le formulaire "Recevez la brochure" (avec capture d'email) plutôt
               qu'un téléchargement direct du PDF — sinon on perd toute demande de
               brochure passée par ce bouton, sans email ni relance possible. */}
-          <Button href="/formation-technicien#brochure" variant="gold-outline" size="lg">
-            Recevoir la brochure
+          <Button href="/formation-technicien#brochure" variant="gold" size="lg">
+            Recevoir la brochure complète
           </Button>
         </div>
 

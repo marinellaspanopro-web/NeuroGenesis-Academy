@@ -140,7 +140,7 @@ export default function BrochureRequestForm({ interest, variant = "light" }: Pro
             : "bg-forest text-cream hover:bg-forest-light hover:-translate-y-0.5")
         }
       >
-        {status === "submitting" ? "Envoi…" : "Recevoir la brochure"}
+        {status === "submitting" ? "Envoi…" : "Recevoir la brochure complète"}
       </button>
 
       {error && (
