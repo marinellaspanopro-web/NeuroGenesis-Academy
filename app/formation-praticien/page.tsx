@@ -75,9 +75,12 @@ export default function FormationPraticienPage() {
               ))}
             </div>
 
-            <div className="reveal-item mt-10">
+            <div className="reveal-item mt-10 flex flex-wrap gap-4">
               <Button href="/contact" variant="gold" size="lg">
                 Me renseigner sur le Praticien
+              </Button>
+              <Button href="#brochure" variant="gold-outline" size="lg">
+                Recevoir la brochure
               </Button>
             </div>
           </RevealOnScroll>
@@ -224,13 +227,16 @@ export default function FormationPraticienPage() {
               <Button href="/supervision-accompagnement" variant="forest-outline" size="lg">
                 Supervision année 1
               </Button>
+              <Button href="#brochure" variant="forest-outline" size="lg">
+                Recevoir la brochure
+              </Button>
             </div>
           </RevealOnScroll>
         </div>
       </section>
 
       {/* Demande de brochure — capture email, envoi PDF + relance automatique */}
-      <section className="dark-section py-section-sm">
+      <section id="brochure" className="dark-section py-section-sm scroll-mt-20">
         <div className="container-editorial">
           <RevealOnScroll className="grid gap-8 lg:grid-cols-12 lg:items-center">
             <div className="lg:col-span-5">
