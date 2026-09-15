@@ -19,12 +19,19 @@ export default function StickyMobileCTA() {
 
   return (
     <div
-      className={`lg:hidden fixed inset-x-0 bottom-0 z-40 p-3 bg-cream/95 backdrop-blur-md border-t border-line transition-transform duration-300 ease-out-expo ${
+      className={`lg:hidden fixed inset-x-0 bottom-0 z-40 p-2.5 flex gap-2 bg-cream/95 backdrop-blur-md border-t border-line transition-transform duration-300 ease-out-expo ${
         visible ? "translate-y-0" : "translate-y-full"
       }`}
     >
-      <Button href="/contact" variant="gold" className="w-full">
-        Réserver ma place — Octobre 2026
+      <Button href="/contact" variant="forest-outline" className="flex-1 !px-3 whitespace-nowrap">
+        Réserver ma place
+      </Button>
+      <Button
+        href="/formation-technicien#brochure"
+        variant="gold"
+        className="flex-1 !px-3 whitespace-nowrap"
+      >
+        Recevoir la brochure
       </Button>
     </div>
   );

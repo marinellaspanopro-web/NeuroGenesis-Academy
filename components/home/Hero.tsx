@@ -71,7 +71,7 @@ export default function Hero() {
 
         <div className="reveal mt-10 flex flex-col sm:flex-row gap-4">
           <Button href="/contact" variant="gold-outline" size="lg">
-            Réserver ma place — Octobre 2026
+            Réserver ma place
           </Button>
           {/* Priorité visuelle à la demande de brochure (doré plein) plutôt qu'à
               l'inscription : c'est l'objectif principal de la campagne Google Ads.

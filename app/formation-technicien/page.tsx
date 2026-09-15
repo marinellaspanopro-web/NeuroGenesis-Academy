@@ -75,7 +75,7 @@ export default function FormationTechnicienPage() {
 
             <div className="reveal-item mt-10 flex flex-wrap gap-4">
               <Button href="/contact" variant="gold-outline" size="lg">
-                Réserver ma place — Octobre 2026
+                Réserver ma place
               </Button>
               <Button href="#brochure" variant="gold" size="lg">
                 Recevoir la brochure complète
