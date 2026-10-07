@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import { contactSchema, interestLabels } from "@/lib/contact-schema";
+import { contactSchema, interestLabels, contactPreferenceLabels } from "@/lib/contact-schema";
 import { siteConfig } from "@/lib/site-config";
 
 // Rate limiting basique en mémoire (par instance) — freine le spam sans
@@ -42,7 +42,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: true });
     }
 
-    const { name, email, phone, interest, wantsBrochure } = result.data;
+    const { name, firstName, lastName, email, phone, interest, wantsBrochure, contactPreference, requestType } = result.data;
+    const displayName = requestType === "brochure" ? name : `${firstName} ${lastName}`.trim();
 
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
@@ -63,11 +64,15 @@ export async function POST(request: Request) {
       replyTo: email,
       subject: `Nouveau contact — ${interestLabels[interest]} — ${name}${wantsBrochure ? " · brochure demandée" : ""}`,
       text: [
-        `Nom : ${name}`,
+        `Nom : ${displayName}`,
+        `Prénom : ${firstName || (requestType === "brochure" ? name : "")}`,
+        `Nom de famille : ${lastName || "Non renseigné"}`,
+        `Type de demande : ${requestType === "inscription" ? "Demande de cursus / inscription" : "Brochure seule"}`,
+        `Contact souhaité : ${contactPreferenceLabels[contactPreference]}`,
         `Email : ${email}`,
         `Téléphone : ${phone || "Non renseigné"}`,
         `Intérêt : ${interestLabels[interest]}`,
-        `Brochure demandée : ${wantsBrochure ? "Oui (envoyée automatiquement + relance programmée)" : "Non"}`,
+        `Brochure demandée : ${wantsBrochure ? "Oui (envoyée automatiquement)" : "Non"}`,
       ].join("\n"),
     });
 
@@ -79,16 +84,11 @@ export async function POST(request: Request) {
       );
     }
 
-    // Si la personne a coché "je veux la brochure" : on la lui envoie
-    // immédiatement en pièce jointe, puis on programme une relance
-    // automatique quelques jours plus tard pour s'assurer qu'elle l'a bien
-    // reçue et répondre à d'éventuelles questions. Ces deux envois ne
-    // doivent jamais faire échouer la soumission du formulaire elle-même
-    // (la notification interne ci-dessus est le seul envoi critique) : on
-    // logue une erreur éventuelle sans la remonter au visiteur.
+    // Le PDF est envoyé immédiatement. Aucun rappel automatisé n'est programmé :
+    // le suivi de l'inscription est personnel et respecte la préférence de contact.
     if (wantsBrochure) {
       const brochureUrl = `${siteConfig.url}/brochure-neurogenesis-academy.pdf`;
-      const firstName = name.trim().split(/\s+/)[0] || name;
+      const brochureFirstName = requestType === "brochure" ? name : firstName;
 
       const { error: brochureError } = await resend.emails.send({
         from: fromAddress,
@@ -96,7 +96,7 @@ export async function POST(request: Request) {
         replyTo: siteConfig.email,
         subject: "Votre brochure NeuroGenesis Academy",
         text: [
-          `Bonjour ${firstName},`,
+          `Bonjour ${brochureFirstName},`,
           "",
           "Merci pour votre demande ! Voici en pièce jointe la brochure complète de NeuroGenesis Academy : cursus Technicien et Praticien, dates, tarifs et modules optionnels.",
           "",
@@ -118,31 +118,7 @@ export async function POST(request: Request) {
         console.error("Erreur Resend (envoi brochure) :", brochureError);
       }
 
-      const followUpDate = new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString();
 
-      const { error: followUpError } = await resend.emails.send({
-        from: fromAddress,
-        to: email,
-        replyTo: siteConfig.email,
-        subject: "Avez-vous bien reçu votre brochure NeuroGenesis Academy ?",
-        text: [
-          `Bonjour ${firstName},`,
-          "",
-          "Il y a quelques jours, vous nous avez contactés et avez demandé la brochure de NeuroGenesis Academy — je voulais simplement m'assurer qu'elle vous est bien parvenue.",
-          "",
-          "Avez-vous des questions sur le cursus Technicien, le cursus Praticien, les dates ou les modalités de paiement ? Je me ferais un plaisir d'y répondre directement.",
-          "",
-          `Vous pouvez me répondre à ce message, ou me joindre au ${siteConfig.phoneDisplay}.`,
-          "",
-          `${siteConfig.founder}`,
-          "NeuroGenesis Academy",
-        ].join("\n"),
-        scheduledAt: followUpDate,
-      });
-
-      if (followUpError) {
-        console.error("Erreur Resend (relance programmée) :", followUpError);
-      }
     }
 
     return NextResponse.json({ ok: true });
