@@ -62,7 +62,7 @@ export async function POST(request: Request) {
       from: fromAddress,
       to: toAddress,
       replyTo: email,
-      subject: `Nouveau contact — ${interestLabels[interest]} — ${name}${wantsBrochure ? " · brochure demandée" : ""}`,
+      subject: `Nouveau contact — ${interestLabels[interest]} — ${displayName}${wantsBrochure ? " · brochure demandée" : ""}`,
       text: [
         `Nom : ${displayName}`,
         `Prénom : ${firstName || (requestType === "brochure" ? name : "")}`,
@@ -117,8 +117,6 @@ export async function POST(request: Request) {
       if (brochureError) {
         console.error("Erreur Resend (envoi brochure) :", brochureError);
       }
-
-
     }
 
     return NextResponse.json({ ok: true });
