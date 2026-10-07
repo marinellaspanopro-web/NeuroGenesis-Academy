@@ -17,6 +17,7 @@ export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState<string | null>(null);
+  const [contactPreference, setContactPreference] = useState("email");
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -28,10 +29,14 @@ export default function ContactForm() {
     const form = e.currentTarget;
     const formData = new FormData(form);
     const payload = {
-      name: String(formData.get("name") ?? ""),
+      firstName: String(formData.get("firstName") ?? ""),
+      lastName: String(formData.get("lastName") ?? ""),
       email: String(formData.get("email") ?? ""),
       phone: String(formData.get("phone") ?? ""),
       interest: String(formData.get("interest") ?? ""),
+      contactPreference: String(formData.get("contactPreference") ?? "email"),
+      requestType: "inscription",
+      wantsBrochure: formData.get("wantsBrochure") === "on",
       company: String(formData.get("company") ?? ""), // honeypot
     };
 
@@ -62,6 +67,7 @@ export default function ContactForm() {
 
       setStatus("success");
       form.reset();
+      setContactPreference("email");
     } catch (err) {
       setStatus("error");
       setServerError(err instanceof Error ? err.message : "Une erreur est survenue.");
@@ -76,8 +82,7 @@ export default function ContactForm() {
       >
         <p className="font-serif text-h3 text-forest mb-3">Demande bien reçue !</p>
         <p className="text-ink/70 max-w-md mx-auto leading-relaxed">
-          Merci — nous revenons vers vous très prochainement pour échanger sur votre projet de
-          formation.
+          Merci pour votre démarche. Nous reviendrons vers vous pour préciser les modalités de votre parcours.
         </p>
       </div>
     );
@@ -93,26 +98,34 @@ export default function ContactForm() {
 
       <div className="grid gap-6 sm:grid-cols-2">
         <div>
-          <label htmlFor="name" className={labelClasses}>
-            Nom complet <span aria-hidden="true">*</span>
+          <label htmlFor="firstName" className={labelClasses}>
+            Prénom <span aria-hidden="true">*</span>
           </label>
           <input
-            id="name"
-            name="name"
+            id="firstName"
+            name="firstName"
             type="text"
-            autoComplete="name"
+            autoComplete="given-name"
             required
-            aria-invalid={Boolean(errors.name)}
-            aria-describedby={errors.name ? "name-error" : undefined}
+            aria-invalid={Boolean(errors.firstName)}
+            aria-describedby={errors.firstName ? "firstName-error" : undefined}
             className={fieldClasses}
           />
-          {errors.name && (
-            <p id="name-error" className="mt-2 text-sm text-[oklch(55%_0.18_25)]">
-              {errors.name}
+          {errors.firstName && (
+            <p id="firstName-error" className="mt-2 text-sm text-[oklch(55%_0.18_25)]">
+              {errors.firstName}
             </p>
           )}
         </div>
 
+        <div>
+          <label htmlFor="lastName" className={labelClasses}>
+            Nom <span aria-hidden="true">*</span>
+          </label>
+          <input id="lastName" name="lastName" type="text" autoComplete="family-name" required
+            aria-invalid={Boolean(errors.lastName)} className={fieldClasses} />
+          {errors.lastName && <p role="alert" className="mt-2 text-sm text-red-700">{errors.lastName}</p>}
+        </div>
         <div>
           <label htmlFor="email" className={labelClasses}>
             Email <span aria-hidden="true">*</span>
@@ -138,12 +151,13 @@ export default function ContactForm() {
       <div className="grid gap-6 sm:grid-cols-2">
         <div>
           <label htmlFor="phone" className={labelClasses}>
-            Téléphone
+            Téléphone {contactPreference !== "email" && <span aria-hidden="true">*</span>}
           </label>
           <input
             id="phone"
             name="phone"
             type="tel"
+            required={contactPreference !== "email"}
             autoComplete="tel"
             aria-invalid={Boolean(errors.phone)}
             aria-describedby={errors.phone ? "phone-error" : undefined}
@@ -158,7 +172,7 @@ export default function ContactForm() {
 
         <div>
           <label htmlFor="interest" className={labelClasses}>
-            Intérêt <span aria-hidden="true">*</span>
+            Parcours souhaité <span aria-hidden="true">*</span>
           </label>
           <select
             id="interest"
@@ -173,7 +187,9 @@ export default function ContactForm() {
               Choisissez une option
             </option>
             <option value="technicien">Cursus Technicien</option>
-            <option value="praticien">Cursus Praticien</option>
+            <option value="pack">Pack complet Technicien + Praticien</option>
+            <option value="praticien">Praticien (Technicien déjà acquis)</option>
+            <option value="a_determiner">À déterminer ensemble</option>
             <option value="autre">Autre question</option>
           </select>
           {errors.interest && (
@@ -183,6 +199,21 @@ export default function ContactForm() {
           )}
         </div>
       </div>
+
+      <div>
+        <label htmlFor="contactPreference" className={labelClasses}>Comment souhaitez-vous être contacté(e) ? <span aria-hidden="true">*</span></label>
+        <select id="contactPreference" name="contactPreference" required value={contactPreference}
+          onChange={(e) => setContactPreference(e.target.value)} className={fieldClasses}>
+          <option value="email">Par e-mail</option>
+          <option value="telephone">Par téléphone</option>
+          <option value="les_deux">Les deux me conviennent</option>
+        </select>
+        <p className="mt-1 text-xs text-ink/60">Votre téléphone est demandé uniquement pour vous recontacter au sujet de votre formation.</p>
+      </div>
+      <label className="flex items-center gap-3 text-sm text-ink">
+        <input type="checkbox" name="wantsBrochure" className="accent-forest" />
+        Je souhaite également recevoir la brochure par e-mail.
+      </label>
 
       {serverError && (
         <p role="alert" className="text-sm text-[oklch(55%_0.18_25)]">
