@@ -1,31 +1,46 @@
 import { z } from "zod";
 
-/** Schéma de validation partagé entre le formulaire client et l'API route. */
+/** Validation commune au formulaire de contact et au mini-formulaire de brochure. */
 export const contactSchema = z.object({
-  name: z.string().trim().min(2, "Merci d'indiquer votre nom complet."),
-  email: z.string().trim().email("Merci d'indiquer une adresse email valide."),
-  phone: z
-    .string()
-    .trim()
-    .min(6, "Merci d'indiquer un numéro de téléphone valide.")
-    .optional()
-    .or(z.literal("")),
-  interest: z.enum(["technicien", "praticien", "autre"], {
-    errorMap: () => ({ message: "Merci de préciser votre intérêt." }),
-  }),
-  // Pas de champ "message" : ce formulaire est volontairement court et
-  // automatisable (capture + brochure + relance). Pour un message
-  // personnalisé, l'adresse info@neurogenesis.be reste affichée à côté.
-  // Case à cocher : envoi immédiat de la brochure PDF + relance automatique.
+  // "name" conserve la compatibilité du mini-formulaire brochure existant.
+  name: z.string().trim().optional().default(""),
+  firstName: z.string().trim().optional().default(""),
+  lastName: z.string().trim().optional().default(""),
+  email: z.string().trim().email("Merci d'indiquer une adresse e-mail valide."),
+  phone: z.string().trim().optional().default(""),
+  contactPreference: z.enum(["email", "telephone", "les_deux"]).default("email"),
+  interest: z.enum(["technicien", "pack", "praticien", "a_determiner", "autre"]),
   wantsBrochure: z.boolean().optional().default(false),
-  // Honeypot anti-spam — doit rester vide.
+  requestType: z.enum(["brochure", "inscription"]).default("inscription"),
   company: z.string().max(0).optional().or(z.literal("")),
+}).superRefine((data, ctx) => {
+  const add = (field: string, message: string) =>
+    ctx.addIssue({ code: z.ZodIssueCode.custom, path: [field], message });
+
+  if (data.requestType === "inscription") {
+    if (data.firstName.length < 2) add("firstName", "Merci d'indiquer votre prénom.");
+    if (data.lastName.length < 2) add("lastName", "Merci d'indiquer votre nom.");
+  } else if (data.name.length < 2) {
+    add("name", "Merci d'indiquer votre prénom.");
+  }
+
+  if (data.phone && data.phone.length < 6) add("phone", "Merci d'indiquer un numéro valide.");
+  if (data.requestType === "inscription" && data.contactPreference !== "email" && data.phone.length < 6)
+    add("phone", "Merci d'indiquer votre numéro pour être contacté(e) par téléphone.");
 });
 
 export type ContactFormData = z.infer<typeof contactSchema>;
 
 export const interestLabels: Record<ContactFormData["interest"], string> = {
   technicien: "Cursus Technicien",
-  praticien: "Cursus Praticien",
+  pack: "Pack complet Technicien + Praticien",
+  praticien: "Cursus Praticien (prérequis Technicien acquis)",
+  a_determiner: "Parcours à déterminer ensemble",
   autre: "Autre question",
+};
+
+export const contactPreferenceLabels: Record<ContactFormData["contactPreference"], string> = {
+  email: "E-mail",
+  telephone: "Téléphone",
+  les_deux: "E-mail ou téléphone",
 };
