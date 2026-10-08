@@ -57,7 +57,7 @@ export default function ContactPage() {
         <div className="container-editorial grid gap-16 lg:grid-cols-12">
           <RevealOnScroll className="lg:col-span-7">
             <div className="reveal-item">
-              <ContactForm />
+              <ContactForm mode="renseignement" />
             </div>
           </RevealOnScroll>
 
