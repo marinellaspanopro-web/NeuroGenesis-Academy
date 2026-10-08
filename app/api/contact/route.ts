@@ -62,7 +62,11 @@ export async function POST(request: Request) {
       from: fromAddress,
       to: toAddress,
       replyTo: email,
-      subject: `Nouveau contact — ${interestLabels[interest]} — ${displayName}${wantsBrochure ? " · brochure demandée" : ""}`,
+      subject: requestType === "brochure"
+        ? `Demande de brochure — ${interestLabels[interest]} — ${displayName}`
+        : interest === "autre"
+          ? `Question — ${displayName}`
+          : `Demande d’inscription — ${interestLabels[interest]} — ${displayName}${wantsBrochure ? " · brochure souhaitée" : ""}`,
       text: [
         `Nom : ${displayName}`,
         `Prénom : ${firstName || (requestType === "brochure" ? name : "")}`,
