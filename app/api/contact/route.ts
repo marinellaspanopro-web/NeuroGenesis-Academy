@@ -65,14 +65,16 @@ export async function POST(request: Request) {
       replyTo: email,
       subject: requestType === "brochure"
         ? `Demande de brochure — ${interestLabels[interest]} — ${displayName}`
-        : interest === "autre"
+        : requestType === "renseignement"
+          ? `Demande de renseignements — ${interestLabels[interest]} — ${displayName}`
+          : interest === "autre"
           ? `Question — ${displayName}`
           : `Demande d’inscription — ${interestLabels[interest]} — ${displayName}${wantsBrochure ? " · brochure souhaitée" : ""}`,
       text: [
         `Nom : ${displayName}`,
         `Prénom : ${firstName || (requestType === "brochure" ? name : "")}`,
         `Nom de famille : ${lastName || "Non renseigné"}`,
-        `Type de demande : ${requestType === "inscription" ? "Demande de cursus / inscription" : "Brochure seule"}`,
+        `Type de demande : ${requestType === "inscription" ? "Demande de réservation" : requestType === "renseignement" ? "Demande de renseignements" : "Brochure seule"}`,
         `Contact souhaité : ${contactPreferenceLabels[contactPreference]}`,
         ...(interest === "autre" ? [`Question : ${message}`] : []),
         `Email : ${email}`,
@@ -156,7 +158,8 @@ export async function POST(request: Request) {
     // Une demande d'inscription reçoit toujours son propre accusé de réception,
     // avec le parcours choisi et les prochaines étapes. Si souhaité, le PDF est
     // inclus dans ce même message (un seul e-mail, sans relance automatique).
-    if (requestType === "inscription") {
+    if (requestType !== "brochure") {
+      const isInformation = requestType === "renseignement";
       const isQuestion = interest === "autre";
       const isUndecided = interest === "a_determiner";
       const selectedPath = interestLabels[interest];
@@ -168,13 +171,17 @@ export async function POST(request: Request) {
           return entities[character];
         });
 
-      const intro = isQuestion
+      const intro = isInformation
+        ? "J’ai bien reçu votre demande de renseignements concernant NeuroGenesis Academy."
+        : isQuestion
         ? "J'ai bien reçu votre question et je vous remercie de m'avoir écrit."
         : isUndecided
           ? "J'ai bien reçu votre demande concernant votre projet de formation en hypnose et neurosciences."
           : `J'ai bien reçu votre demande concernant le ${selectedPath} en hypnose et neurosciences de NeuroGenesis Academy.`;
 
-      const nextStep = isQuestion
+      const nextStep = isInformation
+        ? "Je prendrai personnellement connaissance de votre demande et reviendrai vers vous pour répondre à vos questions."
+        : isQuestion
         ? "Je prendrai personnellement le temps de vous répondre et de préciser avec vous les informations dont vous avez besoin."
         : "Chez NeuroGenesis Academy, chaque demande fait l'objet d'un échange individuel avant la confirmation de l'inscription. Nous pourrons ainsi faire connaissance, préciser votre projet et aborder ensemble les modalités pratiques du parcours choisi.";
 
@@ -184,13 +191,15 @@ export async function POST(request: Request) {
           ? "Vous avez indiqué que l'e-mail et le téléphone vous conviennent : nous pourrons choisir ensemble le moyen le plus simple."
           : "Vous avez choisi un contact par e-mail : je privilégierai donc ce moyen pour poursuivre nos échanges.";
 
-      const invitation = isQuestion
+      const invitation = isInformation || isQuestion
         ? "Si vous souhaitez également en parler de vive voix, je reste joignable au"
         : "Pour convenir de notre échange et avancer vers la confirmation de votre inscription, vous pouvez également me joindre au";
 
       const hours = "De 10 h à 13 h tous les jours sauf le vendredi, et de 17 h à 19 h tous les jours sauf le jeudi.";
       const brochureNote = "Comme souhaité, vous trouverez également la brochure complète en pièce jointe.";
-      const confirmationSubject = isQuestion
+      const confirmationSubject = isInformation
+        ? "Votre demande de renseignements — NeuroGenesis Academy"
+        : isQuestion
         ? "Votre question à NeuroGenesis Academy — Bien reçue"
         : `Votre demande d'inscription — ${selectedPath} — NeuroGenesis Academy`;
       const logoUrl = new URL("/logo/logo.png", siteConfig.url).toString();
