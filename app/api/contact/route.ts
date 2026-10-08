@@ -95,11 +95,39 @@ export async function POST(request: Request) {
       const brochureUrl = `${siteConfig.url}/brochure-neurogenesis-academy.pdf`;
       const brochureFirstName = requestType === "brochure" ? name : firstName;
 
+      // La signature reprend le logo PNG déjà présent dans le dépôt.
+      // URL absolue afin que le logo puisse s'afficher dans les clients e-mail.
+      const logoUrl = new URL("/logo/logo.png", siteConfig.url).toString();
+      const safeFirstName = brochureFirstName.replace(/[&<>"']/g, (char) => {
+        const entities: Record<string, string> = {
+          "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+        };
+        return entities[char];
+      });
+
       const { error: brochureError } = await resend.emails.send({
         from: fromAddress,
         to: email,
         replyTo: siteConfig.email,
         subject: "Votre brochure NeuroGenesis Academy",
+        html: `
+          <div style="font-family:Arial,Helvetica,sans-serif;color:#24342c;line-height:1.6;font-size:15px;">
+            <p>Bonjour ${safeFirstName},</p>
+            <p>Merci pour votre demande ! Voici en pièce jointe la brochure complète de NeuroGenesis Academy : cursus Technicien et Praticien, dates, tarifs et modules optionnels.</p>
+            <p>N'hésitez pas à nous écrire directement si vous avez la moindre question.</p>
+            <p style="margin-top:24px;">Bien chaleureusement,<br>
+              <strong>Marinella Spano</strong><br>
+              NeuroGenesis Academy<br>
+              <a href="mailto:${siteConfig.email}" style="color:#0d2b1f;">${siteConfig.email}</a>
+              &nbsp;·&nbsp;
+              <a href="tel:${siteConfig.phone.replace(/\\s/g, "")}" style="color:#0d2b1f;">${siteConfig.phoneDisplay}</a>
+            </p>
+            <p style="margin-top:14px;">
+              <img src="${logoUrl}" width="165" alt="Logo officiel NeuroGenesis Academy"
+                   style="display:block;width:165px;max-width:100%;height:auto;border:0;" />
+            </p>
+          </div>
+        `,
         text: [
           `Bonjour ${brochureFirstName},`,
           "",
