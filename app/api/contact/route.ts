@@ -42,7 +42,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: true });
     }
 
-    const { name, firstName, lastName, email, phone, interest, wantsBrochure, contactPreference, requestType } = result.data;
+    const { name, firstName, lastName, email, phone, interest, wantsBrochure, contactPreference, requestType, message } = result.data;
     const displayName = requestType === "brochure" ? name : `${firstName} ${lastName}`.trim();
 
     const apiKey = process.env.RESEND_API_KEY;
@@ -69,6 +69,7 @@ export async function POST(request: Request) {
         `Nom de famille : ${lastName || "Non renseigné"}`,
         `Type de demande : ${requestType === "inscription" ? "Demande de cursus / inscription" : "Brochure seule"}`,
         `Contact souhaité : ${contactPreferenceLabels[contactPreference]}`,
+        ...(interest === "autre" ? [`Question : ${message}`] : []),
         `Email : ${email}`,
         `Téléphone : ${phone || "Non renseigné"}`,
         `Intérêt : ${interestLabels[interest]}`,
