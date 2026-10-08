@@ -120,7 +120,7 @@ export async function POST(request: Request) {
               NeuroGenesis Academy<br>
               <a href="mailto:${siteConfig.email}" style="color:#0d2b1f;">${siteConfig.email}</a>
               &nbsp;·&nbsp;
-              <a href="tel:${siteConfig.phone.replace(/\\s/g, "")}" style="color:#0d2b1f;">${siteConfig.phoneDisplay}</a>
+              <a href="tel:${siteConfig.phone.replace(/\s/g, "")}" style="color:#0d2b1f;">${siteConfig.phoneDisplay}</a>
             </p>
             <p style="margin-top:14px;">
               <img src="${logoUrl}" width="165" alt="Logo officiel NeuroGenesis Academy"
