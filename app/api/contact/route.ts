@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import { contactSchema, interestLabels } from "@/lib/contact-schema";
+import { contactSchema, interestLabels, contactPreferenceLabels } from "@/lib/contact-schema";
 import { siteConfig } from "@/lib/site-config";
 
 // Rate limiting basique en mémoire (par instance) — freine le spam sans
@@ -39,10 +39,12 @@ export async function POST(request: Request) {
 
     // Honeypot rempli → bot silencieusement ignoré (réponse de succès factice).
     if (result.data.company) {
-      return NextResponse.json({ ok: true });
+  
+    return NextResponse.json({ ok: true });
     }
 
-    const { name, email, phone, interest, wantsBrochure } = result.data;
+    const { name, firstName, lastName, email, phone, interest, wantsBrochure, contactPreference, requestType, message } = result.data;
+    const displayName = requestType === "brochure" ? name : `${firstName} ${lastName}`.trim();
 
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
@@ -61,13 +63,24 @@ export async function POST(request: Request) {
       from: fromAddress,
       to: toAddress,
       replyTo: email,
-      subject: `Nouveau contact — ${interestLabels[interest]} — ${name}${wantsBrochure ? " · brochure demandée" : ""}`,
+      subject: requestType === "brochure"
+        ? `Demande de brochure — ${interestLabels[interest]} — ${displayName}`
+        : requestType === "renseignement"
+          ? `Demande de renseignements — ${interestLabels[interest]} — ${displayName}`
+          : interest === "autre"
+          ? `Question — ${displayName}`
+          : `Demande d’inscription — ${interestLabels[interest]} — ${displayName}${wantsBrochure ? " · brochure souhaitée" : ""}`,
       text: [
-        `Nom : ${name}`,
+        `Nom : ${displayName}`,
+        `Prénom : ${firstName || (requestType === "brochure" ? name : "")}`,
+        `Nom de famille : ${lastName || "Non renseigné"}`,
+        `Type de demande : ${requestType === "inscription" ? "Demande de réservation" : requestType === "renseignement" ? "Demande de renseignements" : "Brochure seule"}`,
+        `Contact souhaité : ${contactPreferenceLabels[contactPreference]}`,
+        ...(interest === "autre" ? [`Question : ${message}`] : []),
         `Email : ${email}`,
         `Téléphone : ${phone || "Non renseigné"}`,
         `Intérêt : ${interestLabels[interest]}`,
-        `Brochure demandée : ${wantsBrochure ? "Oui (envoyée automatiquement + relance programmée)" : "Non"}`,
+        `Brochure demandée : ${wantsBrochure ? "Oui (envoyée automatiquement)" : "Non"}`,
       ].join("\n"),
     });
 
@@ -79,24 +92,47 @@ export async function POST(request: Request) {
       );
     }
 
-    // Si la personne a coché "je veux la brochure" : on la lui envoie
-    // immédiatement en pièce jointe, puis on programme une relance
-    // automatique quelques jours plus tard pour s'assurer qu'elle l'a bien
-    // reçue et répondre à d'éventuelles questions. Ces deux envois ne
-    // doivent jamais faire échouer la soumission du formulaire elle-même
-    // (la notification interne ci-dessus est le seul envoi critique) : on
-    // logue une erreur éventuelle sans la remonter au visiteur.
-    if (wantsBrochure) {
+    // Le PDF est envoyé immédiatement. Aucun rappel automatisé n'est programmé :
+    // le suivi de l'inscription est personnel et respecte la préférence de contact.
+    if (requestType === "brochure" && wantsBrochure) {
       const brochureUrl = `${siteConfig.url}/brochure-neurogenesis-academy.pdf`;
-      const firstName = name.trim().split(/\s+/)[0] || name;
+      const brochureFirstName = requestType === "brochure" ? name : firstName;
+
+      // La signature reprend le logo PNG déjà présent dans le dépôt.
+      // URL absolue afin que le logo puisse s'afficher dans les clients e-mail.
+      const logoUrl = new URL("/logo/logo.png", siteConfig.url).toString();
+      const safeFirstName = brochureFirstName.replace(/[&<>"']/g, (char) => {
+        const entities: Record<string, string> = {
+          "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+        };
+        return entities[char];
+      });
 
       const { error: brochureError } = await resend.emails.send({
         from: fromAddress,
         to: email,
         replyTo: siteConfig.email,
         subject: "Votre brochure NeuroGenesis Academy",
+        html: `
+          <div style="font-family:Arial,Helvetica,sans-serif;color:#24342c;line-height:1.6;font-size:15px;">
+            <p>Bonjour ${safeFirstName},</p>
+            <p>Merci pour votre demande ! Voici en pièce jointe la brochure complète de NeuroGenesis Academy : cursus Technicien et Praticien, dates, tarifs et modules optionnels.</p>
+            <p>N'hésitez pas à nous écrire directement si vous avez la moindre question.</p>
+            <p style="margin-top:24px;">Bien chaleureusement,<br>
+              <strong>Marinella Spano</strong><br>
+              NeuroGenesis Academy<br>
+              <a href="mailto:${siteConfig.email}" style="color:#0d2b1f;">${siteConfig.email}</a>
+              &nbsp;·&nbsp;
+              <a href="tel:${siteConfig.phone.replace(/\s/g, "")}" style="color:#0d2b1f;">${siteConfig.phoneDisplay}</a>
+            </p>
+            <p style="margin-top:14px;">
+              <img src="${logoUrl}" width="165" alt="Logo officiel NeuroGenesis Academy"
+                   style="display:block;width:165px;max-width:100%;height:auto;border:0;" />
+            </p>
+          </div>
+        `,
         text: [
-          `Bonjour ${firstName},`,
+          `Bonjour ${brochureFirstName},`,
           "",
           "Merci pour votre demande ! Voici en pièce jointe la brochure complète de NeuroGenesis Academy : cursus Technicien et Praticien, dates, tarifs et modules optionnels.",
           "",
@@ -117,31 +153,116 @@ export async function POST(request: Request) {
       if (brochureError) {
         console.error("Erreur Resend (envoi brochure) :", brochureError);
       }
+    }
 
-      const followUpDate = new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString();
+    // Une demande d'inscription reçoit toujours son propre accusé de réception,
+    // avec le parcours choisi et les prochaines étapes. Si souhaité, le PDF est
+    // inclus dans ce même message (un seul e-mail, sans relance automatique).
+    if (requestType !== "brochure") {
+      const isInformation = requestType === "renseignement";
+      const isQuestion = interest === "autre";
+      const isUndecided = interest === "a_determiner";
+      const selectedPath = interestLabels[interest];
+      const htmlEscape = (value: string) =>
+        value.replace(/[&<>"']/g, (character) => {
+          const entities: Record<string, string> = {
+            "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+          };
+          return entities[character];
+        });
 
-      const { error: followUpError } = await resend.emails.send({
+      const intro = isInformation
+        ? "Votre message m’est bien parvenu."
+        : isQuestion
+        ? "J'ai bien reçu votre question et je vous remercie de m'avoir écrit."
+        : isUndecided
+          ? "J'ai bien reçu votre demande concernant votre projet de formation en hypnose et neurosciences."
+          : `J'ai bien reçu votre demande concernant le ${selectedPath} en hypnose et neurosciences de NeuroGenesis Academy.`;
+
+      const nextStep = isInformation
+        ? "Je prendrai personnellement le temps de vous répondre."
+        : isQuestion
+        ? "Je prendrai personnellement le temps de vous répondre et de préciser avec vous les informations dont vous avez besoin."
+        : "Chez NeuroGenesis Academy, chaque demande fait l'objet d'un échange individuel avant la confirmation de l'inscription. Nous pourrons ainsi faire connaissance, préciser votre projet et aborder ensemble les modalités pratiques du parcours choisi.";
+
+      const contactChoice = contactPreference === "telephone"
+        ? "Vous avez choisi un contact par téléphone : nous pourrons échanger au numéro que vous avez indiqué."
+        : contactPreference === "les_deux"
+          ? "Vous avez indiqué que l'e-mail et le téléphone vous conviennent : nous pourrons choisir ensemble le moyen le plus simple."
+          : "Vous avez choisi un contact par e-mail : je privilégierai donc ce moyen pour poursuivre nos échanges.";
+
+      const invitation = isInformation || isQuestion
+        ? "Si vous souhaitez également en parler de vive voix, je reste joignable au"
+        : "Pour convenir de notre échange et avancer vers la confirmation de votre inscription, vous pouvez également me joindre au";
+
+      const hours = "De 10 h à 13 h tous les jours sauf le vendredi, et de 17 h à 19 h tous les jours sauf le jeudi.";
+      const brochureNote = "Comme souhaité, vous trouverez également la brochure complète en pièce jointe.";
+      const confirmationSubject = isInformation
+        ? "Votre demande de renseignements — NeuroGenesis Academy"
+        : isQuestion
+        ? "Votre question à NeuroGenesis Academy — Bien reçue"
+        : `Votre demande d'inscription — ${selectedPath} — NeuroGenesis Academy`;
+      const logoUrl = new URL("/logo/logo.png", siteConfig.url).toString();
+
+      const confirmationText = [
+        `Bonjour ${firstName},`,
+        "",
+        "Merci pour votre intérêt envers NeuroGenesis Academy.",
+        intro,
+        "",
+        nextStep,
+        "",
+        contactChoice,
+        `${invitation} ${siteConfig.phoneDisplay}.`,
+        `Mes disponibilités : ${hours}`,
+        ...(wantsBrochure ? ["", brochureNote] : []),
+        "",
+        "Au plaisir d'échanger avec vous,",
+        "",
+        "Marinella Spano",
+        "Fondatrice — NeuroGenesis Academy",
+        "Hypnose & Neurosciences",
+        siteConfig.phoneDisplay,
+        siteConfig.email,
+        siteConfig.url,
+      ].join("\n");
+
+      const confirmationHtml = [
+        '<div style="font-family:Arial,Helvetica,sans-serif;color:#24342c;line-height:1.65;font-size:15px;">',
+        `<p>Bonjour ${htmlEscape(firstName)},</p>`,
+        "<p>Merci pour votre intérêt envers NeuroGenesis Academy.</p>",
+        `<p>${htmlEscape(intro)}</p>`,
+        `<p>${htmlEscape(nextStep)}</p>`,
+        `<p>${htmlEscape(contactChoice)}</p>`,
+        `<p>${htmlEscape(invitation)} <a href="tel:+32491730999" style="color:#0d2b1f;font-weight:600;">${siteConfig.phoneDisplay}</a>.<br>${hours}</p>`,
+        ...(wantsBrochure ? [`<p>${brochureNote}</p>`] : []),
+        '<p style="margin-top:24px;">Au plaisir d\'échanger avec vous,<br><br>',
+        '<strong>Marinella Spano</strong><br>Fondatrice — NeuroGenesis Academy<br>',
+        'Hypnose &amp; Neurosciences<br>',
+        `<a href="tel:+32491730999" style="color:#0d2b1f;">${siteConfig.phoneDisplay}</a><br>`,
+        `<a href="mailto:${siteConfig.email}" style="color:#0d2b1f;">${siteConfig.email}</a><br>`,
+        `<a href="${siteConfig.url}" style="color:#0d2b1f;">neurogenesis.be</a></p>`,
+        `<p style="margin-top:14px;"><img src="${logoUrl}" alt="Logo officiel NeuroGenesis Academy" width="165" style="display:block;width:165px;max-width:100%;height:auto;border:0;"></p>`,
+        "</div>",
+      ].join("\n");
+
+      const { error: confirmationError } = await resend.emails.send({
         from: fromAddress,
         to: email,
         replyTo: siteConfig.email,
-        subject: "Avez-vous bien reçu votre brochure NeuroGenesis Academy ?",
-        text: [
-          `Bonjour ${firstName},`,
-          "",
-          "Il y a quelques jours, vous nous avez contactés et avez demandé la brochure de NeuroGenesis Academy — je voulais simplement m'assurer qu'elle vous est bien parvenue.",
-          "",
-          "Avez-vous des questions sur le cursus Technicien, le cursus Praticien, les dates ou les modalités de paiement ? Je me ferais un plaisir d'y répondre directement.",
-          "",
-          `Vous pouvez me répondre à ce message, ou me joindre au ${siteConfig.phoneDisplay}.`,
-          "",
-          `${siteConfig.founder}`,
-          "NeuroGenesis Academy",
-        ].join("\n"),
-        scheduledAt: followUpDate,
+        subject: confirmationSubject,
+        text: confirmationText,
+        html: confirmationHtml,
+        ...(wantsBrochure ? {
+          attachments: [{
+            filename: "Brochure-NeuroGenesis-Academy.pdf",
+            path: new URL("/brochure-neurogenesis-academy.pdf", siteConfig.url).toString(),
+          }],
+        } : {}),
       });
 
-      if (followUpError) {
-        console.error("Erreur Resend (relance programmée) :", followUpError);
+      if (confirmationError) {
+        console.error("Erreur Resend (confirmation de demande) :", confirmationError);
       }
     }
 

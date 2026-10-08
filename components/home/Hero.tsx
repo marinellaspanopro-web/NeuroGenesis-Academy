@@ -70,7 +70,7 @@ export default function Hero() {
         </p>
 
         <div className="reveal mt-10 flex flex-col sm:flex-row gap-4">
-          <Button href="/contact" variant="gold-outline" size="lg">
+          <Button href="/inscription" variant="gold-outline" size="lg">
             Réserver ma place
           </Button>
           {/* Priorité visuelle à la demande de brochure (doré plein) plutôt qu'à

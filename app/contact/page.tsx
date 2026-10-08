@@ -20,7 +20,11 @@ export const metadata: Metadata = {
   twitter: pageTwitter(title, description),
 };
 
-export default function ContactPage() {
+export default async function ContactPage({ searchParams }: { searchParams: Promise<{ demarche?: string; parcours?: string }> }) {
+  const params = await searchParams;
+  const mode = params.demarche === "inscription" ? "inscription" : "renseignement";
+  const availablePaths = ["technicien", "pack", "praticien", "a_determiner", "autre"] as const;
+  const initialInterest = availablePaths.find((path) => path === params.parcours);
   const mapQuery = encodeURIComponent(
     `${siteConfig.address.streetAddress}, ${siteConfig.address.addressLocality}, Belgique`
   );
@@ -57,7 +61,7 @@ export default function ContactPage() {
         <div className="container-editorial grid gap-16 lg:grid-cols-12">
           <RevealOnScroll className="lg:col-span-7">
             <div className="reveal-item">
-              <ContactForm />
+              <ContactForm key={`${mode}-${initialInterest ?? ""}`} mode={mode} initialInterest={initialInterest} />
             </div>
           </RevealOnScroll>
 

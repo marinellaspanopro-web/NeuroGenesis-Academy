@@ -25,7 +25,7 @@ export default function PackOffer() {
               <li>— Paiement en plusieurs fois sans frais</li>
               <li>— Même exigence pédagogique, un seul engagement</li>
             </ul>
-            <Button href="/contact" variant="gold" size="lg">
+            <Button href="/inscription?parcours=pack" variant="gold" size="lg">
               Réserver le Pack
             </Button>
           </div>

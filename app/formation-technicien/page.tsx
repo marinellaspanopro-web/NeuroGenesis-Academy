@@ -74,7 +74,7 @@ export default function FormationTechnicienPage() {
             </div>
 
             <div className="reveal-item mt-10 flex flex-wrap gap-4">
-              <Button href="/contact" variant="gold-outline" size="lg">
+              <Button href="/inscription?parcours=technicien" variant="gold-outline" size="lg">
                 Réserver ma place
               </Button>
               <Button href="#brochure" variant="gold" size="lg">
@@ -196,7 +196,7 @@ export default function FormationTechnicienPage() {
               </p>
             </div>
             <div className="reveal-item flex flex-col gap-4 sm:flex-row lg:flex-col">
-              <Button href="/contact" variant="forest-outline" size="lg">
+              <Button href="/inscription?parcours=technicien" variant="forest-outline" size="lg">
                 Réserver ma place
               </Button>
               <Button href="/formation-praticien" variant="forest-outline" size="lg">

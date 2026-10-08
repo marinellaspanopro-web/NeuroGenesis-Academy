@@ -28,7 +28,7 @@ const fieldClassesDark =
  * Formulaire minimal (prénom + email) dédié à la demande de brochure PDF,
  * pensé pour s'intégrer directement dans les pages de présentation des
  * cursus. Envoie la brochure immédiatement par email et programme une
- * relance à J+4 (même logique que /api/contact, avec `wantsBrochure: true`).
+ * conserve un envoi immédiat sans rappel automatique (avec `wantsBrochure: true`).
  */
 export default function BrochureRequestForm({ interest, variant = "light" }: Props) {
   const [status, setStatus] = useState<Status>("idle");
@@ -45,6 +45,7 @@ export default function BrochureRequestForm({ interest, variant = "light" }: Pro
     const formData = new FormData(form);
     const payload = {
       name: String(formData.get("name") ?? ""),
+      requestType: "brochure",
       email: String(formData.get("email") ?? ""),
       phone: "",
       interest,

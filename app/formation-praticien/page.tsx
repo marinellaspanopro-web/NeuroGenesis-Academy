@@ -218,7 +218,7 @@ export default function FormationPraticienPage() {
               </p>
             </div>
             <div className="reveal-item flex flex-col gap-4 sm:flex-row lg:flex-col">
-              <Button href="/contact" variant="forest-outline" size="lg">
+              <Button href="/inscription?parcours=praticien" variant="forest-outline" size="lg">
                 Réserver ma place
               </Button>
               <Button href="/formation-technicien" variant="forest-outline" size="lg">
