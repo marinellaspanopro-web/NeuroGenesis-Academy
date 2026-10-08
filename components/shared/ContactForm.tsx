@@ -18,6 +18,7 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState<string | null>(null);
   const [contactPreference, setContactPreference] = useState("email");
+  const [interest, setInterest] = useState("");
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -34,6 +35,7 @@ export default function ContactForm() {
       email: String(formData.get("email") ?? ""),
       phone: String(formData.get("phone") ?? ""),
       interest: String(formData.get("interest") ?? ""),
+      message: String(formData.get("message") ?? ""),
       contactPreference: String(formData.get("contactPreference") ?? "email"),
       requestType: "inscription",
       wantsBrochure: formData.get("wantsBrochure") === "on",
@@ -68,6 +70,7 @@ export default function ContactForm() {
       setStatus("success");
       form.reset();
       setContactPreference("email");
+      setInterest("");
     } catch (err) {
       setStatus("error");
       setServerError(err instanceof Error ? err.message : "Une erreur est survenue.");
@@ -178,7 +181,8 @@ export default function ContactForm() {
             id="interest"
             name="interest"
             required
-            defaultValue=""
+            value={interest}
+            onChange={(e) => setInterest(e.target.value)}
             aria-invalid={Boolean(errors.interest)}
             aria-describedby={errors.interest ? "interest-error" : undefined}
             className={fieldClasses}
@@ -199,6 +203,18 @@ export default function ContactForm() {
           )}
         </div>
       </div>
+
+      {interest === "autre" && (
+        <div>
+          <label htmlFor="message" className={labelClasses}>Votre question <span aria-hidden="true">*</span></label>
+          <textarea id="message" name="message" required maxLength={2000} rows={4}
+            aria-invalid={Boolean(errors.message)}
+            aria-describedby={errors.message ? "message-error" : undefined}
+            placeholder="Quelle question souhaitez-vous nous poser ?"
+            className={fieldClasses} />
+          {errors.message && <p id="message-error" role="alert" className="mt-2 text-sm text-red-700">{errors.message}</p>}
+        </div>
+      )}
 
       <div>
         <label htmlFor="contactPreference" className={labelClasses}>Comment souhaitez-vous être contacté(e) ? <span aria-hidden="true">*</span></label>
