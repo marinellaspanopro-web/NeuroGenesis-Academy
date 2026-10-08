@@ -11,6 +11,7 @@ export const contactSchema = z.object({
   contactPreference: z.enum(["email", "telephone", "les_deux"]).default("email"),
   interest: z.enum(["technicien", "pack", "praticien", "a_determiner", "autre"]),
   wantsBrochure: z.boolean().optional().default(false),
+  message: z.string().trim().max(2000, "Votre message doit contenir au maximum 2 000 caractères.").optional().default(""),
   requestType: z.enum(["brochure", "inscription"]).default("inscription"),
   company: z.string().max(0).optional().or(z.literal("")),
 }).superRefine((data, ctx) => {
@@ -23,6 +24,9 @@ export const contactSchema = z.object({
   } else if (data.name.length < 2) {
     add("name", "Merci d'indiquer votre prénom.");
   }
+
+  if (data.requestType === "inscription" && data.interest === "autre" && data.message.length < 5)
+    add("message", "Merci de préciser votre question.");
 
   if (data.phone && data.phone.length < 6) add("phone", "Merci d'indiquer un numéro valide.");
   if (data.requestType === "inscription" && data.contactPreference !== "email" && data.phone.length < 6)
