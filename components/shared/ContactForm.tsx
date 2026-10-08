@@ -13,12 +13,14 @@ const fieldClasses =
 
 const labelClasses = "block text-sm font-medium text-forest mb-2";
 
-export default function ContactForm() {
+type ContactFormProps = { mode?: "inscription" | "renseignement"; initialInterest?: "technicien" | "pack" | "praticien" | "a_determiner" | "autre" };
+
+export default function ContactForm({ mode = "renseignement", initialInterest }: ContactFormProps) {
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState<string | null>(null);
   const [contactPreference, setContactPreference] = useState("email");
-  const [interest, setInterest] = useState("");
+  const [interest, setInterest] = useState(initialInterest ?? "");
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -37,7 +39,7 @@ export default function ContactForm() {
       interest: String(formData.get("interest") ?? ""),
       message: String(formData.get("message") ?? ""),
       contactPreference: String(formData.get("contactPreference") ?? "email"),
-      requestType: "inscription",
+      requestType: mode,
       wantsBrochure: formData.get("wantsBrochure") === "on",
       company: String(formData.get("company") ?? ""), // honeypot
     };
@@ -70,7 +72,7 @@ export default function ContactForm() {
       setStatus("success");
       form.reset();
       setContactPreference("email");
-      setInterest("");
+      setInterest(initialInterest ?? "");
     } catch (err) {
       setStatus("error");
       setServerError(err instanceof Error ? err.message : "Une erreur est survenue.");
@@ -85,7 +87,9 @@ export default function ContactForm() {
       >
         <p className="font-serif text-h3 text-forest mb-3">Demande bien reçue !</p>
         <p className="text-ink/70 max-w-md mx-auto leading-relaxed">
-          Merci pour votre démarche. Nous reviendrons vers vous pour préciser les modalités de votre parcours.
+          {mode === "inscription"
+            ? "Merci pour votre demande. Un échange individuel permettra de préciser les modalités avant confirmation de votre inscription."
+            : "Merci pour votre message. Nous reviendrons vers vous selon votre préférence de contact."}
         </p>
       </div>
     );
@@ -93,6 +97,12 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-6">
+      <div>
+        <h2 className="font-serif text-h3 text-forest">{mode === "inscription" ? "Demande de réservation" : "Demande de renseignements"}</h2>
+        <p className="mt-2 text-sm text-ink/70">{mode === "inscription"
+          ? "Votre inscription sera confirmée après un échange individuel sur votre projet et les modalités pratiques."
+          : "Une question sur les formations ? Précisez le parcours qui vous intéresse ou sélectionnez « Autre question »."}</p>
+      </div>
       {/* Honeypot — masqué visuellement, ignoré par les humains */}
       <div className="hidden" aria-hidden="true">
         <label htmlFor="company">Ne pas remplir</label>
@@ -246,7 +256,7 @@ export default function ContactForm() {
         disabled={status === "submitting"}
         className="inline-flex items-center justify-center rounded-pill bg-forest px-8 py-4 text-sm font-medium tracking-wide2 text-cream transition-all duration-300 ease-out-expo hover:bg-forest-light hover:-translate-y-0.5 disabled:opacity-60 disabled:pointer-events-none"
       >
-        {status === "submitting" ? "Envoi en cours…" : "Envoyer ma demande"}
+        {status === "submitting" ? "Envoi en cours…" : mode === "inscription" ? "Envoyer ma demande de réservation" : "Envoyer ma demande de renseignements"}
       </button>
     </form>
   );
