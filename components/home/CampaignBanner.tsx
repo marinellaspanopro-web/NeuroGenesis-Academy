@@ -44,7 +44,7 @@ export default function CampaignBanner() {
               ))}
             </ul>
 
-            <Button href="/contact" variant="gold" size="lg">
+            <Button href="/inscription" variant="gold" size="lg">
               Réserver ma place
             </Button>
           </div>
