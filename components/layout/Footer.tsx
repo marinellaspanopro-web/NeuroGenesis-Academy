@@ -14,7 +14,7 @@ export default function Footer() {
               Reprogrammez vos pensées, transformez votre vie.
             </p>
             <div className="mt-6">
-              <Button href="/contact?demarche=inscription" variant="gold">
+              <Button href="/inscription" variant="gold">
                 Réserver ma place — Octobre 2026
               </Button>
             </div>
