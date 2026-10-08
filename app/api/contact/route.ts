@@ -172,7 +172,7 @@ export async function POST(request: Request) {
         });
 
       const intro = isInformation
-        ? "J’ai bien reçu votre demande de renseignements concernant NeuroGenesis Academy."
+        ? "Votre message m’est bien parvenu."
         : isQuestion
         ? "J'ai bien reçu votre question et je vous remercie de m'avoir écrit."
         : isUndecided
@@ -180,7 +180,7 @@ export async function POST(request: Request) {
           : `J'ai bien reçu votre demande concernant le ${selectedPath} en hypnose et neurosciences de NeuroGenesis Academy.`;
 
       const nextStep = isInformation
-        ? "Je prendrai personnellement connaissance de votre demande et reviendrai vers vous pour répondre à vos questions."
+        ? "Je prendrai personnellement le temps de vous répondre."
         : isQuestion
         ? "Je prendrai personnellement le temps de vous répondre et de préciser avec vous les informations dont vous avez besoin."
         : "Chez NeuroGenesis Academy, chaque demande fait l'objet d'un échange individuel avant la confirmation de l'inscription. Nous pourrons ainsi faire connaissance, préciser votre projet et aborder ensemble les modalités pratiques du parcours choisi.";
