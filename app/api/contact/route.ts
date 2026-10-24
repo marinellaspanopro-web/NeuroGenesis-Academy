@@ -117,7 +117,8 @@ export async function POST(request: Request) {
           <div style="font-family:Arial,Helvetica,sans-serif;color:#24342c;line-height:1.6;font-size:15px;">
             <p>Bonjour ${safeFirstName},</p>
             <p>Merci pour votre demande ! Voici en pièce jointe la brochure complète de NeuroGenesis Academy : cursus Technicien et Praticien, dates, tarifs et modules optionnels.</p>
-            <p>N'hésitez pas à nous écrire directement si vous avez la moindre question.</p>
+            <p>Actuellement, il reste uniquement <strong>1 place disponible</strong> pour le cursus Technicien qui débute le <strong>31 octobre à Namur</strong>.</p>
+            <p>Si cette session correspond à votre projet, je vous invite à me communiquer vos disponibilités pour un court échange. Je serai heureuse de répondre à vos questions et de vous accompagner dans votre choix.</p>
             <p style="margin-top:24px;">Bien chaleureusement,<br>
               <strong>Marinella Spano</strong><br>
               NeuroGenesis Academy<br>
@@ -136,7 +137,9 @@ export async function POST(request: Request) {
           "",
           "Merci pour votre demande ! Voici en pièce jointe la brochure complète de NeuroGenesis Academy : cursus Technicien et Praticien, dates, tarifs et modules optionnels.",
           "",
-          "N'hésitez pas à nous écrire directement si vous avez la moindre question.",
+          "Actuellement, il reste uniquement 1 place disponible pour le cursus Technicien qui débute le 31 octobre à Namur.",
+          "",
+          "Si cette session correspond à votre projet, je vous invite à me communiquer vos disponibilités pour un court échange. Je serai heureuse de répondre à vos questions et de vous accompagner dans votre choix.",
           "",
           `${siteConfig.founder}`,
           "NeuroGenesis Academy",
