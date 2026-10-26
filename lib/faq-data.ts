@@ -1,3 +1,5 @@
+import { siteConfig } from "@/lib/site-config";
+
 import type { FAQItem } from "@/components/shared/FAQAccordion";
 
 export const faqItems: FAQItem[] = [
@@ -14,12 +16,12 @@ export const faqItems: FAQItem[] = [
   {
     question: "Où en est la reconnaissance officielle de la formation en Belgique ?",
     answer:
-      "En Belgique comme en France, la profession d'hypnothérapeute n'est à ce jour encadrée par aucune législation spécifique — seul le titre de psychothérapeute l'est. Plutôt que d'attendre ce cadre, NeuroGenesis Academy structure déjà sa formation selon les critères de rigueur les plus exigeants du secteur, et mène en parallèle une démarche d'accréditation internationale auprès de références reconnues (OMS/CIM-11, NGH, FBPH).",
+      siteConfig.accreditation,
   },
   {
     question: "Quelle est la différence entre le cursus Technicien et le cursus Praticien ?",
     answer:
-      "Le cursus Technicien (115h) pose les fondations : techniques d'induction, neurosciences appliquées, protocoles de changement comportemental et auto-hypnose. Le cursus Praticien (200h, accessible après validation du Technicien) approfondit en 8 modules : gestion de la douleur, traumatismes et EMDR, régression thérapeutique, approches intégratives, langage thérapeutique, psycho-morphologie, supervision et psychopathologie.",
+      "Le cursus Technicien (115h) pose les fondations : techniques d'induction, neurosciences appliquées, protocoles de changement comportemental et auto-hypnose. Le cursus Praticien (200h, accessible après validation du Technicien) approfondit en 8 modules : gestion de la douleur, traumatismes et approches intégratives, régression thérapeutique, approches intégratives, langage thérapeutique, psycho-morphologie, supervision et psychopathologie. " + siteConfig.traumaApproach,
   },
   {
     question: "Pourquoi le groupe est-il limité à 6-8 personnes maximum ?",

@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  outputFileTracingIncludes: { "/api/contact": ["./public/brochure-neurogenesis-academy.pdf"] },
   images: {
     formats: ["image/avif", "image/webp"],
   },

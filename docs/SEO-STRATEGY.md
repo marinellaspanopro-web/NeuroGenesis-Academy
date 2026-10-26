@@ -46,7 +46,7 @@ pilier ("En savoir plus →"). Chaque page pilier relie vers `/contact` (CTA) et
 
 ## 4. E-E-A-T
 
-- **Who** : bio complète de Marinella Spano, parcours réel et vérifiable (30 ans de
+- **Who** : bio complète de Marinella Spano, parcours réel et vérifiable (15 ans de pratique de l’hypnose et de
   relation clientèle bancaire, psycho-morphologie pratiquée depuis l'âge de 14 ans,
   2 ans de formation en transgénérationnel à Toulouse, 15 ans de pratique de
   l'hypnose) sur `/fondatrice` — aucune mention d'institution non vérifiée

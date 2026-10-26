@@ -31,16 +31,13 @@ export default function CursusOverview() {
               </p>
               <div className="mb-8">
                 <div className="flex items-baseline gap-3">
-                  <span className="text-sm text-ink/40 line-through decoration-1">
-                    {siteConfig.pricing.technicien.amount}€
-                  </span>
                   <span className="font-serif text-h2 text-forest leading-none">
-                    {siteConfig.pricing.technicien.earlyBirdPrice}€
+                    {siteConfig.pricing.technicien.amount}€
                   </span>
                 </div>
                 <div className="mt-3 inline-block rounded-md bg-forest/[0.04] border border-gold-deep/20 px-4 py-2">
                   <p className="text-xs uppercase tracking-wide2 text-gold-deep">
-                    Tarif Early Bird — avant le {siteConfig.pricing.technicien.earlyBirdDeadlineDisplay}
+                    Tarif du cursus complet
                   </p>
                 </div>
                 <div className="mt-5 text-sm">
@@ -84,7 +81,7 @@ export default function CursusOverview() {
             </div>
             <div className="reveal-item">
               <p className="text-gold font-serif italic text-lg mb-6">
-                Accréditations internationales en cours — Francophonie & Italie
+                {siteConfig.accreditation}
               </p>
               <Button href="/formation-praticien" variant="gold-outline">
                 Découvrir le cursus Praticien

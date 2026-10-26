@@ -31,7 +31,7 @@ export default function PackOffer() {
           </div>
 
           <div className="reveal-item rounded-lg bg-cream-soft border border-line p-8 text-center lg:text-left">
-            <p className="text-xs uppercase tracking-wide3 text-forest/50 mb-2 line-through decoration-1">
+            <p className="text-xs uppercase tracking-wide3 text-forest/50 mb-2">
               Prix des deux cursus séparés : {pack.regularTotal}€
             </p>
             <p className="font-serif text-hero text-forest leading-none mb-2">
@@ -41,10 +41,10 @@ export default function PackOffer() {
 
             <div className="rounded-md bg-forest/[0.04] border border-gold-deep/20 px-5 py-4">
               <p className="text-xs uppercase tracking-wide2 text-gold-deep mb-1">
-                Avant le {pack.earlyBirdDeadlineDisplay}
+                Économie sur les deux cursus
               </p>
               <p className="font-serif text-h2 text-forest leading-none">
-                {pack.earlyBirdPrice}€
+                {pack.regularTotal - pack.packPrice}€
               </p>
             </div>
           </div>

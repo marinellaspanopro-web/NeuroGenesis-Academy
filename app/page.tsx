@@ -1,3 +1,6 @@
+import JsonLd from "@/components/shared/JsonLd";
+import { courseSchema } from "@/lib/schema";
+import { siteConfig } from "@/lib/site-config";
 import type { Metadata } from "next";
 import Hero from "@/components/home/Hero";
 import ScrollingBanner from "@/components/home/ScrollingBanner";
@@ -14,13 +17,20 @@ export const metadata: Metadata = {
     absolute: "Formation Hypnose & Neurosciences à Namur | NeuroGenesis",
   },
   description:
-    "École de formation en hypnose et neurosciences à Namur. Cursus Technicien et Praticien fondés par Marinella Spano. Prochain cycle : octobre 2026.",
+    "École de formation en hypnose et neurosciences à Namur. Cursus Technicien et Praticien fondés par Marinella Spano. Formation en petits groupes.",
   alternates: { canonical: "/" },
 };
 
 export default function HomePage() {
   return (
     <>
+      <JsonLd data={courseSchema({
+        name: "Pack Technicien + Praticien",
+        description: "Les deux cursus en hypnose et neurosciences à Namur, avec 500€ d’économie sur les cursus séparés.",
+        url: `${siteConfig.url}/#pack`,
+        price: siteConfig.pricing.pack.packPrice,
+        duration: "PT315H",
+      })} />
       <Hero />
       <ScrollingBanner />
       <Pillars />

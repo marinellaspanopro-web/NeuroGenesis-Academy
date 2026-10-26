@@ -23,7 +23,7 @@ export default function StickyMobileCTA() {
         visible ? "translate-y-0" : "translate-y-full"
       }`}
     >
-      <Button href="/contact" variant="forest-outline" className="flex-1 !px-3 whitespace-nowrap">
+      <Button href="/inscription" variant="forest-outline" className="flex-1 !px-3 whitespace-nowrap">
         Réserver ma place
       </Button>
       <Button

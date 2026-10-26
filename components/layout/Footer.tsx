@@ -15,7 +15,7 @@ export default function Footer() {
             </p>
             <div className="mt-6">
               <Button href="/inscription" variant="gold">
-                Réserver ma place — Octobre 2026
+                Réserver ma place
               </Button>
             </div>
           </div>

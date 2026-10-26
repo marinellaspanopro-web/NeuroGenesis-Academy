@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCycle } from "@/components/shared/CycleProvider";
+import { siteConfig } from "@/lib/site-config";
+import Button from "@/components/ui/Button";
 
-function getRemaining(target: string) {
-  const diff = Math.max(0, new Date(target).getTime() - Date.now());
+function getRemaining(target: string, now: number) {
+  const diff = Math.max(0, new Date(target).getTime() - now);
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
   const minutes = Math.floor((diff / (1000 * 60)) % 60);
@@ -14,13 +16,14 @@ function getRemaining(target: string) {
 /** Compte à rebours jusqu'au début du cycle. Purement basé sur la date — aucun
  * chiffre d'inscription réel n'est jamais affiché ici. */
 export default function Countdown({ target }: { target: string }) {
-  const [time, setTime] = useState<ReturnType<typeof getRemaining> | null>(null);
-
-  useEffect(() => {
-    setTime(getRemaining(target));
-    const id = setInterval(() => setTime(getRemaining(target)), 1000);
-    return () => clearInterval(id);
-  }, [target]);
+  const { now, started } = useCycle();
+  const time = getRemaining(target, now);
+  if (started) {
+    return <div className="max-w-md text-gold/80 leading-relaxed">
+      <p className="mb-6">{siteConfig.session.afterMessage}</p>
+      <Button href={siteConfig.session.nextHref} variant="gold-outline">{siteConfig.session.nextLabel}</Button>
+    </div>;
+  }
 
   const units = [
     { label: "Jours", value: time?.days },

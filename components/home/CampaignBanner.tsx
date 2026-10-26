@@ -1,3 +1,6 @@
+"use client";
+
+import { useCycle } from "@/components/shared/CycleProvider";
 import Countdown from "@/components/shared/Countdown";
 import Button from "@/components/ui/Button";
 import RevealOnScroll from "@/components/shared/RevealOnScroll";
@@ -10,6 +13,7 @@ const badges = [
 ];
 
 export default function CampaignBanner() {
+  const { started } = useCycle();
   return (
     <section className="dark-section relative overflow-hidden py-section-sm">
       <div
@@ -24,7 +28,7 @@ export default function CampaignBanner() {
         <RevealOnScroll className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div className="reveal-item">
             <p className="text-xs uppercase tracking-wide3 text-gold/80 mb-4">
-              {siteConfig.session.label}
+              {started ? siteConfig.session.afterBadge : siteConfig.session.label}
             </p>
             <h2 className="font-serif text-h1 text-cream mb-6 text-balance">
               Les inscriptions sont <em className="accent-italic">ouvertes.</em>
@@ -44,14 +48,14 @@ export default function CampaignBanner() {
               ))}
             </ul>
 
-            <Button href="/inscription" variant="gold" size="lg">
+            <Button href={started ? siteConfig.session.nextHref : "/inscription"} variant="gold" size="lg">
               Réserver ma place
             </Button>
           </div>
 
           <div className="reveal-item flex flex-col items-start lg:items-end">
             <p className="text-xs uppercase tracking-wide3 text-gold/50 mb-4">
-              Avant le début du cycle
+              {started ? "Le prochain cycle" : "Avant le début du cycle"}
             </p>
             <Countdown target={siteConfig.session.isoDeadline} />
           </div>

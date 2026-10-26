@@ -1,3 +1,5 @@
+import { siteConfig } from "@/lib/site-config";
+
 export const technicienModules = [
   {
     n: "M1",
@@ -71,13 +73,13 @@ export const praticienModules = [
   },
   {
     n: "M2",
-    title: "Traumatismes complexes & EMDR",
-    text: "Compréhension neurobiologique du trauma, fenêtre de tolérance et intégration sécurisée de l'EMDR au sein d'une pratique hypnotique clinique.",
+    title: "Traumatismes et approches intégratives",
+    text: siteConfig.traumaApproach,
   },
   {
     n: "M3",
     title: "Régressions thérapeutiques & approche transgénérationnelle",
-    text: "Utiliser l'hypnose comme outil d'exploration pour aller rechercher les éléments utiles dans le transgénérationnel, les régressions ou les croyances limitantes — dans la continuité du M2, en intégrant l'EMDR à la régression sécurisée. Une matière dense, pour poser des bases solides, qui peuvent encore être approfondies via un module optionnel sur le transgénérationnel.",
+    text: "Utiliser l'hypnose comme outil d'exploration pour aller rechercher les éléments utiles dans le transgénérationnel, les régressions ou les croyances limitantes — dans la continuité du M2, en associant l'hypnose à des approches intégratives inspirées de certains principes de l'EMDR. Une matière dense, pour poser des bases solides, qui peuvent encore être approfondies via un module optionnel sur le transgénérationnel.",
   },
   {
     n: "M4",
@@ -102,7 +104,7 @@ export const praticienModules = [
   {
     n: "M8",
     title: "Psychopathologie & hypnose",
-    text: "Nosologies DSM-5/CIM-11, troubles abordables en hypnose et contre-indications, signes d'alerte et procédures d'orientation — en session avec un médecin.",
+    text: "Repères de psychopathologie, troubles abordables en hypnose et contre-indications, signes d'alerte et procédures d'orientation — en session avec un médecin.",
   },
 ] as const;
 

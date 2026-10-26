@@ -1,3 +1,4 @@
+import { siteConfig } from "@/lib/site-config";
 import { z } from "zod";
 
 /** Validation commune au formulaire de contact et au mini-formulaire de brochure. */
@@ -9,11 +10,11 @@ export const contactSchema = z.object({
   email: z.string().trim().email("Merci d'indiquer une adresse e-mail valide."),
   phone: z.string().trim().optional().default(""),
   contactPreference: z.enum(["email", "telephone", "les_deux"]).default("email"),
-  interest: z.enum(["technicien", "pack", "praticien", "a_determiner", "autre"]),
+  interest: z.enum(["technicien", "pack", "praticien", "a_determiner", "autre", "prochain-cycle"]),
   wantsBrochure: z.boolean().optional().default(false),
   message: z.string().trim().max(2000, "Votre message doit contenir au maximum 2 000 caractères.").optional().default(""),
   requestType: z.enum(["brochure", "inscription", "renseignement"]).default("inscription"),
-  company: z.string().max(0).optional().or(z.literal("")),
+  company: z.string().max(200).optional().default(""),
 }).superRefine((data, ctx) => {
   const add = (field: string, message: string) =>
     ctx.addIssue({ code: z.ZodIssueCode.custom, path: [field], message });
@@ -25,7 +26,7 @@ export const contactSchema = z.object({
     add("name", "Merci d'indiquer votre prénom.");
   }
 
-  if (data.requestType !== "brochure" && data.interest === "autre" && data.message.length < 5)
+  if (data.requestType !== "brochure" && (data.interest === "autre" || data.requestType === "renseignement") && data.message.length < 5)
     add("message", "Merci de préciser votre question.");
 
   if (data.phone && data.phone.length < 6) add("phone", "Merci d'indiquer un numéro valide.");
@@ -36,6 +37,7 @@ export const contactSchema = z.object({
 export type ContactFormData = z.infer<typeof contactSchema>;
 
 export const interestLabels: Record<ContactFormData["interest"], string> = {
+  "prochain-cycle": siteConfig.session.nextLabel,
   technicien: "Cursus Technicien",
   pack: "Pack complet Technicien + Praticien",
   praticien: "Cursus Praticien (prérequis Technicien acquis)",

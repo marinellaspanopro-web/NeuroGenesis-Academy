@@ -31,6 +31,7 @@ const fieldClassesDark =
  * conserve un envoi immédiat sans rappel automatique (avec `wantsBrochure: true`).
  */
 export default function BrochureRequestForm({ interest, variant = "light" }: Props) {
+  const [warning, setWarning] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
 
@@ -73,9 +74,12 @@ export default function BrochureRequestForm({ interest, variant = "light" }: Pro
         throw new Error(body?.error ?? "Une erreur est survenue.");
       }
 
+      const response = await res.json();
+      if (response.ok !== true) throw new Error("Réponse du service invalide.");
+      setWarning(response.warning ?? null);
       setStatus("success");
       form.reset();
-      trackLeadFormConversion();
+      try { trackLeadFormConversion(); } catch { /* Analytics must not change submission status. */ }
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Une erreur est survenue.");
@@ -85,9 +89,9 @@ export default function BrochureRequestForm({ interest, variant = "light" }: Pro
   if (status === "success") {
     return (
       <p role="status" className={isDark ? "text-cream" : "text-forest"}>
-        <span className="font-serif text-lg">Brochure envoyée ! </span>
+        <span className="font-serif text-lg">{warning ? "Demande reçue. " : "Brochure envoyée ! "}</span>
         <span className={isDark ? "text-gold/70" : "text-ink/70"}>
-          Vérifiez votre boîte mail (et vos courriers indésirables) d&apos;ici quelques minutes.
+          {warning ?? "Vérifiez votre boîte mail (et vos courriers indésirables) d’ici quelques minutes."}
         </span>
       </p>
     );
@@ -149,8 +153,7 @@ export default function BrochureRequestForm({ interest, variant = "light" }: Pro
           {error} Vous pouvez aussi nous écrire à{" "}
           <a href={`mailto:${siteConfig.email}`} className="underline">
             {siteConfig.email}
-          </a>
-          .
+          </a>{" "}ou nous appeler au <a href="tel:+32491730999" className="underline">{siteConfig.phoneDisplay}</a>.
         </p>
       )}
     </form>

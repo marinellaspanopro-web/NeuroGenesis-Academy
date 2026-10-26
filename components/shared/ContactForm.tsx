@@ -13,9 +13,10 @@ const fieldClasses =
 
 const labelClasses = "block text-sm font-medium text-forest mb-2";
 
-type ContactFormProps = { mode?: "inscription" | "renseignement"; initialInterest?: "technicien" | "pack" | "praticien" | "a_determiner" | "autre" };
+type ContactFormProps = { mode?: "inscription" | "renseignement"; initialInterest?: "technicien" | "pack" | "praticien" | "a_determiner" | "autre" | "prochain-cycle" };
 
 export default function ContactForm({ mode = "renseignement", initialInterest }: ContactFormProps) {
+  const [warning, setWarning] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState<string | null>(null);
@@ -69,6 +70,9 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
         throw new Error(body?.error ?? "Une erreur est survenue.");
       }
 
+      const response = await res.json();
+      if (response.ok !== true) throw new Error("Réponse du service invalide.");
+      setWarning(response.warning ?? null);
       setStatus("success");
       form.reset();
       setContactPreference("email");
@@ -86,6 +90,7 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
         className="rounded-lg border border-forest/20 bg-cream-soft p-10 text-center"
       >
         <p className="font-serif text-h3 text-forest mb-3">Demande bien reçue !</p>
+        {warning && <p role="alert" className="mb-4 text-ink/70">{warning}</p>}
         <p className="text-ink/70 max-w-md mx-auto leading-relaxed">
           {mode === "inscription"
             ? "Merci pour votre demande. Un échange individuel permettra de préciser les modalités avant confirmation de votre inscription."
@@ -203,6 +208,7 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
             <option value="technicien">Cursus Technicien</option>
             <option value="pack">Pack complet Technicien + Praticien</option>
             <option value="praticien">Praticien (Technicien déjà acquis)</option>
+            <option value="prochain-cycle">{siteConfig.session.nextLabel}</option>
             <option value="a_determiner">À déterminer ensemble</option>
             <option value="autre">Autre question</option>
           </select>
@@ -214,7 +220,7 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
         </div>
       </div>
 
-      {interest === "autre" && (
+      {(interest === "autre" || mode === "renseignement") && (
         <div>
           <label htmlFor="message" className={labelClasses}>Votre question <span aria-hidden="true">*</span></label>
           <textarea id="message" name="message" required maxLength={2000} rows={4}
@@ -246,8 +252,7 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
           {serverError} Vous pouvez aussi nous écrire directement à{" "}
           <a href={`mailto:${siteConfig.email}`} className="underline">
             {siteConfig.email}
-          </a>
-          .
+          </a>{" "}ou nous appeler au <a href="tel:+32491730999" className="underline">{siteConfig.phoneDisplay}</a>.
         </p>
       )}
 

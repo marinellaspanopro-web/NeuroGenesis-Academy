@@ -10,9 +10,9 @@ import { siteConfig, technicienDates } from "@/lib/site-config";
 import { technicienModules, technicienBenefits } from "@/lib/cursus-data";
 import { pageOpenGraph, pageTwitter } from "@/lib/page-metadata";
 
-const title = "Formation Hypnose & Neurosciences | NeuroGenesis";
+const title = "Cursus Technicien en Hypnose & Neurosciences à Namur | NeuroGenesis";
 const description =
-  "Cursus Technicien en hypnose et neurosciences à Namur : 115h, 45h de pratique supervisée, groupe de 6 à 8 personnes. Prochain cycle dès le 31 octobre 2026.";
+  "Cursus Technicien en hypnose et neurosciences à Namur : 115h, 45h de pratique supervisée, groupe de 6 à 8 personnes. Formation en petits groupes à Namur.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -169,15 +169,12 @@ export default function FormationTechnicienPage() {
           <RevealOnScroll className="rounded-lg border border-line bg-cream-soft p-10 sm:p-16 grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center">
             <div className="reveal-item">
               <p className="text-xs uppercase tracking-wide3 text-forest/60 mb-4">Investissement</p>
-              <p className="text-xs uppercase tracking-wide3 text-forest/50 mb-1 line-through decoration-1">
-                {siteConfig.pricing.technicien.amount}€
-              </p>
               <p className="font-serif text-hero text-forest leading-none">
-                {siteConfig.pricing.technicien.earlyBirdPrice}€
+                {siteConfig.pricing.technicien.amount}€
               </p>
               <div className="mt-4 inline-block rounded-md bg-forest/[0.04] border border-gold-deep/20 px-4 py-2">
                 <p className="text-xs uppercase tracking-wide2 text-gold-deep">
-                  Tarif Early Bird — avant le {siteConfig.pricing.technicien.earlyBirdDeadlineDisplay}
+                  Tarif du cursus complet
                 </p>
               </div>
               <p className="mt-4 text-ink/60 max-w-sm">

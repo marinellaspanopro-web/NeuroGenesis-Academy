@@ -96,8 +96,8 @@ export default function Header() {
         </nav>
 
         <div className="hidden lg:block">
-          <Button href="/formation-technicien" variant="forest-outline" size="md">
-            Cycle Octobre 2026
+          <Button href="/inscription" variant="forest-outline" size="md">
+            Réserver ma place
           </Button>
         </div>
 
@@ -146,8 +146,8 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
-          <Button href="/formation-technicien" variant="gold" className="mt-2 w-full">
-            Cycle Octobre 2026
+          <Button href="/inscription" variant="gold" className="mt-2 w-full">
+            Réserver ma place
           </Button>
         </nav>
       )}
