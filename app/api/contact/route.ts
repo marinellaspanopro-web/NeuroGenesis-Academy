@@ -4,7 +4,6 @@ import path from "node:path";
 import { Resend } from "resend";
 import { contactSchema, interestLabels, contactPreferenceLabels } from "@/lib/contact-schema";
 import { siteConfig } from "@/lib/site-config";
-import { hasCycleStarted } from "@/lib/cycle";
 
 export const runtime = "nodejs";
 const submissions = new Map<string, number[]>();
@@ -77,25 +76,50 @@ export async function POST(request: Request) {
         filename: "Brochure-NeuroGenesis-Academy.pdf",
         content: await readFile(path.join(process.cwd(), "public", "brochure-neurogenesis-academy.pdf")),
       }] : undefined;
-      const intro = requestType === "brochure"
-        ? "Merci pour votre demande ! Vous trouverez la brochure complète en pièce jointe."
-        : requestType === "renseignement"
-          ? "Votre message m'est bien parvenu. Je prendrai personnellement le temps de vous répondre."
-          : `Votre demande concernant le parcours « ${interestLabels[interest]} » m'est bien parvenue. Un échange individuel permettra de préciser votre projet et les modalités avant confirmation de votre inscription.`;
-      const cycleText = hasCycleStarted() ? siteConfig.session.afterMessage : siteConfig.session.beforeBadge;
+      const signature = `${siteConfig.founder}\nFondatrice de NeuroGenesis Academy\n${siteConfig.email}`;
+      const messages = {
+        inscription: {
+          subject: "Votre projet de formation chez NeuroGenesis",
+          paragraphs: [
+            "Merci de m’avoir écrit et de vous intéresser à NeuroGenesis.",
+            "Choisir une formation, c’est aussi choisir une personne et un cadre dans lesquels on se sent bien pour apprendre. Je serais heureuse de découvrir ce qui vous amène vers l’hypnose, ce que vous souhaitez en faire et de répondre aux questions que vous vous posez.",
+            "Je reprendrai contact avec vous selon la préférence indiquée dans votre demande. Nous pourrons prendre le temps d’échanger sur votre projet et les modalités du parcours, avant de confirmer votre inscription.",
+            ...(withBrochure ? ["Vous trouverez également la brochure en pièce jointe, pour la parcourir tranquillement d’ici là."] : []),
+            `Si vous préférez m’appeler, vous pouvez me joindre au ${siteConfig.phoneDisplay}.`,
+            "Au plaisir de faire votre connaissance,",
+          ],
+        },
+        renseignement: {
+          subject: "Merci pour votre message — NeuroGenesis",
+          paragraphs: [
+            "Merci de m’avoir écrit.",
+            "J’ai bien reçu votre message et je prendrai le temps de vous répondre. Que votre projet soit déjà précis ou encore en réflexion, cet échange sera l’occasion de faire connaissance et de vous aider à y voir plus clair.",
+            `Je vous recontacterai selon la préférence indiquée dans votre demande. Si vous souhaitez m’en parler directement, vous pouvez aussi me joindre au ${siteConfig.phoneDisplay}.`,
+            ...(withBrochure ? ["Je vous joins également la brochure que vous avez souhaité recevoir."] : []),
+            "Au plaisir d’échanger avec vous,",
+          ],
+        },
+        brochure: {
+          subject: "Votre brochure NeuroGenesis, à découvrir à votre rythme",
+          paragraphs: [
+            "Merci de votre intérêt pour NeuroGenesis.",
+            "Vous trouverez en pièce jointe la brochure de l’Académie. Elle vous permettra de découvrir les parcours Technicien et Praticien, les contenus de formation et les informations pratiques.",
+            "Prenez le temps de la parcourir tranquillement, en pensant à ce que vous aimeriez apprendre et à la place que l’hypnose pourrait prendre dans votre vie ou votre activité.",
+            "Si une question vous vient au fil des pages, vous pouvez simplement répondre à cet e-mail. Je serai heureuse d’en discuter avec vous et de vous aider à choisir le parcours qui vous correspond.",
+            `Vous pouvez également m’appeler au ${siteConfig.phoneDisplay}.`,
+            "Au plaisir de découvrir votre projet,",
+          ],
+        },
+      };
+      const selectedMessage = messages[requestType];
       const text = [
-        `Bonjour ${firstName || name},`, "", intro,
-        ...(requestType === "inscription" || requestType === "brochure" ? ["", cycleText] : []),
-        "", `Tarifs des cursus : Technicien ${siteConfig.pricing.technicien.amount}€ ; Praticien ${siteConfig.pricing.praticien.amount}€ ; Pack ${siteConfig.pricing.pack.packPrice}€ (500€ d'économie sur les deux cursus séparés à ${siteConfig.pricing.pack.regularTotal}€).`,
-        ...(withBrochure && requestType !== "brochure" ? ["La brochure souhaitée est jointe à ce message."] : []),
-        "", `Contact souhaité : ${contactPreferenceLabels[contactPreference]}.`,
-        `Pour échanger : ${siteConfig.phoneDisplay}.`,
-        "Mes disponibilités : de 10 h à 13 h tous les jours sauf le vendredi, et de 17 h à 19 h tous les jours sauf le jeudi.",
-        "", "Bien chaleureusement,", siteConfig.founder, siteConfig.name, siteConfig.email, siteConfig.url,
-      ].join("\n");
+        `Bonjour ${firstName || name},`,
+        ...selectedMessage.paragraphs,
+        signature,
+      ].join("\n\n");
       const confirmation = await resend.emails.send({
         from, to: email, replyTo: siteConfig.email,
-        subject: requestType === "brochure" ? "Votre brochure NeuroGenesis Academy" : `Votre demande de ${label} — NeuroGenesis Academy`,
+        subject: selectedMessage.subject,
         text,
         html: `<div lang="fr" style="font-family:Arial,Helvetica,sans-serif;color:#24342c;line-height:1.65;font-size:15px">${text.split("\n\n").map((paragraph) => `<p>${escapeHtml(paragraph).replaceAll("\n", "<br>")}</p>`).join("")}<img src="${siteConfig.url}/logo/logo.png" width="165" alt="NeuroGenesis Academy"></div>`,
         attachments,
