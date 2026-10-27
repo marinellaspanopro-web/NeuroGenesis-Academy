@@ -1,4 +1,4 @@
-import Button from "@/components/ui/Button";
+import EnrollmentButton from "@/components/shared/EnrollmentButton";
 import RevealOnScroll from "@/components/shared/RevealOnScroll";
 import { siteConfig } from "@/lib/site-config";
 
@@ -25,13 +25,13 @@ export default function PackOffer() {
               <li>— Paiement en plusieurs fois sans frais</li>
               <li>— Même exigence pédagogique, un seul engagement</li>
             </ul>
-            <Button href="/inscription?parcours=pack" variant="gold" size="lg">
+            <EnrollmentButton pathway="pack" variant="gold" size="lg">
               Réserver le Pack
-            </Button>
+            </EnrollmentButton>
           </div>
 
           <div className="reveal-item rounded-lg bg-cream-soft border border-line p-8 text-center lg:text-left">
-            <p className="text-xs uppercase tracking-wide3 text-forest/50 mb-2 line-through decoration-1">
+            <p className="text-xs uppercase tracking-wide3 text-forest/50 mb-2">
               Prix des deux cursus séparés : {pack.regularTotal}€
             </p>
             <p className="font-serif text-hero text-forest leading-none mb-2">
@@ -41,10 +41,10 @@ export default function PackOffer() {
 
             <div className="rounded-md bg-forest/[0.04] border border-gold-deep/20 px-5 py-4">
               <p className="text-xs uppercase tracking-wide2 text-gold-deep mb-1">
-                Avant le {pack.earlyBirdDeadlineDisplay}
+                Économie sur les deux cursus
               </p>
               <p className="font-serif text-h2 text-forest leading-none">
-                {pack.earlyBirdPrice}€
+                {pack.regularTotal - pack.packPrice}€
               </p>
             </div>
           </div>

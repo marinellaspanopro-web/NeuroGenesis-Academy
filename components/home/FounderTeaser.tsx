@@ -20,8 +20,7 @@ export default function FounderTeaser() {
             <p className="text-xs uppercase tracking-wide3 text-forest/60 mb-4">La fondatrice</p>
             <h2 className="font-serif text-h2 text-forest text-balance">Marinella Spano</h2>
             <p className="mt-4 text-ink/70 leading-relaxed">
-              Hypnothérapeute, formatrice, et fondatrice de l&apos;Académie NeuroGenesis — 30 ans
-              d&apos;expertise en accompagnement humain.
+              Hypnothérapeute, formatrice, et fondatrice de l&apos;Académie NeuroGenesis — 15 ans de pratique de l&apos;hypnose.
             </p>
             <Button href="/fondatrice" variant="ghost-dark" className="mt-6 px-0">
               Découvrir son parcours →

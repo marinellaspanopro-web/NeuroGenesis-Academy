@@ -1,3 +1,4 @@
+import CycleProvider from "@/components/shared/CycleProvider";
 import type { Metadata } from "next";
 import Script from "next/script";
 import { fontDisplay, fontBody, fontScript } from "@/lib/fonts";
@@ -12,6 +13,8 @@ import CookieConsentBanner from "@/components/layout/CookieConsentBanner";
 import SmoothScrollProvider from "@/components/layout/SmoothScrollProvider";
 import "./globals.css";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
@@ -19,13 +22,6 @@ export const metadata: Metadata = {
     template: `%s — ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  keywords: [
-    "formation hypnose Belgique",
-    "hypnothérapeute Namur",
-    "formation hypnose et neurosciences",
-    "cursus praticien hypnose",
-    "école hypnose Namur",
-  ],
   authors: [{ name: siteConfig.founder }],
   alternates: { canonical: "/" },
   openGraph: {
@@ -67,12 +63,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           `}
         </Script>
         <JsonLd data={organizationSchema()} />
+        <CycleProvider initialNow={Date.now()}>
         <SmoothScrollProvider>
           <Header />
           <main>{children}</main>
           <Footer />
           <StickyMobileCTA />
         </SmoothScrollProvider>
+        </CycleProvider>
         <CookieConsentBanner />
       </body>
     </html>

@@ -1,5 +1,8 @@
 "use client";
 
+import EnrollmentButton from "@/components/shared/EnrollmentButton";
+
+import { useCycle } from "@/components/shared/CycleProvider";
 import { useRef } from "react";
 import Link from "next/link";
 import { useGSAP } from "@gsap/react";
@@ -10,6 +13,7 @@ import { siteConfig } from "@/lib/site-config";
 import { ensureGsap } from "@/lib/gsap";
 
 export default function Hero() {
+  const { started } = useCycle();
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -52,7 +56,7 @@ export default function Hero() {
 
         <span className="reveal inline-flex items-center gap-2 rounded-pill border border-gold/40 px-4 py-2 text-xs uppercase tracking-wide3 text-gold mb-8">
           <span className="h-1.5 w-1.5 rounded-full bg-gold" aria-hidden="true" />
-          Prochain cycle Technicien · {siteConfig.session.startDateDisplay} · {siteConfig.session.city}
+          {started ? siteConfig.session.afterBadge : siteConfig.session.beforeBadge}
         </span>
 
         {/* Pas de classe "reveal" : le H1 est l'élément LCP de la home (mesuré par
@@ -70,9 +74,9 @@ export default function Hero() {
         </p>
 
         <div className="reveal mt-10 flex flex-col sm:flex-row gap-4">
-          <Button href="/inscription" variant="gold-outline" size="lg">
+          <EnrollmentButton variant="gold-outline" size="lg">
             Réserver ma place
-          </Button>
+          </EnrollmentButton>
           {/* Priorité visuelle à la demande de brochure (doré plein) plutôt qu'à
               l'inscription : c'est l'objectif principal de la campagne Google Ads.
               Vers le formulaire "Recevez la brochure" (avec capture d'email) plutôt
@@ -84,8 +88,7 @@ export default function Hero() {
         </div>
 
         <p className="reveal mt-10 text-sm text-gold/60 max-w-md">
-          Fondée par une praticienne avec 15 ans de pratique de l&apos;hypnose, engagée dans une
-          démarche d&apos;accréditation internationale.
+          Fondée par une praticienne avec 15 ans de pratique de l&apos;hypnose. {siteConfig.accreditation}
         </p>
       </div>
     </section>

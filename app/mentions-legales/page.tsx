@@ -1,9 +1,11 @@
+import { pageOpenGraph } from "@/lib/page-metadata";
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: { absolute: `Mentions légales — ${siteConfig.name}` },
   description: "Mentions légales de NeuroGenesis Academy, école de formation en hypnose et neurosciences à Namur.",
+  openGraph: pageOpenGraph("Mentions légales — NeuroGenesis", siteConfig.description, "/mentions-legales"),
   alternates: { canonical: "/mentions-legales" },
   robots: { index: false, follow: true },
 };
@@ -23,9 +25,11 @@ export default function MentionsLegalesPage() {
           <div>
             <h2 className="font-serif text-h3 text-forest mb-3">Éditeur du site</h2>
             <p>
-              {siteConfig.legalName} — {siteConfig.founder}
+              {siteConfig.legalName} — {siteConfig.name}
               <br />
-              {siteConfig.address.streetAddress}, {siteConfig.address.addressLocality}, Belgique
+              Numéro d’entreprise (BCE) : {siteConfig.enterpriseNumber}
+              <br />
+              {siteConfig.address.streetAddress}, {siteConfig.address.postalCode} {siteConfig.address.addressLocality}, Belgique
               <br />
               Email : {siteConfig.email}
               <br />

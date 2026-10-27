@@ -1,6 +1,6 @@
+import EnrollmentButton from "@/components/shared/EnrollmentButton";
 import Link from "next/link";
 import Logo from "@/components/ui/Logo";
-import Button from "@/components/ui/Button";
 import { navLinks, siteConfig } from "@/lib/site-config";
 
 export default function Footer() {
@@ -14,9 +14,9 @@ export default function Footer() {
               Reprogrammez vos pensées, transformez votre vie.
             </p>
             <div className="mt-6">
-              <Button href="/inscription" variant="gold">
-                Réserver ma place — Octobre 2026
-              </Button>
+              <EnrollmentButton variant="gold">
+                Réserver ma place
+              </EnrollmentButton>
             </div>
           </div>
 
@@ -46,7 +46,8 @@ export default function Footer() {
                   {siteConfig.phoneDisplay}
                 </a>
               </li>
-              <li>{siteConfig.address.streetAddress}, {siteConfig.address.addressLocality} — Belgique</li>
+              <li>{siteConfig.address.streetAddress}, {siteConfig.address.postalCode} {siteConfig.address.addressLocality} — Belgique</li>
+              <li>BCE : {siteConfig.enterpriseNumber}</li>
             </ul>
             <div className="flex gap-4 mt-5">
               <a

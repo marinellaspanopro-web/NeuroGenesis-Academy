@@ -11,7 +11,7 @@ import { pageOpenGraph, pageTwitter } from "@/lib/page-metadata";
 
 const title = "Marinella Spano, fondatrice | NeuroGenesis Academy Namur";
 const description =
-  "Le parcours de Marinella Spano, fondatrice de NeuroGenesis Academy à Namur : 30 ans de relation clientèle, une vie d'étude de l'humain, et une preuve vécue de la neuroplasticité du cerveau.";
+  "Le parcours de Marinella Spano, fondatrice de NeuroGenesis Academy à Namur : 15 ans de pratique de l’hypnose, une vie d'étude de l'humain, et une preuve vécue de la neuroplasticité du cerveau.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -22,12 +22,13 @@ export const metadata: Metadata = {
 };
 
 const cheminement = [
-  "Plus de 30 ans consacrés à l'étude des mécanismes du cerveau et de la psychologie",
+  siteConfig.accreditation,
+  "Une étude approfondie des mécanismes du cerveau et de la psychologie",
   "La psycho-morphologie pratiquée depuis l'âge de 14 ans — lire le non-verbal, comprendre sans juger",
   "Deux années de formation en transgénérationnel à Toulouse",
   "15 ans de pratique de l'hypnose, au service de ses clients",
   "Plus de 25 ans de soins énergétiques",
-  "30 ans de relation clientèle — l'écoute comme métier",
+  "L'écoute au cœur de sa pratique",
 ] as const;
 
 const specialites = [
@@ -262,7 +263,7 @@ export default function FondatricePage() {
 
             <div className="reveal-item mt-12">
               <Button href="/formation-technicien" variant="gold">
-                Découvrir le cursus Technicien — prochain cycle le 31 octobre 2026
+                Découvrir le cursus Technicien
               </Button>
             </div>
           </RevealOnScroll>

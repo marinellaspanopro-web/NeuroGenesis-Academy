@@ -4,7 +4,8 @@
 
 export const siteConfig = {
   name: "NeuroGenesis Academy",
-  legalName: "NeuroGenesis Academy",
+  legalName: "Marinella Spano",
+  enterpriseNumber: "0806.895.092",
   founder: "Marinella Spano",
   url: "https://neurogenesis.be",
   description:
@@ -13,8 +14,8 @@ export const siteConfig = {
   phone: "+32 491 73 09 99",
   phoneDisplay: "+32 491 73 09 99",
   address: {
-    streetAddress: "Jambes",
-    addressLocality: "Namur",
+    streetAddress: "Allée St Vincent 21",
+    addressLocality: "Jambes",
     addressRegion: "Namur",
     postalCode: "5100",
     addressCountry: "BE",
@@ -28,11 +29,20 @@ export const siteConfig = {
     instagram: "https://www.instagram.com/neurogenesisacademy",
     linkedin: "https://www.linkedin.com/company/neurogenesis-academy",
   },
+  accreditation: "Engagée dans une démarche d'accréditation internationale (NGH, FBPH).",
+  traumaApproach: "Exploration des approches d'accompagnement des traumatismes par l'hypnose, intégrant notamment des techniques de stimulation bilatérale inspirées de l'EMDR, dans un cadre respectueux des compétences et des limites du praticien.",
   session: {
+    timeZone: "Europe/Brussels",
+    beforeBadge: "Prochain cycle Technicien · 31 octobre & 1er novembre 2026 · Namur",
+    afterBadge: "Cycle d'octobre 2026 en cours · Inscriptions ouvertes pour le prochain cycle",
+    afterMessage: "Le cycle d'octobre a débuté avec son groupe. Réservez dès maintenant votre place pour le prochain cycle.",
+    nextLabel: "Prochain cycle (liste prioritaire)",
+    nextMessage: "Votre demande concerne le prochain cycle Technicien. Les dates et les modalités seront précisées lors de notre échange individuel.",
+    nextHref: "/inscription?parcours=prochain-cycle",
     label: "Cycle Technicien · Octobre 2026",
     startDate: "2026-10-31",
     startDateDisplay: "31 octobre & 1er novembre 2026",
-    isoDeadline: "2026-10-31T09:00:00+02:00",
+    isoDeadline: "2026-10-31T09:00:00+01:00",
     city: "Namur",
     groupSize: "6 à 8 personnes maximum",
   },
@@ -40,18 +50,12 @@ export const siteConfig = {
     technicien: {
       amount: 1899,
       currency: "EUR",
-      earlyBirdPrice: 1549,
-      earlyBirdDeadline: "2026-09-20",
-      earlyBirdDeadlineDisplay: "20 septembre 2026",
     },
     praticien: { amount: 2750, currency: "EUR" },
     pack: {
       // Cursus Technicien + Praticien réunis.
       regularTotal: 4649, // 1899 + 2750, prix des deux cursus pris séparément
       packPrice: 4149,
-      earlyBirdPrice: 3899,
-      earlyBirdDeadline: "2026-09-20",
-      earlyBirdDeadlineDisplay: "20 septembre 2026",
     },
   },
 } as const;

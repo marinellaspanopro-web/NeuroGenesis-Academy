@@ -62,8 +62,7 @@ export default function FormationPraticienPage() {
             <p className="reveal-item mt-6 max-w-xl text-body-lg text-gold/75 leading-relaxed">
               200 heures pour affiner votre pratique clinique : de la gestion avancée de la
               douleur à la psychopathologie, en passant par la régression thérapeutique et la
-              psycho-morphologie. Accréditations internationales en cours pour la Francophonie
-              et l&apos;Italie.
+              psycho-morphologie. {siteConfig.accreditation}
             </p>
 
             <div className="reveal-item mt-12 flex flex-wrap gap-x-12 gap-y-6">

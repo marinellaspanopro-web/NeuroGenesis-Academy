@@ -1,3 +1,5 @@
+import CycleSessionLabel from "@/components/shared/CycleSessionLabel";
+import EnrollmentButton from "@/components/shared/EnrollmentButton";
 import type { Metadata } from "next";
 import Link from "next/link";
 import JsonLd from "@/components/shared/JsonLd";
@@ -10,9 +12,9 @@ import { siteConfig, technicienDates } from "@/lib/site-config";
 import { technicienModules, technicienBenefits } from "@/lib/cursus-data";
 import { pageOpenGraph, pageTwitter } from "@/lib/page-metadata";
 
-const title = "Formation Hypnose & Neurosciences | NeuroGenesis";
+const title = "Cursus Technicien en Hypnose & Neurosciences à Namur | NeuroGenesis";
 const description =
-  "Cursus Technicien en hypnose et neurosciences à Namur : 115h, 45h de pratique supervisée, groupe de 6 à 8 personnes. Prochain cycle dès le 31 octobre 2026.";
+  "Cursus Technicien en hypnose et neurosciences à Namur : 115h, 45h de pratique supervisée, groupe de 6 à 8 personnes. Formation en petits groupes à Namur.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -54,7 +56,7 @@ export default function FormationTechnicienPage() {
               <Logo variant="gold-on-forest" className="logo-glow h-12 w-auto sm:h-14" />
             </Link>
             <p className="reveal-item text-xs uppercase tracking-wide3 text-gold/80 mb-4">
-              Cursus Technicien · {siteConfig.session.startDateDisplay}
+              <CycleSessionLabel />
             </p>
             <h1 className="reveal-item font-serif text-hero text-cream max-w-3xl text-balance">
               Poser les fondations de votre <em className="accent-italic">pratique.</em>
@@ -74,9 +76,9 @@ export default function FormationTechnicienPage() {
             </div>
 
             <div className="reveal-item mt-10 flex flex-wrap gap-4">
-              <Button href="/inscription?parcours=technicien" variant="gold-outline" size="lg">
+              <EnrollmentButton pathway="technicien" variant="gold-outline" size="lg">
                 Réserver ma place
-              </Button>
+              </EnrollmentButton>
               <Button href="#brochure" variant="gold" size="lg">
                 Recevoir la brochure complète
               </Button>
@@ -130,7 +132,7 @@ export default function FormationTechnicienPage() {
       <section className="py-section-sm bg-cream-soft">
         <div className="container-editorial">
           <RevealOnScroll className="max-w-2xl mb-10">
-            <p className="reveal-item text-xs uppercase tracking-wide3 text-forest/60 mb-4">Calendrier</p>
+            <p className="reveal-item text-xs uppercase tracking-wide3 text-forest/60 mb-4">Calendrier du cycle 2026–2027</p>
             <h2 className="reveal-item font-serif text-h2 text-forest text-balance">
               Cinq week-ends, <em>d&apos;octobre 2026 à février 2027.</em>
             </h2>
@@ -169,15 +171,12 @@ export default function FormationTechnicienPage() {
           <RevealOnScroll className="rounded-lg border border-line bg-cream-soft p-10 sm:p-16 grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center">
             <div className="reveal-item">
               <p className="text-xs uppercase tracking-wide3 text-forest/60 mb-4">Investissement</p>
-              <p className="text-xs uppercase tracking-wide3 text-forest/50 mb-1 line-through decoration-1">
-                {siteConfig.pricing.technicien.amount}€
-              </p>
               <p className="font-serif text-hero text-forest leading-none">
-                {siteConfig.pricing.technicien.earlyBirdPrice}€
+                {siteConfig.pricing.technicien.amount}€
               </p>
               <div className="mt-4 inline-block rounded-md bg-forest/[0.04] border border-gold-deep/20 px-4 py-2">
                 <p className="text-xs uppercase tracking-wide2 text-gold-deep">
-                  Tarif Early Bird — avant le {siteConfig.pricing.technicien.earlyBirdDeadlineDisplay}
+                  Tarif du cursus complet
                 </p>
               </div>
               <p className="mt-4 text-ink/60 max-w-sm">
@@ -196,9 +195,9 @@ export default function FormationTechnicienPage() {
               </p>
             </div>
             <div className="reveal-item flex flex-col gap-4 sm:flex-row lg:flex-col">
-              <Button href="/inscription?parcours=technicien" variant="forest-outline" size="lg">
+              <EnrollmentButton pathway="technicien" variant="forest-outline" size="lg">
                 Réserver ma place
-              </Button>
+              </EnrollmentButton>
               <Button href="/formation-praticien" variant="forest-outline" size="lg">
                 Voir le cursus Praticien
               </Button>

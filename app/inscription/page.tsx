@@ -1,3 +1,4 @@
+import { pageOpenGraph, pageTwitter } from "@/lib/page-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import ContactForm from "@/components/shared/ContactForm";
@@ -5,12 +6,14 @@ import Logo from "@/components/ui/Logo";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: "Demande de réservation — NeuroGenesis Academy",
+  title: { absolute: "Réserver ma place — Formation Hypnose à Namur | NeuroGenesis" },
+  openGraph: pageOpenGraph("Réserver ma place — Formation Hypnose à Namur | NeuroGenesis", siteConfig.description, "/inscription"),
+  twitter: pageTwitter("Réserver ma place — Formation Hypnose à Namur | NeuroGenesis", siteConfig.description),
   description: "Effectuez votre demande de réservation pour un cursus en hypnose et neurosciences à Namur. Un entretien individuel précède la confirmation de l'inscription.",
   alternates: { canonical: "/inscription" },
 };
 
-type Pathway = "technicien" | "pack" | "praticien" | "a_determiner" | "autre";
+type Pathway = "technicien" | "pack" | "praticien" | "a_determiner" | "autre" | "prochain-cycle";
 
 export default async function InscriptionPage({
   searchParams,
@@ -18,7 +21,7 @@ export default async function InscriptionPage({
   searchParams: Promise<{ parcours?: string }>;
 }) {
   const { parcours } = await searchParams;
-  const choices: Pathway[] = ["technicien", "pack", "praticien", "a_determiner", "autre"];
+  const choices: Pathway[] = ["technicien", "pack", "praticien", "a_determiner", "autre", "prochain-cycle"];
   const initialInterest = choices.find((choice) => choice === parcours);
 
   return (
@@ -38,7 +41,7 @@ export default async function InscriptionPage({
       <section className="py-section bg-cream">
         <div className="container-editorial grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <ContactForm mode="inscription" initialInterest={initialInterest} />
+            <ContactForm key={initialInterest ?? "default"} mode="inscription" initialInterest={initialInterest} />
           </div>
           <aside className="lg:col-span-4 lg:col-start-9">
             <div className="rounded-lg border border-line bg-cream-soft p-8">

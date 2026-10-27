@@ -1,0 +1,156 @@
+NEUROGENESIS — CORRECTIONS ET TESTS
+Livraison du 26 octobre 2026
+
+RÉSULTAT
+Tarifs sans échéance : Technicien 1899 €, Praticien 2750 €, Pack 4149 €.
+Deux cursus séparés : 4649 €, soit 500 € d'économie avec le Pack.
+Design et organisation des pages conservés. Brochure de sept pages corrigée.
+Les mentions de l'EMDR décrivent une approche intégrative inspirée de certains
+principes, associée à l'hypnose, avec la formulation validée par Marinella.
+Aucune présentation comme certification ou enseignement du protocole complet.
+Formulation d'accréditation centralisée dans lib/site-config.ts.
+Expérience harmonisée à 15 ans de pratique de l'hypnose.
+Aucune opération git, aucun push, aucun déploiement et aucun e-mail réel envoyé.
+
+VARIABLES VERCEL
+À renseigner dans Project > Settings > Environment Variables, pour les
+contextes Production et Preview que vous utilisez, puis redéployer vous-même :
+
+RESEND_API_KEY
+  Clé privée Resend autorisée à envoyer depuis le domaine vérifié.
+  Ne jamais lui ajouter le préfixe NEXT_PUBLIC_ ni la mettre dans le ZIP.
+CONTACT_FROM_EMAIL
+  Exemple : NeuroGenesis Academy <contact@neurogenesis.be>
+  Utiliser une adresse de votre domaine vérifié dans Resend.
+  L'expéditeur d'essai onboarding@resend.dev est refusé par le code.
+CONTACT_TO_EMAIL
+  info@neurogenesis.be
+  Cette adresse est aussi le destinataire par défaut si la variable est absente.
+
+Aucune variable de date, aucun cron Vercel ni service externe ne sont nécessaires.
+Le domaine d'envoi doit être validé dans Resend avec les enregistrements DNS
+indiqués par Resend (SPF/DKIM). Vérifier aussi la politique DMARC du domaine.
+Le code ne configure pas ces éléments dans vos comptes.
+
+ENVOIS ET ERREURS
+Les trois formulaires utilisent POST /api/contact.
+1. Validation des données et champ anti-spam caché.
+2. Notification à CONTACT_TO_EMAIL, avec Reply-To du demandeur et message intégral.
+3. Confirmation au demandeur ; brochure en pièce jointe si demandée.
+Le PDF est lu depuis le projet déployé : un aperçu Vercel utilise donc la
+brochure de cet aperçu, sans dépendre d'une ancienne version en production.
+next.config.mjs inclut explicitement le PDF dans la fonction Vercel.
+Une erreur de notification affiche un échec visible et le téléphone.
+Si seule la confirmation ou la brochure échoue, le formulaire confirme que
+la demande a été reçue et affiche un avertissement avec le téléphone :
+il ne demande pas de renvoyer la demande, pour éviter les doublons.
+Une acceptation par Resend ne garantit pas la livraison dans la boîte mail :
+le contrôle des événements delivered/bounced reste nécessaire en test réel.
+La limitation anti-spam est locale à chaque instance (5 envois par IP / 10 min),
+pas un quota global distribué. Le champ caché vide n'empêche pas l'envoi.
+
+BASCULE AUTOMATIQUE
+Source à modifier : lib/site-config.ts, section session.
+Date : 2026-10-31T09:00:00+01:00, soit 08:00 UTC et 09:00 Europe/Brussels.
+Le site est rendu à chaque requête : la bascule n'est pas figée au build.
+CycleProvider transmet l'heure du serveur au premier rendu, puis actualise
+les onglets ouverts chaque seconde et au retour au premier plan.
+À partir de la date : badge de cycle en cours, texte de prochain cycle,
+remplacement du compte à rebours et lien /inscription?parcours=prochain-cycle.
+Le menu inclut « Prochain cycle (liste prioritaire) ».
+Le calendrier historique reste visible, y compris dans la brochure ; ses
+libellés ne promettent plus que ce calendrier est le prochain cycle.
+
+VÉRIFICATIONS RÉALISÉES
+- npm ci : réussi, versions du verrou conservées.
+- npm run build : réussi, compilation TypeScript comprise.
+  Le script utilise next build --webpack : Turbopack était bloqué par
+  l'ouverture d'un processus/port dans l'environnement local de vérification.
+- npm run lint : réussi, zéro erreur et zéro avertissement.
+- node tests/regression.mjs : réussi, sans appel réel à Resend.
+  Validation, trois types de demandes, prochain cycle, PDF, erreurs du service,
+  succès partiel, champ anti-spam et limitation des envois.
+  Frontière temporelle avant / à / après 09:00 et rendu serveur du compte à rebours.
+- node tests/pages.mjs : réussi contre le serveur de production local.
+  Neuf pages HTTP 200, canonical et og:url propres à chaque page,
+  absence de meta keywords, JSON-LD lisible et prix des trois offres exacts.
+  Présélection technicien/praticien/pack/prochain-cycle et Contact réservé
+  aux renseignements, y compris avec l'ancien paramètre demarche=inscription.
+- Navigateur : présélection du Pack et présentation de /inscription vérifiées.
+- Brochure : extraction du texte et contrôle visuel des sept pages.
+- Recherche finale dans les sources de l'application et le texte du PDF :
+  tarifs et formulations obsolètes supprimés. Mentions EMDR restantes volontaires.
+- Pièce jointe vérifiée dans la liste des fichiers de la fonction compilée.
+
+La compétence /seo schema n'est pas installée. Vérification effectuée dans le
+code, sur le HTML effectivement servi, et au regard des références officielles :
+https://schema.org/Course
+https://schema.org/Offer
+https://resend.com/docs/api-reference/emails/send-email
+Aucune validation distante du site modifié n'est revendiquée avant déploiement.
+
+TESTS RÉELS À EFFECTUER APRÈS VOTRE DÉPLOIEMENT
+Utiliser votre propre adresse de test. Inscrire TEST dans le nom ou le message
+pour identifier les e-mails. Espacer les essais si le quota anti-spam est atteint.
+
+1. Inscription
+   Ouvrir /inscription?parcours=pack et vérifier le choix Pack.
+   Faire de même avec technicien, praticien et prochain-cycle.
+   Envoyer une demande avec un prénom/nom, votre e-mail et la brochure cochée.
+   Attendre « Demande bien reçue ! » sans avertissement.
+   Vérifier la notification à info@neurogenesis.be (parcours, préférence,
+   coordonnées) et la confirmation dans votre boîte de test avec le bon PDF.
+   Répondre à la notification doit cibler l'adresse du demandeur.
+   Cette demande ne constitue pas une inscription définitivement confirmée.
+
+2. Contact
+   Ouvrir /contact. Sélectionner un parcours, écrire une question TEST et envoyer.
+   Vérifier la confirmation à l'écran, la réception intégrale du message à
+   info@neurogenesis.be et l'accusé de réception dans votre boîte de test.
+   Vérifier que le formulaire reste un renseignement et non une réservation.
+
+3. Brochure
+   Ouvrir /formation-technicien#brochure, entrer votre prénom et votre e-mail.
+   Vérifier la notification interne et l'e-mail de brochure avec pièce jointe.
+   Ouvrir le PDF : tarifs 1899 / 2750 / 4149 €, économie 500 €, formulation
+   intégrative validée et 15 ans de pratique de l'hypnose.
+   Vérifier également /formation-praticien#brochure qui partage ce composant.
+
+4. Diagnostic de livraison
+   Dans Resend > Emails, retrouver chaque notification et confirmation.
+   Contrôler les destinataires et les événements de livraison. Vérifier aussi
+   les courriers indésirables. En cas d'erreur, consulter les logs Vercel de
+   /api/contact et la configuration de domaine/clé/expéditeur dans Resend.
+
+5. Erreurs et anti-spam (sur un aperçu de test, pas en production)
+   Retirer temporairement la clé Resend de l'aperçu puis redéployer cet aperçu.
+   Envoyer une demande : une erreur visible et +32 491 73 09 99 doivent apparaître.
+   Remettre la variable et redéployer l'aperçu.
+   Avec les outils développeur, remplir le champ caché company : aucun e-mail
+   ne doit partir. Laisser ce champ vide lors des tests normaux.
+   Tester aussi un e-mail invalide et un téléphone absent quand « Par téléphone »
+   est choisi : la validation doit vous inviter à corriger le champ.
+
+6. Bascule et affichage
+   Les tests automatisés couvrent l'instant exact sans modifier l'horloge du Mac.
+   Pour un contrôle visuel complet, dans une copie de test seulement, régler
+   session.isoDeadline quelques minutes dans le futur puis ouvrir la page avant
+   l'échéance et la laisser ouverte. Vérifier le changement du badge, le
+   remplacement du compte à rebours et la présélection du prochain cycle.
+   Recharger la page après l'échéance : le serveur doit afficher le même état.
+   Restaurer impérativement la date officielle avant toute mise en production.
+   Contrôler les boutons et le formulaire sur mobile et sur ordinateur.
+
+7. SEO après déploiement
+   Vérifier la source des neuf pages : title, canonical, og:url.
+   Valider les pages de cursus et l'accueil sur https://validator.schema.org/.
+   Les données structurées ne garantissent pas un résultat enrichi dans Google.
+
+REJOUER EN LOCAL
+npm ci
+npm run lint
+node tests/regression.mjs
+npm run build
+npm run start -- --hostname 127.0.0.1 --port 3100
+Puis, dans un second terminal : node tests/pages.mjs
+Les tests de régression utilisent un faux service Resend et n'envoient rien.

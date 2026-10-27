@@ -3,6 +3,8 @@
 import { useState, type FormEvent } from "react";
 import { contactSchema } from "@/lib/contact-schema";
 import { siteConfig } from "@/lib/site-config";
+import { useCycle } from "@/components/shared/CycleProvider";
+import { isNextCycleInterest } from "@/lib/cycle";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -13,14 +15,18 @@ const fieldClasses =
 
 const labelClasses = "block text-sm font-medium text-forest mb-2";
 
-type ContactFormProps = { mode?: "inscription" | "renseignement"; initialInterest?: "technicien" | "pack" | "praticien" | "a_determiner" | "autre" };
+type ContactFormProps = { mode?: "inscription" | "renseignement"; initialInterest?: "technicien" | "pack" | "praticien" | "a_determiner" | "autre" | "prochain-cycle" };
 
 export default function ContactForm({ mode = "renseignement", initialInterest }: ContactFormProps) {
+  const { started } = useCycle();
+  const [warning, setWarning] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState<string | null>(null);
   const [contactPreference, setContactPreference] = useState("email");
   const [interest, setInterest] = useState(initialInterest ?? "");
+  const selectedInterest = interest || (mode === "inscription" && started ? "prochain-cycle" : "");
+  const nextCycle = mode === "inscription" && isNextCycleInterest(selectedInterest, started);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -69,6 +75,9 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
         throw new Error(body?.error ?? "Une erreur est survenue.");
       }
 
+      const response = await res.json();
+      if (response.ok !== true) throw new Error("Réponse du service invalide.");
+      setWarning(response.warning ?? null);
       setStatus("success");
       form.reset();
       setContactPreference("email");
@@ -86,6 +95,7 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
         className="rounded-lg border border-forest/20 bg-cream-soft p-10 text-center"
       >
         <p className="font-serif text-h3 text-forest mb-3">Demande bien reçue !</p>
+        {warning && <p role="alert" className="mb-4 text-ink/70">{warning}</p>}
         <p className="text-ink/70 max-w-md mx-auto leading-relaxed">
           {mode === "inscription"
             ? "Merci pour votre demande. Un échange individuel permettra de préciser les modalités avant confirmation de votre inscription."
@@ -103,6 +113,7 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
           ? "Votre inscription sera confirmée après un échange individuel sur votre projet et les modalités pratiques."
           : "Une question sur les formations ? Précisez le parcours qui vous intéresse ou sélectionnez « Autre question »."}</p>
       </div>
+      {nextCycle && <p role="status" className="rounded-sm border border-gold-deep/30 bg-cream-soft p-4 text-sm text-forest">{siteConfig.session.nextMessage}</p>}
       {/* Honeypot — masqué visuellement, ignoré par les humains */}
       <div className="hidden" aria-hidden="true">
         <label htmlFor="company">Ne pas remplir</label>
@@ -191,7 +202,7 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
             id="interest"
             name="interest"
             required
-            value={interest}
+            value={selectedInterest}
             onChange={(e) => setInterest(e.target.value)}
             aria-invalid={Boolean(errors.interest)}
             aria-describedby={errors.interest ? "interest-error" : undefined}
@@ -200,9 +211,10 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
             <option value="" disabled>
               Choisissez une option
             </option>
-            <option value="technicien">Cursus Technicien</option>
-            <option value="pack">Pack complet Technicien + Praticien</option>
+            <option value="technicien">Cursus Technicien{mode === "inscription" && started ? " — prochain cycle" : ""}</option>
+            <option value="pack">Pack complet Technicien + Praticien{mode === "inscription" && started ? " — prochain cycle" : ""}</option>
             <option value="praticien">Praticien (Technicien déjà acquis)</option>
+            <option value="prochain-cycle">{siteConfig.session.nextLabel}</option>
             <option value="a_determiner">À déterminer ensemble</option>
             <option value="autre">Autre question</option>
           </select>
@@ -214,7 +226,7 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
         </div>
       </div>
 
-      {interest === "autre" && (
+      {(interest === "autre" || mode === "renseignement") && (
         <div>
           <label htmlFor="message" className={labelClasses}>Votre question <span aria-hidden="true">*</span></label>
           <textarea id="message" name="message" required maxLength={2000} rows={4}
@@ -246,8 +258,7 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
           {serverError} Vous pouvez aussi nous écrire directement à{" "}
           <a href={`mailto:${siteConfig.email}`} className="underline">
             {siteConfig.email}
-          </a>
-          .
+          </a>{" "}ou nous appeler au <a href="tel:+32491730999" className="underline">{siteConfig.phoneDisplay}</a>.
         </p>
       )}
 

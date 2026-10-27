@@ -1,5 +1,7 @@
 "use client";
 
+import EnrollmentButton from "@/components/shared/EnrollmentButton";
+
 import { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
 
@@ -23,9 +25,9 @@ export default function StickyMobileCTA() {
         visible ? "translate-y-0" : "translate-y-full"
       }`}
     >
-      <Button href="/contact" variant="forest-outline" className="flex-1 !px-3 whitespace-nowrap">
+      <EnrollmentButton variant="forest-outline" className="flex-1 !px-3 whitespace-nowrap">
         Réserver ma place
-      </Button>
+      </EnrollmentButton>
       <Button
         href="/formation-technicien#brochure"
         variant="gold"

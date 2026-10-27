@@ -10,7 +10,7 @@ import { pageOpenGraph, pageTwitter } from "@/lib/page-metadata";
 
 const title = "Contact — NeuroGenesis Academy Namur";
 const description =
-  "Contactez NeuroGenesis Academy à Namur (Jambes) pour toute question sur les cursus Technicien et Praticien en hypnose et neurosciences. Réponse rapide garantie.";
+  "Contactez NeuroGenesis Academy à Namur (Jambes) pour toute question sur les cursus Technicien et Praticien en hypnose et neurosciences. Échange personnalisé.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -22,11 +22,11 @@ export const metadata: Metadata = {
 
 export default async function ContactPage({ searchParams }: { searchParams: Promise<{ demarche?: string; parcours?: string }> }) {
   const params = await searchParams;
-  const mode = params.demarche === "inscription" ? "inscription" : "renseignement";
+  const mode = "renseignement";
   const availablePaths = ["technicien", "pack", "praticien", "a_determiner", "autre"] as const;
   const initialInterest = availablePaths.find((path) => path === params.parcours);
   const mapQuery = encodeURIComponent(
-    `${siteConfig.address.streetAddress}, ${siteConfig.address.addressLocality}, Belgique`
+    `${siteConfig.address.streetAddress}, ${siteConfig.address.postalCode} ${siteConfig.address.addressLocality}, Belgique`
   );
 
   return (
@@ -87,7 +87,7 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
                     </a>
                   </li>
                   <li>
-                    {siteConfig.address.streetAddress}, {siteConfig.address.addressLocality}
+                    {siteConfig.address.streetAddress}, {siteConfig.address.postalCode} {siteConfig.address.addressLocality}
                     <br />
                     Belgique
                   </li>
