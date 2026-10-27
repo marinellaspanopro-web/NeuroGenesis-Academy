@@ -4,7 +4,8 @@
 
 export const siteConfig = {
   name: "NeuroGenesis Academy",
-  legalName: "NeuroGenesis Academy",
+  legalName: "Marinella Spano",
+  enterpriseNumber: "0806.895.092",
   founder: "Marinella Spano",
   url: "https://neurogenesis.be",
   description:
@@ -13,8 +14,8 @@ export const siteConfig = {
   phone: "+32 491 73 09 99",
   phoneDisplay: "+32 491 73 09 99",
   address: {
-    streetAddress: "Jambes",
-    addressLocality: "Namur",
+    streetAddress: "Allée St Vincent 21",
+    addressLocality: "Jambes",
     addressRegion: "Namur",
     postalCode: "5100",
     addressCountry: "BE",

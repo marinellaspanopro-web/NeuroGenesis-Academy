@@ -46,7 +46,8 @@ export default function Footer() {
                   {siteConfig.phoneDisplay}
                 </a>
               </li>
-              <li>{siteConfig.address.streetAddress}, {siteConfig.address.addressLocality} — Belgique</li>
+              <li>{siteConfig.address.streetAddress}, {siteConfig.address.postalCode} {siteConfig.address.addressLocality} — Belgique</li>
+              <li>BCE : {siteConfig.enterpriseNumber}</li>
             </ul>
             <div className="flex gap-4 mt-5">
               <a

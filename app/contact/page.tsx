@@ -26,7 +26,7 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
   const availablePaths = ["technicien", "pack", "praticien", "a_determiner", "autre"] as const;
   const initialInterest = availablePaths.find((path) => path === params.parcours);
   const mapQuery = encodeURIComponent(
-    `${siteConfig.address.streetAddress}, ${siteConfig.address.addressLocality}, Belgique`
+    `${siteConfig.address.streetAddress}, ${siteConfig.address.postalCode} ${siteConfig.address.addressLocality}, Belgique`
   );
 
   return (
@@ -87,7 +87,7 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
                     </a>
                   </li>
                   <li>
-                    {siteConfig.address.streetAddress}, {siteConfig.address.addressLocality}
+                    {siteConfig.address.streetAddress}, {siteConfig.address.postalCode} {siteConfig.address.addressLocality}
                     <br />
                     Belgique
                   </li>

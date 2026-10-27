@@ -88,8 +88,15 @@ Au contrôle Vercel du 27 octobre, le dernier déploiement Production reste celu
 du 24 octobre, commit `2fee2c7bb398747f605b7966c030b6c1dc99d320`.
 Les corrections ne sont donc pas encore publiées sur le domaine public.
 
-La mention concernant la TVA reste à préciser avec Marinella ; aucun changement
-fiscal ou tarifaire n'est introduit par ce complément.
+## Identification confirmée par Marinella
+
+Marinella a confirmé les données suivantes le 27 octobre : Marinella Spano,
+BCE 0806.895.092, Allée St Vincent 21, 5100 Jambes. Elles sont intégrées aux
+mentions légales et aux coordonnées partagées du site ; le pied de page reprend
+également le numéro BCE. La carte Contact utilise l'adresse complète.
+
+À sa demande, aucune mention TVA ou d'exonération n'est ajoutée dans l'attente
+de la confirmation de son comptable. Les prix restent inchangés.
 
 La fusion dans main et toute modification de production nécessitent l'accord
 explicite de Marinella sur la version finale présentée.
