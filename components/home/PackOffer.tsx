@@ -1,4 +1,4 @@
-import Button from "@/components/ui/Button";
+import EnrollmentButton from "@/components/shared/EnrollmentButton";
 import RevealOnScroll from "@/components/shared/RevealOnScroll";
 import { siteConfig } from "@/lib/site-config";
 
@@ -25,9 +25,9 @@ export default function PackOffer() {
               <li>— Paiement en plusieurs fois sans frais</li>
               <li>— Même exigence pédagogique, un seul engagement</li>
             </ul>
-            <Button href="/inscription?parcours=pack" variant="gold" size="lg">
+            <EnrollmentButton pathway="pack" variant="gold" size="lg">
               Réserver le Pack
-            </Button>
+            </EnrollmentButton>
           </div>
 
           <div className="reveal-item rounded-lg bg-cream-soft border border-line p-8 text-center lg:text-left">

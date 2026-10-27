@@ -3,6 +3,8 @@
 import { useState, type FormEvent } from "react";
 import { contactSchema } from "@/lib/contact-schema";
 import { siteConfig } from "@/lib/site-config";
+import { useCycle } from "@/components/shared/CycleProvider";
+import { isNextCycleInterest } from "@/lib/cycle";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -16,12 +18,15 @@ const labelClasses = "block text-sm font-medium text-forest mb-2";
 type ContactFormProps = { mode?: "inscription" | "renseignement"; initialInterest?: "technicien" | "pack" | "praticien" | "a_determiner" | "autre" | "prochain-cycle" };
 
 export default function ContactForm({ mode = "renseignement", initialInterest }: ContactFormProps) {
+  const { started } = useCycle();
   const [warning, setWarning] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState<string | null>(null);
   const [contactPreference, setContactPreference] = useState("email");
   const [interest, setInterest] = useState(initialInterest ?? "");
+  const selectedInterest = interest || (mode === "inscription" && started ? "prochain-cycle" : "");
+  const nextCycle = mode === "inscription" && isNextCycleInterest(selectedInterest, started);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -108,6 +113,7 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
           ? "Votre inscription sera confirmée après un échange individuel sur votre projet et les modalités pratiques."
           : "Une question sur les formations ? Précisez le parcours qui vous intéresse ou sélectionnez « Autre question »."}</p>
       </div>
+      {nextCycle && <p role="status" className="rounded-sm border border-gold-deep/30 bg-cream-soft p-4 text-sm text-forest">{siteConfig.session.nextMessage}</p>}
       {/* Honeypot — masqué visuellement, ignoré par les humains */}
       <div className="hidden" aria-hidden="true">
         <label htmlFor="company">Ne pas remplir</label>
@@ -196,7 +202,7 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
             id="interest"
             name="interest"
             required
-            value={interest}
+            value={selectedInterest}
             onChange={(e) => setInterest(e.target.value)}
             aria-invalid={Boolean(errors.interest)}
             aria-describedby={errors.interest ? "interest-error" : undefined}
@@ -205,8 +211,8 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
             <option value="" disabled>
               Choisissez une option
             </option>
-            <option value="technicien">Cursus Technicien</option>
-            <option value="pack">Pack complet Technicien + Praticien</option>
+            <option value="technicien">Cursus Technicien{mode === "inscription" && started ? " — prochain cycle" : ""}</option>
+            <option value="pack">Pack complet Technicien + Praticien{mode === "inscription" && started ? " — prochain cycle" : ""}</option>
             <option value="praticien">Praticien (Technicien déjà acquis)</option>
             <option value="prochain-cycle">{siteConfig.session.nextLabel}</option>
             <option value="a_determiner">À déterminer ensemble</option>

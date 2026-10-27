@@ -36,6 +36,7 @@ export const siteConfig = {
     afterBadge: "Cycle d'octobre 2026 en cours · Inscriptions ouvertes pour le prochain cycle",
     afterMessage: "Le cycle d'octobre a débuté avec son groupe. Réservez dès maintenant votre place pour le prochain cycle.",
     nextLabel: "Prochain cycle (liste prioritaire)",
+    nextMessage: "Votre demande concerne le prochain cycle Technicien. Les dates et les modalités seront précisées lors de notre échange individuel.",
     nextHref: "/inscription?parcours=prochain-cycle",
     label: "Cycle Technicien · Octobre 2026",
     startDate: "2026-10-31",

@@ -4,6 +4,7 @@ import path from "node:path";
 import { Resend } from "resend";
 import { contactSchema, interestLabels, contactPreferenceLabels } from "@/lib/contact-schema";
 import { siteConfig } from "@/lib/site-config";
+import { hasCycleStarted, isNextCycleInterest } from "@/lib/cycle";
 
 export const runtime = "nodejs";
 const submissions = new Map<string, number[]>();
@@ -49,6 +50,8 @@ export async function POST(request: Request) {
       return failure("Le service d'envoi est temporairement indisponible.", 503);
     }
     const { name, firstName, lastName, email, phone, interest, wantsBrochure, contactPreference, requestType, message } = result.data;
+    // Determine the cycle on the server, even if the form was opened before 09:00.
+    const nextCycle = requestType === "inscription" && isNextCycleInterest(interest, hasCycleStarted());
     const displayName = requestType === "brochure" ? name : `${firstName} ${lastName}`;
     const label = requestType === "brochure" ? "brochure" : requestType === "inscription" ? "inscription" : "renseignements";
     const resend = new Resend(apiKey);
@@ -58,6 +61,7 @@ export async function POST(request: Request) {
       text: [
         `Nom : ${displayName}`, `Email : ${email}`, `Téléphone : ${phone || "Non renseigné"}`,
         `Type de demande : ${label}`, `Parcours : ${interestLabels[interest]}`,
+        ...(nextCycle ? [`Cycle demandé : ${siteConfig.session.nextLabel}`] : []),
         `Contact souhaité : ${contactPreferenceLabels[contactPreference]}`,
         `Message : ${message || "Non renseigné"}`,
         `Brochure souhaitée : ${wantsBrochure || requestType === "brochure" ? "Oui" : "Non"}`,
@@ -82,6 +86,7 @@ export async function POST(request: Request) {
           subject: "Votre projet de formation chez NeuroGenesis",
           paragraphs: [
             "Merci de m’avoir écrit et de vous intéresser à NeuroGenesis.",
+            ...(nextCycle ? [siteConfig.session.nextMessage] : []),
             "Choisir une formation, c’est aussi choisir une personne et un cadre dans lesquels on se sent bien pour apprendre. Je serais heureuse de découvrir ce qui vous amène vers l’hypnose, ce que vous souhaitez en faire et de répondre aux questions que vous vous posez.",
             "Je reprendrai contact avec vous selon la préférence indiquée dans votre demande. Nous pourrons prendre le temps d’échanger sur votre projet et les modalités du parcours, avant de confirmer votre inscription.",
             ...(withBrochure ? ["Vous trouverez également la brochure en pièce jointe, pour la parcourir tranquillement d’ici là."] : []),

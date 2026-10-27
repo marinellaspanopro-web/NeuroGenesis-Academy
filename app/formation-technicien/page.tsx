@@ -1,3 +1,5 @@
+import CycleSessionLabel from "@/components/shared/CycleSessionLabel";
+import EnrollmentButton from "@/components/shared/EnrollmentButton";
 import type { Metadata } from "next";
 import Link from "next/link";
 import JsonLd from "@/components/shared/JsonLd";
@@ -54,7 +56,7 @@ export default function FormationTechnicienPage() {
               <Logo variant="gold-on-forest" className="logo-glow h-12 w-auto sm:h-14" />
             </Link>
             <p className="reveal-item text-xs uppercase tracking-wide3 text-gold/80 mb-4">
-              Cursus Technicien · {siteConfig.session.startDateDisplay}
+              <CycleSessionLabel />
             </p>
             <h1 className="reveal-item font-serif text-hero text-cream max-w-3xl text-balance">
               Poser les fondations de votre <em className="accent-italic">pratique.</em>
@@ -74,9 +76,9 @@ export default function FormationTechnicienPage() {
             </div>
 
             <div className="reveal-item mt-10 flex flex-wrap gap-4">
-              <Button href="/inscription?parcours=technicien" variant="gold-outline" size="lg">
+              <EnrollmentButton pathway="technicien" variant="gold-outline" size="lg">
                 Réserver ma place
-              </Button>
+              </EnrollmentButton>
               <Button href="#brochure" variant="gold" size="lg">
                 Recevoir la brochure complète
               </Button>
@@ -130,7 +132,7 @@ export default function FormationTechnicienPage() {
       <section className="py-section-sm bg-cream-soft">
         <div className="container-editorial">
           <RevealOnScroll className="max-w-2xl mb-10">
-            <p className="reveal-item text-xs uppercase tracking-wide3 text-forest/60 mb-4">Calendrier</p>
+            <p className="reveal-item text-xs uppercase tracking-wide3 text-forest/60 mb-4">Calendrier du cycle 2026–2027</p>
             <h2 className="reveal-item font-serif text-h2 text-forest text-balance">
               Cinq week-ends, <em>d&apos;octobre 2026 à février 2027.</em>
             </h2>
@@ -193,9 +195,9 @@ export default function FormationTechnicienPage() {
               </p>
             </div>
             <div className="reveal-item flex flex-col gap-4 sm:flex-row lg:flex-col">
-              <Button href="/inscription?parcours=technicien" variant="forest-outline" size="lg">
+              <EnrollmentButton pathway="technicien" variant="forest-outline" size="lg">
                 Réserver ma place
-              </Button>
+              </EnrollmentButton>
               <Button href="/formation-praticien" variant="forest-outline" size="lg">
                 Voir le cursus Praticien
               </Button>

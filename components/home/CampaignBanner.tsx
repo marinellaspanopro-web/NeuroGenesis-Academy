@@ -1,8 +1,9 @@
 "use client";
 
+import EnrollmentButton from "@/components/shared/EnrollmentButton";
+
 import { useCycle } from "@/components/shared/CycleProvider";
 import Countdown from "@/components/shared/Countdown";
-import Button from "@/components/ui/Button";
 import RevealOnScroll from "@/components/shared/RevealOnScroll";
 import { siteConfig } from "@/lib/site-config";
 
@@ -48,9 +49,9 @@ export default function CampaignBanner() {
               ))}
             </ul>
 
-            <Button href={started ? siteConfig.session.nextHref : "/inscription"} variant="gold" size="lg">
+            <EnrollmentButton variant="gold" size="lg">
               Réserver ma place
-            </Button>
+            </EnrollmentButton>
           </div>
 
           <div className="reveal-item flex flex-col items-start lg:items-end">

@@ -41,6 +41,27 @@ const render = (date) => renderToStaticMarkup(React.createElement(Provider,{init
 assert.match(render("2026-10-31T07:59:59Z"),/role="timer"/);
 assert.doesNotMatch(render("2026-10-31T08:00:00Z"),/role="timer"/);
 assert.match(render("2026-10-31T08:00:00Z"),/parcours=prochain-cycle/);
+const EnrollmentButton = load("components/shared/EnrollmentButton.tsx").default;
+const ContactForm = load("components/shared/ContactForm.tsx").default;
+const renderAt = (date, component, props = {}) => renderToStaticMarkup(React.createElement(Provider,
+ {initialNow:Date.parse(date)},React.createElement(component,props)));
+for (const date of ["2026-10-31T07:59:59.999Z", "2026-10-31T08:00:00Z", "2026-11-01T08:00:00Z"]) {
+ const started = date !== "2026-10-31T07:59:59.999Z";
+ for (const pathway of [undefined,"technicien","pack","praticien"]) {
+  const html = renderAt(date, EnrollmentButton, {pathway,children:"Réserver ma place"});
+  const expected = started && (!pathway || pathway === "technicien") ? "/inscription?parcours=prochain-cycle" : pathway ? `/inscription?parcours=${pathway}` : "/inscription";
+  assert.ok(html.includes(`href="${expected}"`));
+  assert.equal(/prochain cycle/i.test(html), started && pathway !== "praticien");
+ }
+ for (const interest of [undefined,"technicien","pack","praticien","prochain-cycle"]) {
+  const html = renderAt(date, ContactForm, {mode:"inscription",initialInterest:interest});
+  const next = interest === "prochain-cycle" || (started && interest !== "praticien");
+  assert.equal(html.includes(siteConfig.session.nextMessage), next);
+  if (interest) assert.ok(html.includes(`<option value="${interest}" selected="">`));
+  if (!interest && started) assert.ok(html.includes('<option value="prochain-cycle" selected="">'));
+ }
+ assert.ok(!renderAt(date, ContactForm, {mode:"renseignement",initialInterest:"pack"}).includes(siteConfig.session.nextMessage));
+}
 const { courseSchema } = load("lib/schema.ts");
 for (const price of [1899,2750,4149]) {
  const schema=courseSchema({name:"Cursus",description:"Formation",url:siteConfig.url,price,duration:"PT115H"});
@@ -56,6 +77,7 @@ async function submit(payload, ip = `test-${serial++}`) {
  return {status:response.status,body:await response.json()};
 }
 const oldEnv={...process.env};
+const realNow = Date.now;
 try {
  process.env.RESEND_API_KEY="test-key";process.env.CONTACT_FROM_EMAIL="NeuroGenesis <contact@neurogenesis.be>";process.env.CONTACT_TO_EMAIL="info@neurogenesis.be";
  for (const payload of [valid,{...valid,requestType:"renseignement",message:"Question de test conservée"},{name:"Test",email:"test@example.com",requestType:"brochure",interest:"technicien",wantsBrochure:true,company:""},{...valid,interest:"prochain-cycle",wantsBrochure:true}]) {
@@ -63,6 +85,18 @@ try {
   if(payload.message)assert.match(sends[0].text,/Question de test conservée/);
   if(payload.wantsBrochure)assert.ok(sends[1].attachments[0].content.length>1000);
  }
+ // A form opened before the deadline and submitted afterwards must reach the next cycle.
+ for (const date of ["2026-10-31T07:59:59.999Z", "2026-10-31T08:00:00Z", "2026-11-01T08:00:00Z"]) {
+  Date.now = () => Date.parse(date);
+  for (const interest of ["technicien","pack","praticien","prochain-cycle"]) {
+   assert.equal((await submit({...valid,interest})).status,200);
+   const next = interest === "prochain-cycle" || (date !== "2026-10-31T07:59:59.999Z" && interest !== "praticien");
+   assert.equal(sends[0].text.includes("Cycle demandé :"),next);
+   assert.equal(sends[1].text.includes(siteConfig.session.nextMessage),next);
+   assert.ok(sends[0].text.includes(load("lib/contact-schema.ts").interestLabels[interest]));
+  }
+ }
+ Date.now = realNow;
  assert.equal((await submit({...valid,email:"invalid"})).status,400);assert.equal(sends.length,0);
  assert.equal((await submit("invalid json")).status,400);
  assert.equal((await submit({...valid,company:"spam"})).status,200);assert.equal(sends.length,0);
@@ -73,5 +107,5 @@ try {
  failAt=0;
  for(let i=0;i<5;i++) assert.equal((await submit(valid,"same-ip")).status,200);
  assert.equal((await submit(valid,"same-ip")).status,429);assert.equal(sends.length,0);
-} finally { for(const key of ["RESEND_API_KEY","CONTACT_FROM_EMAIL","CONTACT_TO_EMAIL"]) {if(oldEnv[key]===undefined)delete process.env[key];else process.env[key]=oldEnv[key];} }
+} finally { Date.now = realNow; for(const key of ["RESEND_API_KEY","CONTACT_FROM_EMAIL","CONTACT_TO_EMAIL"]) {if(oldEnv[key]===undefined)delete process.env[key];else process.env[key]=oldEnv[key];} }
 console.log("PASS: cycle boundary + server rendering, Course/Offer prices, form validation, all request types, attachment, notification/confirmation failures, honeypot and rate limit. No real email sent.");

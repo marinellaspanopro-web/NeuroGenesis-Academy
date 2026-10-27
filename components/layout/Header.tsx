@@ -1,9 +1,10 @@
 "use client";
 
+import EnrollmentButton from "@/components/shared/EnrollmentButton";
+
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Button from "@/components/ui/Button";
 import { navLinks } from "@/lib/site-config";
 
 export default function Header() {
@@ -96,9 +97,9 @@ export default function Header() {
         </nav>
 
         <div className="hidden lg:block">
-          <Button href="/inscription" variant="forest-outline" size="md">
+          <EnrollmentButton variant="forest-outline" size="md">
             Réserver ma place
-          </Button>
+          </EnrollmentButton>
         </div>
 
         <button
@@ -146,9 +147,9 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
-          <Button href="/inscription" variant="gold" className="mt-2 w-full">
+          <EnrollmentButton variant="gold" className="mt-2 w-full">
             Réserver ma place
-          </Button>
+          </EnrollmentButton>
         </nav>
       )}
     </header>

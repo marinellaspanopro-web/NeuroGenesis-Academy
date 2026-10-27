@@ -1,6 +1,6 @@
+import EnrollmentButton from "@/components/shared/EnrollmentButton";
 import Link from "next/link";
 import Logo from "@/components/ui/Logo";
-import Button from "@/components/ui/Button";
 import { navLinks, siteConfig } from "@/lib/site-config";
 
 export default function Footer() {
@@ -14,9 +14,9 @@ export default function Footer() {
               Reprogrammez vos pensées, transformez votre vie.
             </p>
             <div className="mt-6">
-              <Button href="/inscription" variant="gold">
+              <EnrollmentButton variant="gold">
                 Réserver ma place
-              </Button>
+              </EnrollmentButton>
             </div>
           </div>
 
