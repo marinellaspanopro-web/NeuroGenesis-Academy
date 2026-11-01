@@ -130,6 +130,7 @@ export default function FormationPraticienPage() {
             <h2 className="reveal-item font-serif text-h2 text-forest text-balance">
               Huit week-ends, <em>de mars à septembre 2027.</em>
             </h2>
+            <p className="reveal-item mt-4 text-sm text-ink/70">Ce cycle s’adresse aux personnes ayant acquis le niveau Technicien avant mars 2027. Pour les élèves du Technicien de janvier à août 2027, les dates du cursus Praticien suivant restent à confirmer.</p>
           </RevealOnScroll>
 
           <RevealOnScroll className="grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">

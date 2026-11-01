@@ -114,6 +114,8 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
           : "Une question sur les formations ? Précisez le parcours qui vous intéresse ou sélectionnez « Autre question »."}</p>
       </div>
       {nextCycle && <p role="status" className="rounded-sm border border-gold-deep/30 bg-cream-soft p-4 text-sm text-forest">{siteConfig.session.nextMessage}</p>}
+      {mode === "inscription" && !started && selectedInterest !== "praticien" && <p role="status" className="rounded-sm border border-gold-deep/30 bg-cream-soft p-4 text-sm text-forest">{siteConfig.session.closedMessage} {siteConfig.session.currentMessage}</p>}
+      {selectedInterest === "pack" && !started && <p className="text-sm text-ink/70">{siteConfig.session.packMessage}</p>}
       {/* Honeypot — masqué visuellement, ignoré par les humains */}
       <div className="hidden" aria-hidden="true">
         <label htmlFor="company">Ne pas remplir</label>
@@ -211,10 +213,10 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
             <option value="" disabled>
               Choisissez une option
             </option>
-            <option value="technicien">Cursus Technicien{mode === "inscription" && started ? " — prochain cycle" : ""}</option>
-            <option value="pack">Pack complet Technicien + Praticien{mode === "inscription" && started ? " — prochain cycle" : ""}</option>
+            <option value="technicien">Cursus Technicien{started ? " — prochain cycle" : " — janvier 2027"}</option>
+            <option value="pack">Pack complet Technicien + Praticien{started ? " — prochain cycle" : " — début janvier 2027"}</option>
             <option value="praticien">Praticien (Technicien déjà acquis)</option>
-            <option value="prochain-cycle">{siteConfig.session.nextLabel}</option>
+            {(started || selectedInterest === "prochain-cycle") && <option value="prochain-cycle">{started ? siteConfig.session.nextLabel : siteConfig.session.label}</option>}
             <option value="a_determiner">À déterminer ensemble</option>
             <option value="autre">Autre question</option>
           </select>
