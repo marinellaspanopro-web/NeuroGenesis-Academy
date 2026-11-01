@@ -8,13 +8,13 @@ import BrochureRequestForm from "@/components/shared/BrochureRequestForm";
 import Button from "@/components/ui/Button";
 import Logo from "@/components/ui/Logo";
 import { courseSchema, breadcrumbSchema } from "@/lib/schema";
-import { siteConfig, technicienDates } from "@/lib/site-config";
+import { siteConfig, technicienDates, octoberTechnicienDates } from "@/lib/site-config";
 import { technicienModules, technicienBenefits } from "@/lib/cursus-data";
 import { pageOpenGraph, pageTwitter } from "@/lib/page-metadata";
 
 const title = "Cursus Technicien en Hypnose & Neurosciences à Namur | NeuroGenesis";
 const description =
-  "Cursus Technicien en hypnose et neurosciences à Namur : 115h, 45h de pratique supervisée, groupe de 6 à 8 personnes. Formation en petits groupes à Namur.";
+  "Cursus Technicien en hypnose à Namur : nouvelle session le 23 janvier 2027, cinq week-ends jusqu’en août. 115h dont 45h de pratique supervisée, petit groupe.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -132,10 +132,11 @@ export default function FormationTechnicienPage() {
       <section className="py-section-sm bg-cream-soft">
         <div className="container-editorial">
           <RevealOnScroll className="max-w-2xl mb-10">
-            <p className="reveal-item text-xs uppercase tracking-wide3 text-forest/60 mb-4">Calendrier du cycle 2026–2027</p>
+            <p className="reveal-item text-xs uppercase tracking-wide3 text-forest/60 mb-4">Calendrier du cycle Technicien 2027</p>
             <h2 className="reveal-item font-serif text-h2 text-forest text-balance">
-              Cinq week-ends, <em>d&apos;octobre 2026 à février 2027.</em>
+              Cinq week-ends, <em>de janvier à août 2027.</em>
             </h2>
+            <p className="reveal-item mt-4 text-sm text-ink/70">{siteConfig.session.closedMessage}</p>
           </RevealOnScroll>
 
           <RevealOnScroll className="grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-5">
@@ -148,6 +149,11 @@ export default function FormationTechnicienPage() {
               </div>
             ))}
           </RevealOnScroll>
+          <details className="mt-10 border-t border-line pt-5 text-sm text-ink/70">
+            <summary className="cursor-pointer text-forest">Cycle d’octobre 2026 — calendrier des élèves déjà inscrits</summary>
+            <p className="mt-3">Ce calendrier concerne uniquement le cycle d’octobre, dont les inscriptions sont clôturées.</p>
+            <ul className="mt-3 space-y-2">{octoberTechnicienDates.map((date) => <li key={date}>{date}</li>)}</ul>
+          </details>
         </div>
       </section>
 

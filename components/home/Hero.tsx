@@ -59,6 +59,8 @@ export default function Hero() {
           {started ? siteConfig.session.afterBadge : siteConfig.session.beforeBadge}
         </span>
 
+        <p className="mb-6 max-w-xl text-sm text-gold/80">{siteConfig.session.closedMessage}</p>
+
         {/* Pas de classe "reveal" : le H1 est l'élément LCP de la home (mesuré par
             Google) — il doit être visible instantanément au chargement plutôt
             que d'attendre l'animation GSAP, pour améliorer les Core Web Vitals. */}

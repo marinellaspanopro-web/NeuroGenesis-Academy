@@ -33,16 +33,19 @@ export const siteConfig = {
   traumaApproach: "Exploration des approches d'accompagnement des traumatismes par l'hypnose, intégrant notamment des techniques de stimulation bilatérale inspirées de l'EMDR, dans un cadre respectueux des compétences et des limites du praticien.",
   session: {
     timeZone: "Europe/Brussels",
-    beforeBadge: "Prochain cycle Technicien · 31 octobre & 1er novembre 2026 · Namur",
-    afterBadge: "Cycle d'octobre 2026 en cours · Inscriptions ouvertes pour le prochain cycle",
-    afterMessage: "Le cycle d'octobre a débuté avec son groupe. Réservez dès maintenant votre place pour le prochain cycle.",
+    closedMessage: "Les inscriptions pour la session d’octobre 2026 sont désormais clôturées.",
+    beforeBadge: "Nouvelle session Technicien · 23 & 24 janvier 2027 · Namur",
+    afterBadge: "Cycle de janvier 2027 en cours · Liste prioritaire pour le prochain cycle",
+    afterMessage: "Les inscriptions au cycle de janvier 2027 sont clôturées. Vous pouvez manifester votre intérêt pour le prochain cycle, dont les dates restent à confirmer.",
+    currentMessage: "La prochaine session Technicien débute les 23 et 24 janvier 2027 à Jambes (Namur). Elle comprend cinq week-ends, de janvier à août 2027.",
+    packMessage: "Pour le parcours débutant en janvier 2027, le Technicien se déroule de janvier à août 2027. Le calendrier Praticien qui suivra reste à confirmer avant tout engagement sur le Pack.",
     nextLabel: "Prochain cycle (liste prioritaire)",
     nextMessage: "Votre demande concerne le prochain cycle Technicien. Les dates et les modalités seront précisées lors de notre échange individuel.",
     nextHref: "/inscription?parcours=prochain-cycle",
-    label: "Cycle Technicien · Octobre 2026",
-    startDate: "2026-10-31",
-    startDateDisplay: "31 octobre & 1er novembre 2026",
-    isoDeadline: "2026-10-31T09:00:00+01:00",
+    label: "Cycle Technicien · Janvier 2027",
+    startDate: "2027-01-23",
+    startDateDisplay: "23 & 24 janvier 2027",
+    isoDeadline: "2027-01-23T09:00:00+01:00",
     city: "Namur",
     groupSize: "6 à 8 personnes maximum",
   },
@@ -63,6 +66,15 @@ export const siteConfig = {
 // Calendrier des week-ends de formation — une ligne par session (2 jours).
 // Source : agenda officiel NGT / NGP (confirmé par la fondatrice).
 export const technicienDates = [
+  "23 & 24 janvier 2027",
+  "27 & 28 février 2027",
+  "3 & 4 avril 2027",
+  "3 & 4 juillet 2027",
+  "14 & 15 août 2027",
+] as const;
+
+// Calendrier conservé pour les élèves du cycle d’octobre, désormais fermé aux inscriptions.
+export const octoberTechnicienDates = [
   "31 octobre & 1er novembre 2026",
   "14 & 15 novembre 2026",
   "28 & 29 novembre 2026",

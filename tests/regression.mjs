@@ -27,26 +27,30 @@ function loader(mocks = {}) {
   return load;
 }
 const load = loader();
-const { siteConfig } = load("lib/site-config.ts");
+const { siteConfig, technicienDates, octoberTechnicienDates } = load("lib/site-config.ts");
 const { hasCycleStarted } = load("lib/cycle.ts");
-assert.equal(hasCycleStarted(Date.parse("2026-10-31T07:59:59.999Z")), false);
-assert.equal(hasCycleStarted(Date.parse("2026-10-31T08:00:00Z")), true);
-assert.equal(hasCycleStarted(Date.parse("2026-11-01T08:00:00Z")), true);
+// The former October rollover must not close the newly advertised January cycle.
+assert.equal(hasCycleStarted(Date.parse("2026-10-31T08:00:00Z")), false);
+assert.equal(hasCycleStarted(Date.parse("2027-01-23T07:59:59.999Z")), false);
+assert.deepEqual(technicienDates, ["23 & 24 janvier 2027", "27 & 28 février 2027", "3 & 4 avril 2027", "3 & 4 juillet 2027", "14 & 15 août 2027"]);
+assert.ok(octoberTechnicienDates.includes("31 octobre & 1er novembre 2026"));
+assert.equal(hasCycleStarted(Date.parse("2027-01-23T08:00:00Z")), true);
+assert.equal(hasCycleStarted(Date.parse("2027-01-24T08:00:00Z")), true);
 assert.match(new Intl.DateTimeFormat("fr-BE", { timeZone: siteConfig.session.timeZone, hour: "2-digit", minute: "2-digit" }).format(new Date(siteConfig.session.isoDeadline)), /09:00/);
 const React = require("react");
 const { renderToStaticMarkup } = require("react-dom/server");
 const Provider = load("components/shared/CycleProvider.tsx").default;
 const Countdown = load("components/shared/Countdown.tsx").default;
 const render = (date) => renderToStaticMarkup(React.createElement(Provider,{initialNow:Date.parse(date)},React.createElement(Countdown,{target:siteConfig.session.isoDeadline})));
-assert.match(render("2026-10-31T07:59:59Z"),/role="timer"/);
-assert.doesNotMatch(render("2026-10-31T08:00:00Z"),/role="timer"/);
-assert.match(render("2026-10-31T08:00:00Z"),/parcours=prochain-cycle/);
+assert.match(render("2027-01-23T07:59:59Z"),/role="timer"/);
+assert.doesNotMatch(render("2027-01-23T08:00:00Z"),/role="timer"/);
+assert.match(render("2027-01-23T08:00:00Z"),/parcours=prochain-cycle/);
 const EnrollmentButton = load("components/shared/EnrollmentButton.tsx").default;
 const ContactForm = load("components/shared/ContactForm.tsx").default;
 const renderAt = (date, component, props = {}) => renderToStaticMarkup(React.createElement(Provider,
  {initialNow:Date.parse(date)},React.createElement(component,props)));
-for (const date of ["2026-10-31T07:59:59.999Z", "2026-10-31T08:00:00Z", "2026-11-01T08:00:00Z"]) {
- const started = date !== "2026-10-31T07:59:59.999Z";
+for (const date of ["2027-01-23T07:59:59.999Z", "2027-01-23T08:00:00Z", "2027-01-24T08:00:00Z"]) {
+ const started = date !== "2027-01-23T07:59:59.999Z";
  for (const pathway of [undefined,"technicien","pack","praticien"]) {
   const html = renderAt(date, EnrollmentButton, {pathway,children:"Réserver ma place"});
   const expected = started && (!pathway || pathway === "technicien") ? "/inscription?parcours=prochain-cycle" : pathway ? `/inscription?parcours=${pathway}` : "/inscription";
@@ -55,7 +59,7 @@ for (const date of ["2026-10-31T07:59:59.999Z", "2026-10-31T08:00:00Z", "2026-11
  }
  for (const interest of [undefined,"technicien","pack","praticien","prochain-cycle"]) {
   const html = renderAt(date, ContactForm, {mode:"inscription",initialInterest:interest});
-  const next = interest === "prochain-cycle" || (started && interest !== "praticien");
+  const next = started && interest !== "praticien";
   assert.equal(html.includes(siteConfig.session.nextMessage), next);
   if (interest) assert.ok(html.includes(`<option value="${interest}" selected="">`));
   if (!interest && started) assert.ok(html.includes('<option value="prochain-cycle" selected="">'));
@@ -85,13 +89,26 @@ try {
   if(payload.message)assert.match(sends[0].text,/Question de test conservée/);
   if(payload.wantsBrochure)assert.ok(sends[1].attachments[0].content.length>1000);
  }
+ // Old links and tabs must refer to January, including on October 31.
+ for (const date of ["2026-10-29T12:00:00Z", "2026-10-31T08:00:00Z"]) {
+  Date.now = () => Date.parse(date);
+  for (const interest of ["technicien", "pack", "prochain-cycle"]) {
+   for (const requestType of ["inscription", "brochure"]) {
+    assert.equal((await submit({...valid,name:"Test",interest,requestType})).status,200);
+    assert.ok(sends[1].text.includes(siteConfig.session.currentMessage));
+    for (const date of technicienDates) assert.ok(sends[1].text.includes(date));
+    assert.equal(sends[1].text.includes(siteConfig.session.packMessage),interest === "pack");
+   }
+  }
+ }
  // A form opened before the deadline and submitted afterwards must reach the next cycle.
- for (const date of ["2026-10-31T07:59:59.999Z", "2026-10-31T08:00:00Z", "2026-11-01T08:00:00Z"]) {
+ for (const date of ["2027-01-23T07:59:59.999Z", "2027-01-23T08:00:00Z", "2027-01-24T08:00:00Z"]) {
   Date.now = () => Date.parse(date);
   for (const interest of ["technicien","pack","praticien","prochain-cycle"]) {
    assert.equal((await submit({...valid,interest})).status,200);
-   const next = interest === "prochain-cycle" || (date !== "2026-10-31T07:59:59.999Z" && interest !== "praticien");
-   assert.equal(sends[0].text.includes("Cycle demandé :"),next);
+   const next = date !== "2027-01-23T07:59:59.999Z" && interest !== "praticien";
+   assert.equal(sends[0].text.includes("Cycle demandé :"),interest !== "praticien");
+   assert.equal(sends[1].text.includes(siteConfig.session.currentMessage),!next && interest !== "praticien");
    assert.equal(sends[1].text.includes(siteConfig.session.nextMessage),next);
    assert.ok(sends[0].text.includes(load("lib/contact-schema.ts").interestLabels[interest]));
   }

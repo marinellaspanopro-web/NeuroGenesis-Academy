@@ -25,6 +25,7 @@ export default function PackOffer() {
               <li>— Paiement en plusieurs fois sans frais</li>
               <li>— Même exigence pédagogique, un seul engagement</li>
             </ul>
+            <p className="text-sm text-ink/70 leading-relaxed mb-6">{siteConfig.session.packMessage}</p>
             <EnrollmentButton pathway="pack" variant="gold" size="lg">
               Réserver le Pack
             </EnrollmentButton>

@@ -3,8 +3,8 @@ import { spawn } from "node:child_process";
 
 // Exercise the compiled application at the boundary without changing the machine
 // clock or a deployed site's configuration. This suite performs GET requests only.
-for (const instant of ["2026-10-31T07:59:59.999Z", "2026-10-31T08:00:00Z", "2026-11-01T08:00:00Z"]) {
-  const started = instant !== "2026-10-31T07:59:59.999Z";
+for (const instant of ["2026-10-31T08:00:00Z", "2027-01-23T07:59:59.999Z", "2027-01-23T08:00:00Z", "2027-01-24T08:00:00Z"]) {
+  const started = Date.parse(instant) >= Date.parse("2027-01-23T08:00:00Z");
   const source = `Date.now = () => Date.parse(${JSON.stringify(instant)});
     process.argv = ['node','next','start','--hostname','127.0.0.1','--port','3110'];
     require('./node_modules/next/dist/bin/next');`;
@@ -38,8 +38,8 @@ for (const instant of ["2026-10-31T07:59:59.999Z", "2026-10-31T08:00:00Z", "2026
       } else assert.ok(links.some((link) => link.href === "/inscription"));
       if (route === "/") assert.equal(html.includes('role="timer"'), !started);
       if (route === "/formation-technicien") {
-        assert.match(html, /Calendrier du cycle 2026–2027/);
-        assert.equal(html.includes("Inscriptions ouvertes pour le prochain cycle"), started);
+        assert.match(html, /Calendrier du cycle Technicien 2027/);
+        assert.equal(html.includes("Liste prioritaire pour le prochain cycle"), started);
       }
     }
     for (const interest of ["", "technicien", "pack", "praticien", "prochain-cycle"]) {
@@ -47,7 +47,7 @@ for (const instant of ["2026-10-31T07:59:59.999Z", "2026-10-31T08:00:00Z", "2026
       const expected = interest || (started ? "prochain-cycle" : "");
       assert.ok(html.includes(`<option value="${expected}"${expected ? "" : " disabled=\"\""} selected="">`), `Selected pathway: ${interest}`);
       assert.equal(html.includes("Votre demande concerne le prochain cycle Technicien."),
-        interest === "prochain-cycle" || (started && interest !== "praticien"));
+        started && interest !== "praticien");
     }
     console.log(`PASS compiled pages, reservation links, course calendar and pathway selection at ${instant}`);
   } finally {

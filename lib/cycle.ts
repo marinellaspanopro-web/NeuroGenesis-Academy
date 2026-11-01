@@ -13,5 +13,6 @@ export function enrollmentHref(pathway: EnrollmentPathway | undefined, started: 
 
 /** Keep Pack and Praticien distinct, including submissions from older open tabs. */
 export function isNextCycleInterest(interest: string, started: boolean): boolean {
-  return interest === "prochain-cycle" || (started && (interest === "technicien" || interest === "pack"));
+  // Existing "prochain-cycle" links now refer to the announced January intake.
+  return started && ["technicien", "pack", "prochain-cycle"].includes(interest);
 }

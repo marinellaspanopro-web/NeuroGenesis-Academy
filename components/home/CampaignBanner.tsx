@@ -32,7 +32,7 @@ export default function CampaignBanner() {
               {started ? siteConfig.session.afterBadge : siteConfig.session.label}
             </p>
             <h2 className="font-serif text-h1 text-cream mb-6 text-balance">
-              Les inscriptions sont <em className="accent-italic">ouvertes.</em>
+              {started ? <>Le prochain cycle <em className="accent-italic">se prépare.</em></> : <>Les inscriptions de janvier sont <em className="accent-italic">ouvertes.</em></>}
             </h2>
             <p className="text-body-lg text-gold/80 max-w-lg leading-relaxed mb-8">
               Un petit groupe, un accompagnement sur-mesure, une exigence sans compromis. Les
