@@ -51,7 +51,7 @@ export default function FormationPraticienPage() {
         <div className="container-editorial py-section-sm">
           <RevealOnScroll>
             <Link href="/" aria-label="NeuroGenesis Academy — retour à l'accueil" className="reveal-item mb-8 inline-block">
-              <Logo variant="gold-on-forest" className="logo-glow h-12 w-auto sm:h-14" />
+              <Logo className="h-24 w-24 sm:h-28 sm:w-28" />
             </Link>
             <p className="reveal-item text-xs uppercase tracking-wide3 text-gold/80 mb-4">
               Cursus Praticien · 8 modules

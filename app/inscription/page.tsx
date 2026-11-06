@@ -29,7 +29,7 @@ export default async function InscriptionPage({
       <section className="dark-section pt-[76px]">
         <div className="container-editorial py-section-sm">
           <Link href="/" aria-label="NeuroGenesis Academy — retour à l'accueil" className="mb-8 inline-block">
-            <Logo variant="gold-on-forest" className="h-12 w-auto sm:h-14" />
+            <Logo className="h-24 w-24 sm:h-28 sm:w-28" />
           </Link>
           <p className="text-xs uppercase tracking-wide3 text-gold/80 mb-4">Cycle de formation</p>
           <h1 className="font-serif text-hero text-cream max-w-2xl">Réserver ma place</h1>
