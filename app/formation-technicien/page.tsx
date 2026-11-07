@@ -76,9 +76,7 @@ export default function FormationTechnicienPage() {
             </div>
 
             <div className="reveal-item mt-10 flex flex-wrap gap-4">
-              <EnrollmentButton pathway="technicien" variant="gold-outline" size="lg">
-                Réserver ma place
-              </EnrollmentButton>
+              <Button href="#entretien" variant="gold-outline" size="lg">Mon entretien offert</Button>
               <Button href="#brochure" variant="gold" size="lg">
                 Recevoir la brochure complète
               </Button>
@@ -212,6 +210,17 @@ export default function FormationTechnicienPage() {
               </Button>
             </div>
           </RevealOnScroll>
+        </div>
+      </section>
+
+      <section id="entretien" className="bg-cream-soft py-section-sm">
+        <div className="container-editorial">
+          <div className="max-w-2xl">
+            <h2 className="font-serif text-h2 text-forest">Un entretien offert pour faire connaissance</h2>
+            <p className="mt-4 text-ink/75">Avant votre inscription, je vous propose un entretien individuel, offert et sans engagement. Nous prendrons le temps de parler de votre projet, de vos attentes et de ce qui vous attire dans la pratique de l’hypnose.</p>
+            <p className="mt-4 text-ink/75">Je vous présenterai aussi la façon dont nous travaillons à l’Académie et les valeurs qui nous tiennent à cœur, notamment le respect de la personne et la rigueur dans la pratique. Nous pourrons ainsi voir ensemble si la formation répond à vos attentes et si nous partageons la même vision de l’accompagnement.</p>
+            <Button href="/entretien" className="mt-6" size="lg">Choisir un créneau pour mon entretien offert</Button>
+          </div>
         </div>
       </section>
 
