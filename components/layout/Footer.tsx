@@ -23,6 +23,9 @@ export default function Footer() {
           <div>
             <p className="text-xs uppercase tracking-wide3 text-gold/80 mb-4">Navigation</p>
             <ul className="space-y-3">
+              <li>
+                <Link href="/entretien" className="text-gold hover:underline text-sm">Réserver un entretien offert</Link>
+              </li>
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-gold/80 hover:text-gold transition-colors text-sm">

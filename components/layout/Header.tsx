@@ -128,9 +128,10 @@ export default function Header() {
       {open && (
         <nav
           id="mobile-nav"
-          className="lg:hidden bg-cream-soft border-t border-line px-6 py-6 flex flex-col gap-5"
+          className="lg:hidden max-h-[calc(100dvh-76px)] overflow-y-auto bg-cream-soft border-t border-line px-6 py-6 flex flex-col gap-5"
           aria-label="Navigation mobile"
         >
+          <Link href="/entretien" onClick={() => setOpen(false)} className="text-lg font-serif text-forest">Réserver un entretien offert</Link>
           {navLinks.map((link) => (
             <Link
               key={link.href}

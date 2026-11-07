@@ -1,7 +1,5 @@
 "use client";
 
-import EnrollmentButton from "@/components/shared/EnrollmentButton";
-
 import { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
 
@@ -21,17 +19,17 @@ export default function StickyMobileCTA() {
 
   return (
     <div
-      className={`lg:hidden fixed inset-x-0 bottom-0 z-40 p-2.5 flex gap-2 bg-cream/95 backdrop-blur-md border-t border-line transition-transform duration-300 ease-out-expo ${
+      className={`lg:hidden fixed inset-x-0 bottom-0 z-40 p-2.5 grid grid-cols-2 gap-2 text-center bg-cream/95 backdrop-blur-md border-t border-line transition-transform duration-300 ease-out-expo ${
         visible ? "translate-y-0" : "translate-y-full"
       }`}
     >
-      <EnrollmentButton variant="forest-outline" className="flex-1 !px-3 whitespace-nowrap">
-        Réserver ma place
-      </EnrollmentButton>
+      <Button href="/entretien" variant="gold" className="!px-2 leading-tight">
+        Réserver un entretien offert
+      </Button>
       <Button
         href="/formation-technicien#brochure"
-        variant="gold"
-        className="flex-1 !px-3 whitespace-nowrap"
+        variant="forest-outline"
+        className="!px-2 leading-tight"
       >
         Recevoir la brochure
       </Button>
