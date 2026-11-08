@@ -15,7 +15,7 @@ export const bookingSchema = z.object({
 type Booking = z.infer<typeof bookingSchema>;
 
 
-async function readBooking(id: string): Promise<Booking | null> {
+export async function readBooking(id: string): Promise<Booking | null> {
   const file = await get(pathFor(id), { access: "private", useCache: false });
   if (!file || file.statusCode !== 200) return null;
   return bookingSchema.parse(await new Response(file.stream).json());
