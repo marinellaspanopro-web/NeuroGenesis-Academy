@@ -130,7 +130,7 @@ export default function FormationPraticienPage() {
             <h2 className="reveal-item font-serif text-h2 text-forest text-balance">
               Huit week-ends, <em>de mars à septembre 2027.</em>
             </h2>
-            <p className="reveal-item mt-4 text-sm text-ink/70">Ce cycle s’adresse aux personnes ayant acquis le niveau Technicien avant mars 2027. Pour les élèves du Technicien de janvier à août 2027, les dates du cursus Praticien suivant restent à confirmer.</p>
+            <p className="reveal-item mt-4 text-sm text-ink/70">Ce cycle s’adresse aux personnes ayant acquis le niveau Technicien avant mars 2027.</p>
           </RevealOnScroll>
 
           <RevealOnScroll className="grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -143,6 +143,10 @@ export default function FormationPraticienPage() {
               </div>
             ))}
           </RevealOnScroll>
+          <div className="mt-10 max-w-2xl border-t border-line pt-6">
+            <h3 className="font-serif text-h3 text-forest">Vous débutez le Technicien en janvier 2027 ?</h3>
+            <p className="mt-3 text-ink/70">{siteConfig.session.packMessage}</p>
+          </div>
         </div>
       </section>
 

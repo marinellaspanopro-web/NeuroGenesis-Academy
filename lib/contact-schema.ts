@@ -26,13 +26,19 @@ export const contactSchema = z.object({
     add("name", "Merci d'indiquer votre prénom.");
   }
 
-  if (data.requestType !== "brochure" && (data.interest === "autre" || data.requestType === "renseignement") && data.message.length < 5)
+  if (data.requestType !== "brochure" && (data.interest === "autre" || (data.requestType === "renseignement" && data.interest !== "pack")) && data.message.length < 5)
     add("message", "Merci de préciser votre question.");
 
   if (data.phone && data.phone.length < 6) add("phone", "Merci d'indiquer un numéro valide.");
   if (data.requestType !== "brochure" && data.contactPreference !== "email" && data.phone.length < 6)
     add("phone", "Merci d'indiquer votre numéro pour être contacté(e) par téléphone.");
-});
+}).transform((data) => ({
+  ...data,
+  // An older form may still send the Pack as a reservation.
+  requestType: data.interest === "pack" && data.requestType === "inscription"
+    ? "renseignement" as const
+    : data.requestType,
+}));
 
 export type ContactFormData = z.infer<typeof contactSchema>;
 

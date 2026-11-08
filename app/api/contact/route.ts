@@ -53,13 +53,12 @@ export async function POST(request: Request) {
     // Determine the cycle on the server, even if the form was opened before 09:00.
     const started = hasCycleStarted();
     const nextCycle = isNextCycleInterest(interest, started);
-    const currentCycle = !started && ["technicien", "pack", "prochain-cycle"].includes(interest);
+    const currentCycle = !started && ["technicien", "prochain-cycle"].includes(interest);
     const cycleParagraphs = nextCycle ? [siteConfig.session.nextMessage] : currentCycle ? [
       siteConfig.session.closedMessage,
       siteConfig.session.currentMessage,
       `Calendrier Technicien : ${technicienDates.join(" ; ")}.`,
-      ...(interest === "pack" ? [siteConfig.session.packMessage] : []),
-    ] : [];
+    ] : interest === "pack" ? [siteConfig.session.packMessage, siteConfig.session.packInquiryNote] : [];
     const displayName = requestType === "brochure" ? name : `${firstName} ${lastName}`;
     const label = requestType === "brochure" ? "brochure" : requestType === "inscription" ? "inscription" : "renseignements";
     const resend = new Resend(apiKey);
@@ -103,12 +102,14 @@ export async function POST(request: Request) {
           ],
         },
         renseignement: {
-          subject: "Merci pour votre message — NeuroGenesis",
+          subject: interest === "pack" ? "Votre demande de renseignements sur le Pack — NeuroGenesis" : "Merci pour votre message — NeuroGenesis",
           paragraphs: [
-            "Merci de m’avoir écrit.",
+            interest === "pack" ? siteConfig.session.packReply : "Merci de m’avoir écrit.",
             ...cycleParagraphs,
-            "J’ai bien reçu votre message et je prendrai le temps de vous répondre. Que votre projet soit déjà précis ou encore en réflexion, cet échange sera l’occasion de faire connaissance et de vous aider à y voir plus clair.",
-            `Je vous recontacterai selon la préférence indiquée dans votre demande. Si vous souhaitez m’en parler directement, vous pouvez aussi me joindre au ${siteConfig.phoneDisplay}.`,
+            ...(interest === "pack" ? [] : [
+              "J’ai bien reçu votre message et je prendrai le temps de vous répondre. Que votre projet soit déjà précis ou encore en réflexion, cet échange sera l’occasion de faire connaissance et de vous aider à y voir plus clair.",
+              `Je vous recontacterai selon la préférence indiquée dans votre demande. Si vous souhaitez m’en parler directement, vous pouvez aussi me joindre au ${siteConfig.phoneDisplay}.`,
+            ]),
             ...(withBrochure ? ["Je vous joins également la brochure que vous avez souhaité recevoir."] : []),
             "Au plaisir d’échanger avec vous,",
           ],

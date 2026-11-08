@@ -10,8 +10,6 @@ type Props = Omit<ComponentProps<typeof Button>, "href"> & { pathway?: Enrollmen
 /** All reservation entry points share the same cycle transition. */
 export default function EnrollmentButton({ pathway, children, ...props }: Props) {
   const { started } = useCycle();
-  const label = started && pathway !== "praticien"
-    ? pathway === "pack" ? "Pack du prochain cycle" : "Prochain cycle"
-    : children;
+  const label = started && pathway !== "praticien" ? "Prochain cycle" : children;
   return <Button {...props} href={enrollmentHref(pathway, started)}>{label}</Button>;
 }

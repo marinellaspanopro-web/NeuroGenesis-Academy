@@ -1,6 +1,7 @@
 import { pageOpenGraph, pageTwitter } from "@/lib/page-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import ContactForm from "@/components/shared/ContactForm";
 import Logo from "@/components/ui/Logo";
 import { siteConfig } from "@/lib/site-config";
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/inscription" },
 };
 
-type Pathway = "technicien" | "pack" | "praticien" | "a_determiner" | "autre" | "prochain-cycle";
+type Pathway = "technicien" | "praticien" | "a_determiner" | "autre" | "prochain-cycle";
 
 export default async function InscriptionPage({
   searchParams,
@@ -21,7 +22,8 @@ export default async function InscriptionPage({
   searchParams: Promise<{ parcours?: string }>;
 }) {
   const { parcours } = await searchParams;
-  const choices: Pathway[] = ["technicien", "pack", "praticien", "a_determiner", "autre", "prochain-cycle"];
+  if (parcours === "pack") redirect(siteConfig.session.packInquiryHref);
+  const choices: Pathway[] = ["technicien", "praticien", "a_determiner", "autre", "prochain-cycle"];
   const initialInterest = choices.find((choice) => choice === parcours);
 
   return (

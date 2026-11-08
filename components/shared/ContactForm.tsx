@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, type FormEvent } from "react";
 import { contactSchema } from "@/lib/contact-schema";
 import { siteConfig } from "@/lib/site-config";
@@ -79,9 +80,9 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
       if (response.ok !== true) throw new Error("Réponse du service invalide.");
       setWarning(response.warning ?? null);
       setStatus("success");
+      setInterest(result.data.interest);
       form.reset();
       setContactPreference("email");
-      setInterest(initialInterest ?? "");
     } catch (err) {
       setStatus("error");
       setServerError(err instanceof Error ? err.message : "Une erreur est survenue.");
@@ -97,7 +98,9 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
         <p className="font-serif text-h3 text-forest mb-3">Demande bien reçue !</p>
         {warning && <p role="alert" className="mb-4 text-ink/70">{warning}</p>}
         <p className="text-ink/70 max-w-md mx-auto leading-relaxed">
-          {mode === "inscription"
+          {selectedInterest === "pack"
+            ? [siteConfig.session.packReply, siteConfig.session.packInquiryNote].join(" ")
+            : mode === "inscription"
             ? "Merci pour votre demande. Un échange individuel permettra de préciser les modalités avant confirmation de votre inscription."
             : "Merci pour votre message. Nous reviendrons vers vous selon votre préférence de contact."}
         </p>
@@ -115,7 +118,12 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
       </div>
       {nextCycle && <p role="status" className="rounded-sm border border-gold-deep/30 bg-cream-soft p-4 text-sm text-forest">{siteConfig.session.nextMessage}</p>}
       {mode === "inscription" && !started && selectedInterest !== "praticien" && <p role="status" className="rounded-sm border border-gold-deep/30 bg-cream-soft p-4 text-sm text-forest">{siteConfig.session.closedMessage} {siteConfig.session.currentMessage}</p>}
-      {selectedInterest === "pack" && !started && <p className="text-sm text-ink/70">{siteConfig.session.packMessage}</p>}
+      {selectedInterest === "pack" && (
+        <div className="space-y-2 rounded-sm border border-gold-deep/30 bg-cream-soft p-4 text-sm text-forest">
+          <p>{siteConfig.session.packMessage}</p>
+          <p>{siteConfig.session.packInquiryNote}</p>
+        </div>
+      )}
       {/* Honeypot — masqué visuellement, ignoré par les humains */}
       <div className="hidden" aria-hidden="true">
         <label htmlFor="company">Ne pas remplir</label>
@@ -214,12 +222,17 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
               Choisissez une option
             </option>
             <option value="technicien">Cursus Technicien{started ? " — prochain cycle" : " — janvier 2027"}</option>
-            <option value="pack">Pack complet Technicien + Praticien{started ? " — prochain cycle" : " — début janvier 2027"}</option>
+            {mode === "renseignement" && <option value="pack">Pack Technicien + Praticien — tarifs et modalités</option>}
             <option value="praticien">Praticien (Technicien déjà acquis)</option>
             {(started || selectedInterest === "prochain-cycle") && <option value="prochain-cycle">{started ? siteConfig.session.nextLabel : siteConfig.session.label}</option>}
             <option value="a_determiner">À déterminer ensemble</option>
             <option value="autre">Autre question</option>
           </select>
+          {mode === "inscription" && (
+            <Link href={siteConfig.session.packInquiryHref} className="mt-2 inline-block text-sm text-gold-deep underline underline-offset-4 hover:text-forest">
+              Me renseigner sur le Pack
+            </Link>
+          )}
           {errors.interest && (
             <p id="interest-error" className="mt-2 text-sm text-[oklch(55%_0.18_25)]">
               {errors.interest}
@@ -230,8 +243,8 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
 
       {(interest === "autre" || mode === "renseignement") && (
         <div>
-          <label htmlFor="message" className={labelClasses}>Votre question <span aria-hidden="true">*</span></label>
-          <textarea id="message" name="message" required maxLength={2000} rows={4}
+          <label htmlFor="message" className={labelClasses}>Votre question {selectedInterest === "pack" ? "(facultative)" : <span aria-hidden="true">*</span>}</label>
+          <textarea id="message" name="message" required={selectedInterest !== "pack"} maxLength={2000} rows={4}
             aria-invalid={Boolean(errors.message)}
             aria-describedby={errors.message ? "message-error" : undefined}
             placeholder="Quelle question souhaitez-vous nous poser ?"

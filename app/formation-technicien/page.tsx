@@ -191,6 +191,7 @@ export default function FormationTechnicienPage() {
                 Besoin de reprendre une année ? Le redoublement de votre niveau (Technicien ou
                 Praticien) est offert l&apos;année suivante.
               </p>
+              <p className="mt-4 text-sm text-ink/75 max-w-lg">{siteConfig.session.packMessage}</p>
               <p className="mt-4 text-sm max-w-sm">
                 Vous visez les deux niveaux ?{" "}
                 <Link href="/#pack" className="text-gold-deep underline underline-offset-4 hover:text-forest">

@@ -53,6 +53,7 @@ export function courseSchema(course: {
   url: string;
   price: number;
   duration: string;
+  reservable?: boolean;
 }) {
   return {
     "@context": "https://schema.org",
@@ -84,7 +85,7 @@ export function courseSchema(course: {
       "@type": "Offer",
       price: course.price,
       priceCurrency: "EUR",
-      availability: "https://schema.org/InStock",
+      ...(course.reservable === false ? {} : { availability: "https://schema.org/InStock" }),
       url: course.url,
     },
   };
