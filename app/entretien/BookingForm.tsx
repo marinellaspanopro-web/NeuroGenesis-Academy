@@ -1,5 +1,6 @@
 "use client";
 
+import { trackInterviewBooking } from "@/lib/gtag";
 import { useEffect, useState, type FormEvent } from "react";
 import { methods, type InterviewSlot } from "@/lib/entretiens";
 
@@ -46,6 +47,7 @@ export default function BookingForm() {
         setReload(i => i + 1);
       }
       if (!res.ok || !body.confirmed) throw new Error(body.error || "Veuillez réessayer.");
+      trackInterviewBooking(requestId);
       const method = methods[data.method as keyof typeof methods];
       setSuccess([slot.day, slot.hours + " (heure belge).", method + " au " + data.phone + ".",
         body.mailPending ? "Votre e-mail de confirmation suivra." : "Une confirmation vous a été envoyée par e-mail."].join(" "));

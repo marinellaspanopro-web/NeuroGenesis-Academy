@@ -18,3 +18,11 @@ export function trackLeadFormConversion() {
   if (typeof window === "undefined" || typeof window.gtag !== "function") return;
   window.gtag("event", "conversion", { send_to: LEAD_CONVERSION_SEND_TO });
 }
+
+/** Only call after the booking API confirms the selected slot. */
+export function trackInterviewBooking(requestId: string) {
+  window.gtag?.("event", "conversion", {
+    send_to: "AW-18438642136/0NfhCIWIlbQdENizndhE",
+    transaction_id: requestId,
+  });
+}
