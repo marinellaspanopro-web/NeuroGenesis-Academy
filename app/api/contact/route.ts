@@ -52,13 +52,13 @@ export async function POST(request: Request) {
     const { name, firstName, lastName, email, phone, interest, wantsBrochure, contactPreference, requestType, message } = result.data;
     // Determine the cycle on the server, even if the form was opened before 09:00.
     const started = hasCycleStarted();
-    const nextCycle = isNextCycleInterest(interest, started);
+    const nextCycle = (interest !== "pack" || requestType === "inscription") && isNextCycleInterest(interest, started);
     const currentCycle = !started && ["technicien", "prochain-cycle"].includes(interest);
     const cycleParagraphs = nextCycle ? [siteConfig.session.nextMessage] : currentCycle ? [
       siteConfig.session.closedMessage,
       siteConfig.session.currentMessage,
       `Calendrier Technicien : ${technicienDates.join(" ; ")}.`,
-    ] : interest === "pack" ? [siteConfig.session.packMessage, siteConfig.session.packInquiryNote] : [];
+    ] : interest === "pack" ? [siteConfig.session.packMessage, siteConfig.session.packTerms, ...(requestType === "renseignement" ? [siteConfig.session.packInquiryNote] : [])] : [];
     const displayName = requestType === "brochure" ? name : `${firstName} ${lastName}`;
     const label = requestType === "brochure" ? "brochure" : requestType === "inscription" ? "inscription" : "renseignements";
     const resend = new Resend(apiKey);

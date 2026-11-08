@@ -19,7 +19,7 @@ const labelClasses = "block text-sm font-medium text-forest mb-2";
 type ContactFormProps = { mode?: "inscription" | "renseignement"; initialInterest?: "technicien" | "pack" | "praticien" | "a_determiner" | "autre" | "prochain-cycle" };
 
 export default function ContactForm({ mode = "renseignement", initialInterest }: ContactFormProps) {
-  const { started } = useCycle();
+  const { started, now } = useCycle();
   const [warning, setWarning] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -27,7 +27,7 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
   const [contactPreference, setContactPreference] = useState("email");
   const [interest, setInterest] = useState(initialInterest ?? "");
   const selectedInterest = interest || (mode === "inscription" && started ? "prochain-cycle" : "");
-  const nextCycle = mode === "inscription" && isNextCycleInterest(selectedInterest, started);
+  const nextCycle = mode === "inscription" && isNextCycleInterest(selectedInterest, started, now);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -98,7 +98,7 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
         <p className="font-serif text-h3 text-forest mb-3">Demande bien reçue !</p>
         {warning && <p role="alert" className="mb-4 text-ink/70">{warning}</p>}
         <p className="text-ink/70 max-w-md mx-auto leading-relaxed">
-          {selectedInterest === "pack"
+          {selectedInterest === "pack" && mode === "renseignement"
             ? [siteConfig.session.packReply, siteConfig.session.packInquiryNote].join(" ")
             : mode === "inscription"
             ? "Merci pour votre demande. Un échange individuel permettra de préciser les modalités avant confirmation de votre inscription."
@@ -118,10 +118,11 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
       </div>
       {nextCycle && <p role="status" className="rounded-sm border border-gold-deep/30 bg-cream-soft p-4 text-sm text-forest">{siteConfig.session.nextMessage}</p>}
       {mode === "inscription" && !started && selectedInterest !== "praticien" && <p role="status" className="rounded-sm border border-gold-deep/30 bg-cream-soft p-4 text-sm text-forest">{siteConfig.session.closedMessage} {siteConfig.session.currentMessage}</p>}
-      {selectedInterest === "pack" && (
+      {selectedInterest === "pack" && !nextCycle && (
         <div className="space-y-2 rounded-sm border border-gold-deep/30 bg-cream-soft p-4 text-sm text-forest">
           <p>{siteConfig.session.packMessage}</p>
-          <p>{siteConfig.session.packInquiryNote}</p>
+          <p>{siteConfig.session.packTerms}</p>
+          {mode === "renseignement" && <p>{siteConfig.session.packInquiryNote}</p>}
         </div>
       )}
       {/* Honeypot — masqué visuellement, ignoré par les humains */}
@@ -222,7 +223,7 @@ export default function ContactForm({ mode = "renseignement", initialInterest }:
               Choisissez une option
             </option>
             <option value="technicien">Cursus Technicien{started ? " — prochain cycle" : " — janvier 2027"}</option>
-            {mode === "renseignement" && <option value="pack">Pack Technicien + Praticien — tarifs et modalités</option>}
+            <option value="pack">Pack Technicien + Praticien{mode === "inscription" && isNextCycleInterest("pack", started, now) ? " — prochain cycle" : ""}</option>
             <option value="praticien">Praticien (Technicien déjà acquis)</option>
             {(started || selectedInterest === "prochain-cycle") && <option value="prochain-cycle">{started ? siteConfig.session.nextLabel : siteConfig.session.label}</option>}
             <option value="a_determiner">À déterminer ensemble</option>

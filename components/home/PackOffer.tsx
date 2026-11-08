@@ -22,9 +22,10 @@ export default function PackOffer() {
             </p>
             <p className="text-ink/70 leading-relaxed max-w-lg mb-4">{siteConfig.session.packMessage}</p>
             <p className="text-sm text-ink/70 leading-relaxed mb-6">
-              Vous pourrez choisir le Pack une fois le calendrier communiqué.
+              {siteConfig.session.packTerms}
             </p>
-            <Button href={siteConfig.session.packInquiryHref} variant="gold" size="lg">
+            <Button href="/inscription?parcours=pack" variant="gold" size="lg">Choisir le Pack à l’inscription</Button>
+            <Button href={siteConfig.session.packInquiryHref} variant="ghost-dark" size="lg">
               Me renseigner sur le Pack
             </Button>
           </div>

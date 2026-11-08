@@ -32,13 +32,7 @@ export const contactSchema = z.object({
   if (data.phone && data.phone.length < 6) add("phone", "Merci d'indiquer un numéro valide.");
   if (data.requestType !== "brochure" && data.contactPreference !== "email" && data.phone.length < 6)
     add("phone", "Merci d'indiquer votre numéro pour être contacté(e) par téléphone.");
-}).transform((data) => ({
-  ...data,
-  // An older form may still send the Pack as a reservation.
-  requestType: data.interest === "pack" && data.requestType === "inscription"
-    ? "renseignement" as const
-    : data.requestType,
-}));
+});
 
 export type ContactFormData = z.infer<typeof contactSchema>;
 

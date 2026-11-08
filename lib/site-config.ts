@@ -39,6 +39,7 @@ export const siteConfig = {
     afterMessage: "Les inscriptions au cycle de janvier 2027 sont clôturées. Vous pouvez manifester votre intérêt pour le prochain cycle, dont les dates restent à confirmer.",
     currentMessage: "La prochaine session Technicien débute les 23 et 24 janvier 2027 à Jambes (Namur). Elle comprend cinq week-ends, de janvier à août 2027.",
     packMessage: "Si vous débutez le Technicien les 23 et 24 janvier 2027, vous terminerez ce premier cursus en août. Le cycle Praticien de votre promotion devrait débuter fin 2027 et se poursuivre en 2028. Je vous confirmerai les dates précises lors de votre premier week-end de formation, les 23 et 24 janvier 2027.",
+    packTerms: "Pour bénéficier du tarif Early Bird, choisissez le Pack Technicien + Praticien dès votre inscription pendant la période de l’offre. Si vous vous inscrivez au Technicien seul, vous pourrez passer au Pack lors du premier week-end, après la présentation des dates du Praticien. Seule la remise Pack s’appliquera alors.",
     packInquiryHref: "/contact?parcours=pack#formulaire",
     packInquiryNote: "Cette demande de renseignements est sans engagement et ne réserve aucune place.",
     packReply: "Merci de votre intérêt pour le Pack Technicien + Praticien. Je vous recontacterai selon votre préférence pour échanger sur le tarif et les possibilités de paiement.",

@@ -30,7 +30,6 @@ export default function HomePage() {
         url: `${siteConfig.url}/#pack`,
         price: siteConfig.pricing.pack.packPrice,
         duration: "PT315H",
-        reservable: false,
       })} />
       <Hero />
       <ScrollingBanner />
