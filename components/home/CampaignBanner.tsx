@@ -1,6 +1,6 @@
 "use client";
 
-import EnrollmentButton from "@/components/shared/EnrollmentButton";
+import Button from "@/components/ui/Button";
 
 import { useCycle } from "@/components/shared/CycleProvider";
 import Countdown from "@/components/shared/Countdown";
@@ -49,9 +49,9 @@ export default function CampaignBanner() {
               ))}
             </ul>
 
-            <EnrollmentButton variant="gold" size="lg">
-              Réserver ma place
-            </EnrollmentButton>
+            <Button href="/entretien" variant="gold" size="lg">
+              Choisir mon entretien offert
+            </Button>
           </div>
 
           <div className="reveal-item flex flex-col items-start lg:items-end">
