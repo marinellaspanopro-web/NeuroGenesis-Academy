@@ -29,8 +29,8 @@ export async function readProspect(email: string): Promise<ProspectRecord | null
 export async function recordBrochure(input: { firstName: string; email: string; interest: string }) {
   const existing = await readProspect(input.email);
   const normalizedName = norm(input.firstName);
-  const excluded = EXCLUDED_EMAILS.has(norm(input.email)) || EXCLUDED_NAMES.has(normalizedName) ||
-    normalizedName.includes("nawal") || normalizedName.includes("meryl") || normalizedName.includes("marine losa");
+  const excluded = EXCLUDED_EMAILS.has(norm(input.email)) || norm(input.email) === "marine.losa@gmail.com" || EXCLUDED_NAMES.has(normalizedName) ||
+    normalizedName.includes("nawal") || normalizedName.includes("meryl") || normalizedName.includes("marine") || normalizedName.includes("morgane") || normalizedName.includes("serge");
   const now = new Date();
   const record: ProspectRecord = existing ? {
     ...existing,
@@ -60,7 +60,7 @@ export async function dueProspects() {
     }
     cursor = page.hasMore ? page.cursor : undefined;
   } while (cursor);
-  return all.filter(row => row.status === "eligible" && Date.parse(row.followupDueAt) <= Date.now() && !EXCLUDED_EMAILS.has(norm(row.email)) && !EXCLUDED_NAMES.has(norm(row.firstName)) && row.interest === "technicien");
+  return all.filter(row => row.status === "eligible" && Date.parse(row.followupDueAt) <= Date.now() && !EXCLUDED_EMAILS.has(norm(row.email)) && !EXCLUDED_NAMES.has(norm(row.firstName)) && row.interest === "technicien" && norm(row.email) !== "marine.losa@gmail.com");
 }
 export async function saveProspect(record: ProspectRecord) {
   await put(pathFor(record.id), JSON.stringify(record), {
