@@ -26,7 +26,7 @@ export async function sendDueFollowups() {
       "Peut-être certaines questions ont-elles émergé concernant le programme, la pratique ou la manière dont cette formation pourrait s’intégrer dans votre parcours.",
       "Je serais ravie d’en discuter avec vous lors d’un entretien découverte offert de 30 minutes, afin de faire connaissance et d’explorer ensemble votre projet.",
       "Voici le lien pour choisir le créneau de votre entretien offert : " + bookingUrl,
-      "Le tarif préférentiel de 1 549 € au lieu de 1 899 € reste accessible pour la session Technicien débutant les 23 et 24 janvier 2027, moyennant un acompte de 300 € versé au plus tard le 1er décembre 2026.",
+      ...(Date.now() <= Date.parse("2026-12-01T23:59:59+01:00") ? ["Le tarif préférentiel de 1 549 € au lieu de 1 899 € reste accessible pour la session Technicien débutant les 23 et 24 janvier 2027, moyennant un acompte de 300 € versé au plus tard le 1er décembre 2026."] : []),
       "Au plaisir d’échanger avec vous,",
       "Chaleureusement,",
       "Marinella Spano\nNeuroGenesis Academy – Hypnose & Neurosciences\n" + siteConfig.email,
