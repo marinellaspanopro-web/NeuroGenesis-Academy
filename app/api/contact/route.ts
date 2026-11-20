@@ -142,7 +142,7 @@ export async function POST(request: Request) {
         attachments,
       });
       if (confirmation.error || !confirmation.data?.id) throw new Error("Confirmation non acceptée par Resend");
-      if (withBrochure) {
+      if (requestType === "brochure") {
         try {
           await recordBrochure({ firstName: firstName || name, email, interest });
         } catch (error) {
