@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { Resend } from "resend";
+import { recordBrochure } from "@/lib/prospect-registry";
 import { contactSchema, interestLabels, contactPreferenceLabels } from "@/lib/contact-schema";
 import { siteConfig, technicienDates } from "@/lib/site-config";
 import { hasCycleStarted, isNextCycleInterest } from "@/lib/cycle";
@@ -141,6 +142,13 @@ export async function POST(request: Request) {
         attachments,
       });
       if (confirmation.error || !confirmation.data?.id) throw new Error("Confirmation non acceptée par Resend");
+      if (withBrochure) {
+        try {
+          await recordBrochure({ firstName: firstName || name, email, interest });
+        } catch (error) {
+          console.error("Brochure envoyée mais enregistrement prospect en échec", error);
+        }
+      }
     } catch {
       console.error("Demande reçue, mais confirmation ou brochure non envoyée.");
       return NextResponse.json({ ok: true, warning: `Votre demande est bien reçue, mais l'e-mail de confirmation ou la brochure n'a pas pu être envoyé. Inutile de renvoyer le formulaire : contactez-nous au ${siteConfig.phoneDisplay}.` });
