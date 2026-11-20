@@ -1,4 +1,4 @@
-import { get, put } from "@vercel/blob";
+import { get, list, put } from "@vercel/blob";
 import { createHash } from "node:crypto";
 
 export type ProspectRecord = {
@@ -12,9 +12,10 @@ export type ProspectRecord = {
   reason?: string;
   followupSentAt?: string;
   followupEmailId?: string;
+  followupClaimedAt?: string;
 };
 const PREFIX = "prospects/v1/";
-const EXCLUDED_EMAILS = new Set<string>(); // Add only verified addresses, not guesses.
+const EXCLUDED_EMAILS = new Set((process.env.PROSPECT_EXCLUSION_EMAILS || "").split(",").map(norm).filter(Boolean));
 const EXCLUDED_NAMES = new Set(["geneviève potier", "genevieve potier"]);
 const norm = (v: string) => v.trim().toLocaleLowerCase("fr-BE").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 export const prospectId = (email: string) => createHash("sha256").update(norm(email)).digest("hex");
@@ -45,4 +46,23 @@ export async function recordBrochure(input: { firstName: string; email: string; 
     access: "private", addRandomSuffix: false, allowOverwrite: true,
   });
   return record;
+}
+
+export async function dueProspects() {
+  const all: ProspectRecord[] = [];
+  let cursor: string | undefined;
+  do {
+    const page = await list({ prefix: PREFIX, limit: 1000, ...(cursor ? { cursor } : {}) });
+    for (const blob of page.blobs) {
+      const result = await get(blob.pathname, { access: "private", useCache: false });
+      if (result?.statusCode === 200) all.push(await new Response(result.stream).json() as ProspectRecord);
+    }
+    cursor = page.hasMore ? page.cursor : undefined;
+  } while (cursor);
+  return all.filter(row => row.status === "eligible" && Date.parse(row.followupDueAt) <= Date.now());
+}
+export async function saveProspect(record: ProspectRecord) {
+  await put(pathFor(record.id), JSON.stringify(record), {
+    access: "private", addRandomSuffix: false, allowOverwrite: true,
+  });
 }
