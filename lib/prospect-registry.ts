@@ -14,9 +14,10 @@ export type ProspectRecord = {
   followupEmailId?: string;
   followupClaimedAt?: string;
 };
-const PREFIX = "prospects/v1/";
+export const PROSPECT_PREFIX = "prospects/v1/";
+const PREFIX = PROSPECT_PREFIX;
 const EXCLUDED_EMAILS = new Set((process.env.PROSPECT_EXCLUSION_EMAILS || "").split(",").map(norm).filter(Boolean));
-const EXCLUDED_NAMES = new Set(["geneviève potier", "genevieve potier"]);
+// Personal exchanges require review, but do not automatically exclude Geneviève.
 const norm = (v: string) => v.trim().toLocaleLowerCase("fr-BE").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 export const prospectId = (email: string) => createHash("sha256").update(norm(email)).digest("hex");
 const pathFor = (id: string) => PREFIX + id + ".json";
@@ -27,9 +28,7 @@ export async function readProspect(email: string): Promise<ProspectRecord | null
 }
 export async function recordBrochure(input: { firstName: string; email: string; interest: string }) {
   const existing = await readProspect(input.email);
-  const name = norm(input.firstName);
-  const excluded = EXCLUDED_EMAILS.has(norm(input.email)) || EXCLUDED_NAMES.has(name) ||
-    (name.includes("genevieve") && name.includes("potier"));
+  const excluded = EXCLUDED_EMAILS.has(norm(input.email));
   const now = new Date();
   const record: ProspectRecord = existing ? {
     ...existing,
