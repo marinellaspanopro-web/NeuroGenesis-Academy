@@ -16,9 +16,8 @@ export type ProspectRecord = {
 };
 export const PROSPECT_PREFIX = "prospects/v1/";
 const PREFIX = PROSPECT_PREFIX;
-const EXCLUDED_EMAILS = new Set((process.env.PROSPECT_EXCLUSION_EMAILS || "").split(",").map(norm).filter(Boolean));
-// Personal exchanges require review, but do not automatically exclude Geneviève.
 const norm = (v: string) => v.trim().toLocaleLowerCase("fr-BE").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+const EXCLUDED_EMAILS = new Set((process.env.PROSPECT_EXCLUSION_EMAILS || "").split(",").map(norm).filter(Boolean));
 export const prospectId = (email: string) => createHash("sha256").update(norm(email)).digest("hex");
 const pathFor = (id: string) => PREFIX + id + ".json";
 export async function readProspect(email: string): Promise<ProspectRecord | null> {
