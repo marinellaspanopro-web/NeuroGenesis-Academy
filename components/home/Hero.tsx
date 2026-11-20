@@ -1,7 +1,5 @@
 "use client";
 
-import EnrollmentButton from "@/components/shared/EnrollmentButton";
-
 import { useCycle } from "@/components/shared/CycleProvider";
 import { useRef } from "react";
 import Link from "next/link";
@@ -76,15 +74,10 @@ export default function Hero() {
         </p>
 
         <div className="reveal mt-10 flex flex-col sm:flex-row gap-4">
-          <EnrollmentButton variant="gold-outline" size="lg">
-            Réserver ma place
-          </EnrollmentButton>
-          {/* Priorité visuelle à la demande de brochure (doré plein) plutôt qu'à
-              l'inscription : c'est l'objectif principal de la campagne Google Ads.
-              Vers le formulaire "Recevez la brochure" (avec capture d'email) plutôt
-              qu'un téléchargement direct du PDF — sinon on perd toute demande de
-              brochure passée par ce bouton, sans email ni relance possible. */}
-          <Button href="/formation-technicien#brochure" variant="gold" size="lg">
+          <Button href="/entretien" variant="gold" size="lg">
+            Choisir mon entretien offert
+          </Button>
+          <Button href="/formation-technicien#brochure" variant="gold-outline" size="lg">
             Recevoir la brochure complète
           </Button>
         </div>
