@@ -18,6 +18,7 @@ export const PROSPECT_PREFIX = "prospects/v1/";
 const PREFIX = PROSPECT_PREFIX;
 const norm = (v: string) => v.trim().toLocaleLowerCase("fr-BE").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 const EXCLUDED_EMAILS = new Set((process.env.PROSPECT_EXCLUSION_EMAILS || "").split(",").map(norm).filter(Boolean));
+const EXCLUDED_NAMES = new Set(["nawal talaa", "meryl pierrard", "marine losa", "morgane", "serge malisoux", "alexandre", "charlotte royen", "jeremiah"]);
 export const prospectId = (email: string) => createHash("sha256").update(norm(email)).digest("hex");
 const pathFor = (id: string) => PREFIX + id + ".json";
 export async function readProspect(email: string): Promise<ProspectRecord | null> {
@@ -27,7 +28,9 @@ export async function readProspect(email: string): Promise<ProspectRecord | null
 }
 export async function recordBrochure(input: { firstName: string; email: string; interest: string }) {
   const existing = await readProspect(input.email);
-  const excluded = EXCLUDED_EMAILS.has(norm(input.email));
+  const normalizedName = norm(input.firstName);
+  const excluded = EXCLUDED_EMAILS.has(norm(input.email)) || EXCLUDED_NAMES.has(normalizedName) ||
+    normalizedName.includes("nawal") || normalizedName.includes("meryl") || normalizedName.includes("marine losa");
   const now = new Date();
   const record: ProspectRecord = existing ? {
     ...existing,
@@ -37,8 +40,8 @@ export async function recordBrochure(input: { firstName: string; email: string; 
     id: prospectId(input.email), firstName: input.firstName.trim(), email: input.email.trim(),
     interest: input.interest, brochureSentAt: now.toISOString(),
     followupDueAt: new Date(now.getTime() + 4 * 86_400_000).toISOString(),
-    status: excluded ? "excluded" : "pending_review",
-    ...(excluded ? { reason: "Échange personnel préalable : exclusion automatique" } : {}),
+    status: excluded ? "excluded" : "eligible",
+    ...(excluded ? { reason: "Suivi individuel ou inscription préalable" } : {}),
   };
   await put(pathFor(record.id), JSON.stringify(record), {
     access: "private", addRandomSuffix: false, allowOverwrite: true,
@@ -57,7 +60,7 @@ export async function dueProspects() {
     }
     cursor = page.hasMore ? page.cursor : undefined;
   } while (cursor);
-  return all.filter(row => row.status === "eligible" && Date.parse(row.followupDueAt) <= Date.now());
+  return all.filter(row => row.status === "eligible" && Date.parse(row.followupDueAt) <= Date.now() && !EXCLUDED_EMAILS.has(norm(row.email)) && !EXCLUDED_NAMES.has(norm(row.firstName)) && row.interest === "technicien");
 }
 export async function saveProspect(record: ProspectRecord) {
   await put(pathFor(record.id), JSON.stringify(record), {
