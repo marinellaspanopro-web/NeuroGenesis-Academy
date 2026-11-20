@@ -16,11 +16,11 @@ export default function ContactCta() {
               de paiement ou l&apos;organisation des sessions à {siteConfig.address.addressLocality}.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button href="/contact" variant="gold">
-                Nous écrire
+              <Button href="/entretien" variant="gold">
+                Choisir mon entretien offert
               </Button>
-              <Button href={`tel:${siteConfig.phone.replace(/\s/g, "")}`} variant="forest-outline">
-                {siteConfig.phoneDisplay}
+              <Button href="/contact" variant="forest-outline">
+                Nous écrire
               </Button>
             </div>
           </div>
