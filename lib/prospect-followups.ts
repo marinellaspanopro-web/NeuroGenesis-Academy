@@ -1,5 +1,5 @@
 import { get, put } from "@vercel/blob";
-import { dueProspects, type ProspectRecord } from "@/lib/prospect-registry";
+import { dueProspects, saveProspect, type ProspectRecord } from "@/lib/prospect-registry";
 import { siteConfig } from "@/lib/site-config";
 
 const RECEIPTS = "prospects/followup-receipts/v1/";
@@ -16,7 +16,14 @@ export async function sendDueFollowups() {
   for (const row of due) {
     // Explicit approval is mandatory: pending_review never enters this queue.
     const existing = await get(receiptPath(row), { access: "private", useCache: false });
-    if (existing) { result.alreadySent++; continue; }
+    if (existing) {
+      result.alreadySent++;
+      if (row.status !== "sent") {
+        const receipt = await new Response(existing.stream).json() as { id?: string; sentAt?: string };
+        await saveProspect({ ...row, status: "sent", followupEmailId: receipt.id, followupSentAt: receipt.sentAt });
+      }
+      continue;
+    }
     const name = row.firstName.replace(/[\r\n]/g, " ").trim();
     const subject = "Votre projet de formation NeuroGenesis";
     const text = [
@@ -47,6 +54,7 @@ export async function sendDueFollowups() {
       await put(receiptPath(row), JSON.stringify({ id: body.id, sentAt: new Date().toISOString() }), {
         access: "private", addRandomSuffix: false, allowOverwrite: true,
       });
+      await saveProspect({ ...row, status: "sent", followupEmailId: body.id, followupSentAt: new Date().toISOString() });
       result.sent++;
     } catch (error) {
       result.failed++;
