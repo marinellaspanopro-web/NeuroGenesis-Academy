@@ -38,6 +38,24 @@ export async function reserve(b: Booking) {
   }
 }
 
+
+/** Recheck actual booked email addresses at dispatch time; fail closed if storage is unavailable. */
+export async function bookedEmailAddresses(): Promise<Set<string>> {
+  const emails = new Set<string>();
+  let cursor: string | undefined;
+  do {
+    const page = await list({ prefix, limit: 1000, ...(cursor ? { cursor } : {}) });
+    for (const blob of page.blobs) {
+      const saved = await get(blob.pathname, { access: "private", useCache: false });
+      if (!saved || saved.statusCode !== 200) throw new Error("Réservation inaccessible");
+      const booking = bookingSchema.parse(await new Response(saved.stream).json());
+      emails.add(booking.email.trim().toLowerCase());
+    }
+    cursor = page.hasMore ? page.cursor : undefined;
+  } while (cursor);
+  return emails;
+}
+
 export async function sendPending(slotId: string) {
   const from = process.env.CONTACT_FROM_EMAIL;
   const key = process.env.RESEND_API_KEY;
