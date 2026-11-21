@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { Resend } from "resend";
-import { recordBrochure } from "@/lib/prospect-registry";
+import { recordBrochure, markProspectEngaged } from "@/lib/prospect-registry";
 import { contactSchema, interestLabels, contactPreferenceLabels } from "@/lib/contact-schema";
 import { siteConfig, technicienDates } from "@/lib/site-config";
 import { hasCycleStarted, isNextCycleInterest } from "@/lib/cycle";
@@ -79,6 +79,11 @@ export async function POST(request: Request) {
       console.error("Échec notification Resend", notification.error?.name);
       return failure("L'envoi de votre demande a échoué. Merci de réessayer.", 502);
     }
+    // A new question or registration supersedes any generic follow-up.
+    if (requestType !== "brochure") {
+      try { await markProspectEngaged(email, "Nouvelle demande de " + label + " reçue sur le site"); }
+      catch (error) { console.error("Échec exclusion après interaction prospect", error); }
+    }
 
     // The request is already received. A secondary failure must not ask the
     // visitor to resubmit (which would create duplicate notifications).
@@ -144,7 +149,7 @@ export async function POST(request: Request) {
       if (confirmation.error || !confirmation.data?.id) throw new Error("Confirmation non acceptée par Resend");
       if (requestType === "brochure") {
         try {
-          await recordBrochure({ firstName: firstName || name, email, interest });
+          await recordBrochure({ firstName: firstName || name, email, interest, brochureEmailId: confirmation.data.id });
         } catch (error) {
           console.error("Brochure envoyée mais enregistrement prospect en échec", error);
         }
