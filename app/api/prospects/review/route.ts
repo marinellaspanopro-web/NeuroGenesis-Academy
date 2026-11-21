@@ -42,7 +42,7 @@ export async function POST(request: Request) {
   if (row.interest !== "technicien" || Date.parse(row.followupDueAt) > Date.now()) {
     return Response.json({ error: "J+4 ou cursus non éligible" }, { status: 409 });
   }
-  const expectedVariant = /marine losa/i.test(row.firstName) ? "marine" :
+  const expectedVariant = row.email.trim().toLowerCase() === "marine.losa@gmail.com" ? "marine" :
     /genevieve|geneviève/i.test(row.firstName) ? "genevieve" : "standard";
   if (parsed.data.messageVariant !== expectedVariant) {
     return Response.json({ error: "Un modèle personnalisé est nécessaire" }, { status: 409 });
