@@ -3,6 +3,8 @@ import { dueProspects, readProspect, saveProspect, type ProspectRecord } from "@
 import { bookedEmailAddresses } from "@/lib/interview-bookings";
 import { siteConfig } from "@/lib/site-config";
 
+import type { openProspectMailbox } from "@/lib/prospect-mailbox";
+
 const RECEIPTS = "prospects/followup-receipts/v1/";
 const bookingUrl = "https://neurogenesis.be/entretien";
 const emailKey = (row: ProspectRecord) => "neurogenesis-j4-" + row.id;
@@ -18,13 +20,30 @@ async function resendLookup(key: string, route: string) {
   return await response.json() as { unsubscribed?: boolean; email?: string };
 }
 
-export async function sendDueFollowups() {
+async function brochureDelivered(row: ProspectRecord, key: string) {
+  if (!row.brochureEmailId) return false;
+  const response = await fetch("https://api.resend.com/emails/" + encodeURIComponent(row.brochureEmailId), {
+    headers: { Authorization: "Bearer " + key }, cache: "no-store", signal: AbortSignal.timeout(10000),
+  });
+  if (!response.ok) throw new Error("Reçu de brochure indisponible");
+  const email = await response.json();
+  const sentAt = Date.parse(email.created_at);
+  return Array.isArray(email.to) && email.to.length === 1 && typeof email.to[0] === "string"
+    && email.to[0].trim().toLowerCase() === row.email.trim().toLowerCase()
+    && email.subject === "Votre brochure NeuroGenesis, à découvrir à votre rythme"
+    && ["delivered", "opened", "clicked"].includes(email.last_event)
+    && sentAt + 4 * 86_400_000 <= Date.now();
+}
+
+export async function sendDueFollowups(mailbox: Awaited<ReturnType<typeof openProspectMailbox>>) {
   const key = process.env.RESEND_API_KEY;
   const from = process.env.CONTACT_FROM_EMAIL;
   if (!key || !from) throw new Error("Configuration email manquante");
+  const sender = (from.match(/<([^<>]+)>$/)?.[1] ?? from).trim().toLowerCase();
+  if (sender !== "info@neurogenesis.be") throw new Error("Expéditeur Académie non confirmé");
   const due = await dueProspects();
   const booked = await bookedEmailAddresses();
-  const result = { due: due.length, sent: 0, alreadySent: 0, excluded: 0, failed: 0 };
+  const result = { due: due.length, sent: 0, alreadySent: 0, excluded: 0, held: 0, failed: 0 };
   for (const row of due) {
     // Re-read before delivery: the prospect may have replied/registered since the queue was built.
     const current = await readProspect(row.email);
@@ -55,6 +74,17 @@ export async function sendDueFollowups() {
         const receipt = await new Response(existing.stream).json() as { id?: string; sentAt?: string };
         await saveProspect({ ...row, status: "sent", followupEmailId: receipt.id, followupSentAt: receipt.sentAt });
       }
+      continue;
+    }
+    // The manual review covers historical Resend mail and known exceptions.
+    // Recheck the live mailbox and the registration record before using that review.
+    if (!await brochureDelivered(row, key) || !await mailbox.clears(row, sender)) {
+      result.held++;
+      continue;
+    }
+    const latest = await readProspect(row.email);
+    if (!latest || latest.status !== "eligible" || latest.reviewedAt !== row.reviewedAt) {
+      result.held++;
       continue;
     }
     const name = row.firstName.replace(/[\r\n]/g, " ").trim();
